@@ -52,10 +52,10 @@
   }
   
   .carousel .control-dots .dot {
-    background: #018d43;
+    background: #018d43 !important; 
     width: 8px;
     height: 8px;
-    border-radius: 16px;
+    border-radius: 16px !important;
     transition: width 0.5s;
   }
   

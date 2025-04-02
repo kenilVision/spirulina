@@ -1,5 +1,7 @@
-import React from 'react'
+import React , { useState , useEffect } from 'react'
 import { NavLink } from 'react-router-dom';
+
+
 
 const navigation = [
       {
@@ -37,6 +39,22 @@ const navigation = [
   ] 
   
 function Navbar() {
+
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [searchbarOpen, setsearchbarOpen] = useState(false);
+    useEffect(() => {
+        if (sidebarOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "auto";
+        }
+
+        return () => {
+            document.body.style.overflow = "auto"; 
+        };
+    }, [sidebarOpen , searchbarOpen]);
+
+
     return (
         <>    <div className='py-[7px]  w-full flex justify-center items-center text-white bg-[#018d43]'>
             <div className='px-[5px] w-auto md:px-[15px] text-[14px] text-center'>
@@ -44,6 +62,16 @@ function Navbar() {
             </div>
         </div>
             <div className='lg:px-[32px] flex justify-between ' >
+
+
+                <button 
+                className="lg:hidden px-4 py-2 focus:outline-none"
+                onClick={() => setSidebarOpen(true)}
+                >
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="16" viewBox="0 0 30 16" fill="currentColor"><rect width="30" height="1.5"></rect><rect y="7" width="20" height="1.5"></rect><rect y="14" width="30" height="1.5"></rect></svg>
+                </button>
+
+
                 <div className='px-[15px] w-auto'>
                     <div className='ms-[10px]'>
                         <img
@@ -52,13 +80,13 @@ function Navbar() {
                         />
                     </div>
                 </div>
-                <div className='flex items-center px-[15px]'>
+                <div className='hidden lg:flex items-center px-[15px]'>
 
                 <nav>
                         <ul className='flex'>
                         {navigation.map((x) => (
                             <li key={x.to}  >
-                                <NavLink to={x.to} className= "flex py-[5px] text-base px-[1.375rem]  hover:text-[#F99106] text-[#00000080]">
+                                <NavLink to={x.to} className= "flex py-[5px] text-base px-[1.375rem] whitespace-nowrap hover:text-[#F99106] text-[#00000080]">
                                 <img src={x.image} height='24' width='24' />                                       
                                 {x.text}
                                 </NavLink>
@@ -72,7 +100,9 @@ function Navbar() {
                    
                 <div className='flex items-center px-[15px]'>
                      <div className="px-[8px] flex items-center ">
-                        <button className="relative flex items-center justify-center  rounded-lg hover:bg-gray-100">
+                        <button className="relative flex items-center justify-center  rounded-lg hover:bg-gray-100"
+                        onClick={() => setsearchbarOpen(true)}
+                        >
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg>
                         </button>
                     </div>
@@ -119,6 +149,66 @@ function Navbar() {
                 </div>
                 
             </div>
+
+
+
+    <div className={`fixed inset-0 bg-black  bg-opacity-50 z-40 transition-opacity ${sidebarOpen ? 'opacity-50' : 'opacity-0 pointer-events-none'}`} onClick={() => setSidebarOpen(false)}></div>
+      <div className={`fixed top-0 left-0 w-85 h-full bg-white shadow-lg transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform z-50`}>
+        <div className="flex justify-between items-center p-4 border-b">
+          <h2 className="text-lg font-semibold">Menu</h2>
+          <button onClick={() => setSidebarOpen(false)} className="p-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="black" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          </button>
+        </div>
+        <nav className="mt-4">
+          <ul>
+            {navigation.map((x) => (
+              <li key={x.to}>
+                <NavLink 
+                  to={x.to} 
+                  className="flex items-center py-3 px-6 text-base text-gray-700 hover:bg-gray-100"
+                  onClick={() => setSidebarOpen(false)}
+                >
+                  <img src={x.image} alt={x.text} className="h-6 w-6 mr-3" />
+                  {x.text}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+
+
+      <div className={`fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity ${searchbarOpen ? 'opacity-50' : 'opacity-0 pointer-events-none'}`} 
+     onClick={() => setsearchbarOpen(false)}></div>
+
+<div className={`fixed top-0 right-0 w-[340px] h-full bg-white shadow-lg transform ${searchbarOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform z-50`}>
+  <div className="flex justify-between items-center p-4 border-b">
+    <h2 className="text-lg font-semibold">Menu</h2>
+    <button onClick={() => setsearchbarOpen(false)} className="p-2">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="black" viewBox="0 0 24 24">
+        <path d="M18 6L6 18M6 6l12 12" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+    </button>
+  </div>
+  <nav className="mt-4">
+    <ul>
+      {navigation.map((x) => (
+        <li key={x.to}>
+          <NavLink 
+            to={x.to} 
+            className="flex items-center py-3 px-6 text-base text-gray-700 hover:bg-gray-100"
+            onClick={() => setsearchbarOpen(false)} // Fixed here
+          >
+            <img src={x.image} alt={x.text} className="h-6 w-6 mr-3" />
+            {x.text}
+          </NavLink>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</div>
+
         </>
 
     )
