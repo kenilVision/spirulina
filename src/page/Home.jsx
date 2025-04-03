@@ -5,6 +5,7 @@ import SummerWellnessCombos from '../component/home/SummerWellnessCombos'
 import Balance from '../component/home/Balance'
 import WhyChoosеSpiruSwastha from '../component/home/WhyChoosеSpiruSwastha'
 import Bestsellers from '../component/home/Bestsellers'
+import SpiruswasthaTrends from '../component/home/SpiruswasthaTrends'
 
 function Home() {
   return (
@@ -12,6 +13,7 @@ function Home() {
       <Carousel />
       <ShopByCategories />
       <SummerWellnessCombos />
+      <SpiruswasthaTrends />
       <Balance />
       <Bestsellers />
       <WhyChoosеSpiruSwastha /> 

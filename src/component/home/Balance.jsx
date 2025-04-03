@@ -32,7 +32,7 @@ function Balance() {
       <h2 className="text-4xl font-bold relative inline-block ">
       4 Balance
       </h2>
-      <div className="max-w-[9.375rem] h-0.5 bg-[#018d43] mx-auto mx-auto mt-[12px] mb-[15px]"></div>
+      <div className="max-w-[9.375rem] h-0.5 bg-[#018d43] mx-auto  mt-[12px] mb-[15px]"></div>
         <div className='grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4' >   
         {data.map((x)=>{
                 return (

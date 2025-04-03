@@ -2,13 +2,13 @@ import React from 'react'
 
 function Section({ title, description, children }) {
   return (
-    <div className='my-[9.375rem]'>
+    <div className=' my-[3.125rem] md:mt-20 md:mb-[6.25rem] lg:my-[9.375rem]'>
     <div className="w-full max-w-[1440px]  mx-auto text-center px-[15px]">
      
-      <h2 className="text-4xl font-bold relative inline-block ">
+      <h2 className="text-4xl w-full font-bold relative inline-block ">
         {title}
       </h2>
-      <div className="max-w-[9.375rem] h-0.5 bg-green-600 mx-auto mx-auto mt-[12px] mb-[15px]"></div>
+      <div className="max-w-[9.375rem] h-0.5 bg-green-600 mx-auto  mt-[12px] mb-[15px]"></div>
 
   
       {description && (
