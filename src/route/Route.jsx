@@ -1,4 +1,4 @@
-import Home from '../Page/Home';
+import Home from '../page/Home';
 import Immunity from '../page/Immunity'
 import SkinCare from '../page/SkinCare'
 import HeartCare from '../page/HeartCare'
