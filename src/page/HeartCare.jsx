@@ -1,6 +1,6 @@
 import React from 'react'
-import Query from '../component/heartCare/Query'
-import DataCard from '../component/heartCare/DataCard'
+import Query from '../component/heartcare/Query'
+import DataCard from '../component/heartcare/DataCard'
 
 function HeartCare() {
   return (
