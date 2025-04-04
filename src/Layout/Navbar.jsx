@@ -67,7 +67,7 @@ function Navbar() {
   const [loginbarOpen, setloginbarOpen] = useState(false);
   const [cartbarOpen, setcartbarOpen] = useState(false);
   useEffect(() => {
-    if (sidebarOpen) {
+    if (sidebarOpen || searchbarOpen || loginbarOpen || cartbarOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";
@@ -76,7 +76,7 @@ function Navbar() {
     return () => {
       document.body.style.overflow = "auto";
     };
-  }, [sidebarOpen, searchbarOpen]);
+  }, [sidebarOpen, searchbarOpen , loginbarOpen , cartbarOpen]);
 
 
   return (
@@ -97,13 +97,13 @@ function Navbar() {
         </button>
         </div> 
 
-        <div className='px-[15px] w-auto'>
-          <div className='ms-[10px]'>
+        <div className='px-[15px]  w-auto'>
+          <NavLink to='/' className='ms-[10px] flex items-center'>
             <img
               src="https://cdn.shopify.com/s/files/1/0611/1038/6771/t/25/assets/spiru_logo.svg"
               className='py-[5px] w-[95px] lg:w-[150px]'
             />
-          </div>
+          </NavLink>
         </div>
         <div className='hidden lg:flex items-center px-[15px]'>
 
@@ -111,7 +111,7 @@ function Navbar() {
             <ul className='flex'>
               {navigation.map((x) => (
                 <li key={x.to}  >
-                  <NavLink to={x.to} className="flex items-center  py-[5px] text-base px-[1.375rem] whitespace-nowrap hover:text-[#F99106] text-[#00000080]">
+                  <NavLink to={x.to} className=" flex items-center font-semibold py-[5px] text-[14px] px-[1.375rem] whitespace-nowrap hover:text-[#018d43] text-[#00000080]">
                     <img src={x.image} height='24' width='24' />
                     {x.text}
                   </NavLink>
@@ -376,7 +376,7 @@ function Navbar() {
 
 
       <div className={`fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity ${cartbarOpen ? 'opacity-50' : 'opacity-0 pointer-events-none'}`}
-        onClick={() => setsearchbarOpen(false)}></div>
+        onClick={() => setcartbarOpen(false)}></div>
 
       <div className={`fixed top-0 right-0 w-[calc(100vw-65px)] sm:w-[340px] h-full bg-white shadow-lg transform ${cartbarOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform z-50`}>
       <div className="flex justify-between items-center ps-4 py-[0.3125rem] min-h-[50px] border-b-1 border-[#dddddd]">

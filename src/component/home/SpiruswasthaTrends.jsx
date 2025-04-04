@@ -34,7 +34,7 @@ function SpiruswasthaTrends() {
     return (
         <>
 
-<div className='mb-[9.375rem] px-[15px] lg:px-[40px] '>
+<div className='mb-[9.375rem] px-[15px] lg:px-[40px]  '>
     <div className="w-full   mx-auto text-center px-[15px]">
      
       <h2 className="text-4xl font-bold relative inline-block ">
@@ -45,36 +45,41 @@ function SpiruswasthaTrends() {
 
     {isLargeScreen?
 
-        
-<Swiper
-    spaceBetween={20}
-    freeMode={true}
-    pagination={{ clickable: true }}
-    modules={[FreeMode,Navigation]}
-    className="mySwiper"
-    breakpoints={{
-        320: { slidesPerView: 1 },  // 1 slide on small screens
-        480: { slidesPerView: 2 },  // 2 slides on mobile
-        768: { slidesPerView: 3 },  // 3 slides on tablets
-        1024: { slidesPerView: 4 }, // 4 slides on small desktops
-        1280: { slidesPerView: 5 }, // 5 slides on large desktops
-        1536: { slidesPerView: 6 }, // 6 slides on extra large screens
-    }}
->
-    {videos.map((videoSrc, idx) => (
-        <SwiperSlide key={idx}>
-            <video
-                autoPlay
-                loop
-                muted
-                className="w-full rounded-lg shadow-lg "
-                playsInline
+<div className="force-overflow-visible">
+    <Swiper
+        spaceBetween={20}
+        freeMode={true}
+        pagination={{ clickable: true }}
+        modules={[FreeMode, Navigation]}
+        className="mySwiper"
+        breakpoints={{
+            320: { slidesPerView: 1 },
+            480: { slidesPerView: 2 },
+            768: { slidesPerView: 3 },
+            1024: { slidesPerView: 4 },
+            1280: { slidesPerView: 5 },
+            1536: { slidesPerView: 6 },
+        }}
+    >
+        {videos.map((videoSrc, idx) => (
+            <SwiperSlide
+                key={idx}
+                className="transition-transform duration-300 ease-in-out hover:scale-110 hover:z-10 hover:cursor-pointer"
             >
-                <source src={videoSrc} type="video/mp4" />
-            </video>
-        </SwiperSlide>
-    ))}
-</Swiper>
+                <video
+                    autoPlay
+                    loop
+                    muted
+                    className="w-full rounded-lg shadow-lg object-cover"
+                    playsInline
+                >
+                    <source src={videoSrc} type="video/mp4" />
+                </video>
+            </SwiperSlide>
+        ))}
+    </Swiper>
+</div>
+
 :
 <Swiper
     slidesPerView={3}
@@ -93,7 +98,7 @@ function SpiruswasthaTrends() {
                 autoPlay
                 loop
                 muted={idx !== activeIndex}
-                className={`w-full transition-all duration-300 ease-in-out ${idx === activeIndex ? "scale-100" : "scale-75 opacity-70"
+                className={`w-full transition-all  ease-in-out ${idx === activeIndex ? "scale-100" : "scale-75 opacity-70"
                     }`}
             >
                 <source src={video} type="video/mp4" />
@@ -111,3 +116,5 @@ function SpiruswasthaTrends() {
 }
 
 export default SpiruswasthaTrends;
+
+

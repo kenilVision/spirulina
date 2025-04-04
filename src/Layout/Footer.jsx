@@ -1,5 +1,5 @@
 import React , {useState} from 'react'
-
+import { NavLink } from 'react-router-dom';
 function Footer() {
 
 
@@ -46,9 +46,9 @@ function Footer() {
 
 
 
-      <div className=' px-[15px] pt-[70px] md:pt-[80px] pb-[10p] lg:pb-[40px] lg:pt-[100px] '>
+      <div className=' flex flex-col  items-center px-[15px] pt-[70px] md:pt-[80px] pb-[10p] lg:pb-[40px] lg:pt-[100px] '>
 
-    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 '>
+    <div className='max-w-[1650px]  gap-x-[30px] gap-y-[30px]  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 '>
         <div className='' >
 
             <img src="https://spiruswastha.com/cdn/shop/t/25/assets/spiru_logo.svg?v=1687220542393843321737094841" className='mb-[25px] w-[210px]' />
@@ -107,7 +107,7 @@ function Footer() {
       <div className={`mt-2 ${isOpen ? "block" : "hidden"} md:block`}>
         <ul className="space-y-2 w-full text-[15px] font-semibold">
             <div className='grid grid-cols-2 no-wrap leading-9'>
-            <div ><li><a  className="">Home</a></li></div><div><li><a  className="">About Us</a></li></div>
+            <div ><li> <NavLink to='/'  className="">Home</NavLink></li></div><div><li><NavLink to='/About' >About Us</NavLink></li></div>
           <div><li><a  className="">Shop all</a></li></div><div><li><a  className="">Contact Us</a></li></div>       
         <div><li><a  className="">Blog</a></li></div><div><li><a className="">My Account</a></li></div>
         <div><li><a  className="">Faqs</a></li></div><div><li><a  className="">Track Your Order</a></li></div>  
@@ -150,7 +150,7 @@ function Footer() {
         <div className='text-[15px] mb-[15px]'><span className=' font-semibold'>E-mail </span>: info@spiruswastha.com</div>
         </div>
     </div>
-    <div className=' pt-[10px] md:pt-[20px]'> 
+    <div className='w-full max-w-[1650px] pt-[10px]  md:pt-[20px]'> 
     <ul className=" flex justify-between flex-wrap space-y-3">
       <li>
         <a href="/policies/privacy-policy" className="text-gray-600 hover:text-gray-900 transition-colors">

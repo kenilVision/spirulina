@@ -62,11 +62,11 @@ function SummerWellnessCombos() {
       SpiruSwastha Summer Wellness Combos
 
       </h2>
-      <div className="max-w-[9.375rem] h-0.5 bg-[#018d43] mx-auto mx-auto mt-[12px] mb-[15px]"></div>
-      <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
+      <div className="max-w-[9.375rem] h-0.5 bg-[#018d43] mx-auto mt-[12px] mb-[15px]"></div>
+      <p className="text-gray-600 mt-4 max-w-2xl mx-auto mb-[30px]">
                 Enjoy summer the healthy way with SpiruSwastha! Our specially crafted Summer Wellness Combos help you stay hydrated, refreshed, and full of energy all season long. These natural blends are perfect for keeping your skin glowing and body strong even in the summer heat.
         </p>
-        <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4' >   
+        <div className='grid grid-cols-2 gap-x-[30px] gap-y-[30px] md:grid-cols-3 lg:grid-cols-4' >   
             {data.map((x,index)=><ProductCard title={x.title} image={x.image} price={x.price}/>)}
         </div>
     </div>

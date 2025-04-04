@@ -22,7 +22,7 @@ function Bestsellers() {
         {
           "title": "Natural Spirulina Powder",
           "price": "₹319.00 – ₹1,875.00",
-          "original_price": "₹399.00",
+          "original_price": 399.00,
           "discount": "20% OFF",
           "price_value": 319,
           "original_price_value": 399,
@@ -32,7 +32,7 @@ function Bestsellers() {
         {
           "title": "Spiru Shine Shampoo",
           "price": "₹239.00 – ₹749.00",
-          "original_price": "₹299.00",
+          "original_price": 299.00,
           "discount": "20% OFF",
           "price_value": 239,
           "original_price_value": 299,
@@ -50,9 +50,16 @@ function Bestsellers() {
           Bestsellers
     
           </h2>
-          <div className="max-w-[9.375rem] h-0.5 bg-[#018d43] mx-auto mx-auto mt-[12px] mb-[15px]"></div>
-            <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4' >   
-                {data.map((x,index)=><ProductCard title={x.title} image={x.image} price={x.price_value}/>)}
+          <div className="max-w-[9.375rem] h-0.5 bg-[#018d43] mx-auto mt-[12px] mb-[15px]"></div>
+            <div className='grid grid-cols-2 gap-x-[30px] gap-y-[30px] md:grid-cols-3 lg:grid-cols-4' >   
+                {data.map((x,index)=><ProductCard 
+                title={x.title} 
+                image={x.image} 
+                price={x.price_value}
+                orignalPrice={x.original_price_value}
+                discountedPrice={x.price_value}
+                discountPercentage={Math.floor(((x.original_price_value - x.price_value) / x.original_price_value) * 100)}
+                />)}
             </div>
         </div>
         </div>

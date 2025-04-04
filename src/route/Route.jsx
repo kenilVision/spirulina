@@ -5,6 +5,7 @@ import HeartCare from '../page/HeartCare'
 import Wellness from  '../page/Wellness'
 import Cleansing from '../page/Cleansing'
 import HairCare from '../page/HairCare'
+import About from '../page/About'
 
 export const roots = [    
     {
@@ -43,6 +44,12 @@ export const roots = [
         path: '/Cleansing', 
         element: ( 
                <Cleansing />
+            )  
+    },
+    { 
+        path: '/About', 
+        element: ( 
+               <About />
             )  
     },
    
