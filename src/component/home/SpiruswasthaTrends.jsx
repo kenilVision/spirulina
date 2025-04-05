@@ -82,29 +82,36 @@ function SpiruswasthaTrends() {
 
 :
 <Swiper
-    slidesPerView={3}
-    spaceBetween={-30}
-    initialSlide={2}
-    centeredSlides={true}
-    onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
-    freeMode={true}
-    pagination={{ clickable: true }}
-    modules={[FreeMode , Navigation]}
-    className="mySwiper"
+  slidesPerView={3}
+  spaceBetween={-30} // use positive if possible
+  initialSlide={2}
+  centeredSlides={true}
+  onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
+  freeMode={true}
+  pagination={{ clickable: true }}
+  modules={[FreeMode, Navigation]}
+  className="mySwiper"
 >
-    {videos.map((video, idx) => (
-        <SwiperSlide key={idx} className="transition-transform duration-300">
-            <video
-                autoPlay
-                loop
-                muted={idx !== activeIndex}
-                className={`w-full transition-all  ease-in-out ${idx === activeIndex ? "scale-100" : "scale-75 opacity-70"
-                    }`}
-            >
-                <source src={video} type="video/mp4" />
-            </video>
-        </SwiperSlide>
-    ))}
+  {videos.map((video, idx) => (
+    <SwiperSlide
+      key={idx}
+      className={`transition-transform duration-300 ease-in-out ${
+        idx === activeIndex
+          ? "scale-100 z-20"
+          : "scale-75 opacity-70 z-10"
+      }`}
+    >
+      <video
+        autoPlay
+        loop
+        muted={idx !== activeIndex}
+        playsInline
+        className="w-full rounded-lg object-cover"
+      >
+        <source src={video} type="video/mp4" />
+      </video>
+    </SwiperSlide>
+  ))}
 </Swiper>
 }
     </div>
