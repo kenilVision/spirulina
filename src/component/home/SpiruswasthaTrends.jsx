@@ -34,7 +34,7 @@ function SpiruswasthaTrends() {
     return (
         <>
 
-<div className='mb-[9.375rem] px-[15px] lg:px-[40px]  '>
+<div className='mb-[9.375rem] px-[15px] lg:px-[40px] force-overflow-visible  '>
     <div className="w-full   mx-auto text-center px-[15px]">
      
       <h2 className="text-4xl font-bold relative inline-block ">
@@ -47,11 +47,11 @@ function SpiruswasthaTrends() {
 
 <div className="force-overflow-visible">
     <Swiper
-        spaceBetween={20}
+        spaceBetween={10}
         freeMode={true}
         pagination={{ clickable: true }}
         modules={[FreeMode, Navigation]}
-        className="mySwiper"
+        className="mySwiper overflow-visible"
         breakpoints={{
             320: { slidesPerView: 1 },
             480: { slidesPerView: 2 },
@@ -64,13 +64,13 @@ function SpiruswasthaTrends() {
         {videos.map((videoSrc, idx) => (
             <SwiperSlide
                 key={idx}
-                className="transition-transform duration-300 ease-in-out hover:scale-110 hover:z-10 hover:cursor-pointer"
+                className="transition-transform duration-300  overflow-visible ease-in-out hover:scale-110 scale-90 hover:z-10 hover:cursor-pointer"
             >
                 <video
                     autoPlay
                     loop
                     muted
-                    className="w-full rounded-lg shadow-lg object-cover"
+                    className="w-full rounded-lg shadow-lg object-cover overflow-visible"
                     playsInline
                 >
                     <source src={videoSrc} type="video/mp4" />
