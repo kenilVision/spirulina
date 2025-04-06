@@ -47,7 +47,7 @@ function SpiruswasthaTrends() {
 
 <div className="force-overflow-visible">
     <Swiper
-        spaceBetween={10}
+        spaceBetween={5}
         freeMode={true}
         pagination={{ clickable: true }}
         modules={[FreeMode, Navigation]}
@@ -64,17 +64,19 @@ function SpiruswasthaTrends() {
         {videos.map((videoSrc, idx) => (
             <SwiperSlide
                 key={idx}
-                className="transition-transform duration-300  overflow-visible ease-in-out hover:scale-110 scale-90 hover:z-10 hover:cursor-pointer"
+                className="transition-transform duration-300  rounded-lg  overflow-visible ease-in-out hover:scale-110 scale-90 hover:z-10 hover:cursor-pointer"
             >
+              <div className="rounded-lg">
                 <video
                     autoPlay
                     loop
                     muted
-                    className="w-full rounded-lg shadow-lg object-cover overflow-visible"
+                    className="w-full rounded-lg shadow-lg hover:unMuted object-cover overflow-visible"
                     playsInline
                 >
                     <source src={videoSrc} type="video/mp4" />
                 </video>
+                </div>
             </SwiperSlide>
         ))}
     </Swiper>
@@ -115,6 +117,7 @@ function SpiruswasthaTrends() {
 </Swiper>
 }
     </div>
+
 
         
         </>

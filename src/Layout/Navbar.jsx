@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom';
-
+import RangeSlider from "react-range-slider-input";
+import "react-range-slider-input/dist/style.css";
 
 
 const navigation = [
@@ -66,6 +67,7 @@ function Navbar() {
   const [searchbarOpen, setsearchbarOpen] = useState(false);
   const [loginbarOpen, setloginbarOpen] = useState(false);
   const [cartbarOpen, setcartbarOpen] = useState(false);
+  const [progress, setProgress] = useState(50);
   useEffect(() => {
     if (sidebarOpen || searchbarOpen || loginbarOpen || cartbarOpen) {
       document.body.style.overflow = "hidden";
@@ -128,7 +130,12 @@ function Navbar() {
             <button className="relative flex items-center justify-center  rounded-lg hover:bg-gray-100"
               onClick={() => setsearchbarOpen(true)}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" /></svg>
+              {/* <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" /></svg> */}
+              <svg width="25" height="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="#222222" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M21 21L16.65 16.65" stroke="#222222" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+
             </button>
           </div>
 
@@ -155,12 +162,22 @@ function Navbar() {
             className="relative flex items-center justify-center  rounded-lg hover:bg-gray-100"
             onClick={() => setloginbarOpen(true)}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 448 512"><path d="M304 128a80 80 0 1 0 -160 0 80 80 0 1 0 160 0zM96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM49.3 464l349.5 0c-8.9-63.3-63.3-112-129-112l-91.4 0c-65.7 0-120.1 48.7-129 112zM0 482.3C0 383.8 79.8 304 178.3 304l91.4 0C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7L29.7 512C13.3 512 0 498.7 0 482.3z" /></svg>
+              {/* <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 448 512">
+              <path d="M304 128a80 80 0 1 0 -160 0 80 80 0 1 0 160 0zM96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM49.3 464l349.5 0c-8.9-63.3-63.3-112-129-112l-91.4 0c-65.7 0-120.1 48.7-129 112zM0 482.3C0 383.8 79.8 304 178.3 304l91.4 0C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7L29.7 512C13.3 512 0 498.7 0 482.3z" /></svg> */}
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="24" height="24" stroke-width="1" stroke="currentColor" class="">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 7.5a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 20.25a8.25 8.25 0 0115 0" />
+              </svg>
+
             </button>
           </div>
           <div className="hidden md:flex px-[5px]">
             <button className="relative flex items-center justify-center  rounded-lg hover:bg-gray-100">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512"><path d="M225.8 468.2l-2.5-2.3L48.1 303.2C17.4 274.7 0 234.7 0 192.8l0-3.3c0-70.4 50-130.8 119.2-144C158.6 37.9 198.9 47 231 69.6c9 6.4 17.4 13.8 25 22.3c4.2-4.8 8.7-9.2 13.5-13.3c3.7-3.2 7.5-6.2 11.5-9c0 0 0 0 0 0C313.1 47 353.4 37.9 392.8 45.4C462 58.6 512 119.1 512 189.5l0 3.3c0 41.9-17.4 81.9-48.1 110.4L288.7 465.9l-2.5 2.3c-8.2 7.6-19 11.9-30.2 11.9s-22-4.2-30.2-11.9zM239.1 145c-.4-.3-.7-.7-1-1.1l-17.8-20-.1-.1s0 0 0 0c-23.1-25.9-58-37.7-92-31.2C81.6 101.5 48 142.1 48 189.5l0 3.3c0 28.5 11.9 55.8 32.8 75.2L256 430.7 431.2 268c20.9-19.4 32.8-46.7 32.8-75.2l0-3.3c0-47.3-33.6-88-80.1-96.9c-34-6.5-69 5.4-92 31.2c0 0 0 0-.1 .1s0 0-.1 .1l-17.8 20c-.3 .4-.7 .7-1 1.1c-4.5 4.5-10.6 7-16.9 7s-12.4-2.5-16.9-7z" /></svg>
+              {/* <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512"><path d="M225.8 468.2l-2.5-2.3L48.1 303.2C17.4 274.7 0 234.7 0 192.8l0-3.3c0-70.4 50-130.8 119.2-144C158.6 37.9 198.9 47 231 69.6c9 6.4 17.4 13.8 25 22.3c4.2-4.8 8.7-9.2 13.5-13.3c3.7-3.2 7.5-6.2 11.5-9c0 0 0 0 0 0C313.1 47 353.4 37.9 392.8 45.4C462 58.6 512 119.1 512 189.5l0 3.3c0 41.9-17.4 81.9-48.1 110.4L288.7 465.9l-2.5 2.3c-8.2 7.6-19 11.9-30.2 11.9s-22-4.2-30.2-11.9zM239.1 145c-.4-.3-.7-.7-1-1.1l-17.8-20-.1-.1s0 0 0 0c-23.1-25.9-58-37.7-92-31.2C81.6 101.5 48 142.1 48 189.5l0 3.3c0 28.5 11.9 55.8 32.8 75.2L256 430.7 431.2 268c20.9-19.4 32.8-46.7 32.8-75.2l0-3.3c0-47.3-33.6-88-80.1-96.9c-34-6.5-69 5.4-92 31.2c0 0 0 0-.1 .1s0 0-.1 .1l-17.8 20c-.3 .4-.7 .7-1 1.1c-4.5 4.5-10.6 7-16.9 7s-12.4-2.5-16.9-7z" /></svg> */}
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="24" height="24" stroke-width="1" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 6.784a5.443 5.443 0 00-9.193-2.143l-.559.626-.56-.626a5.443 5.443 0 00-9.192 2.143 5.634 5.634 0 001.272 6.295l8.48 8.482 8.48-8.482a5.634 5.634 0 001.272-6.295z" />
+              </svg>
+
               <span className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-[#018d43] text-white text-xs font-bold px-1.5 py-0.5 rounded-full">
                 0
               </span>
@@ -171,7 +188,14 @@ function Navbar() {
             className="relative flex items-center justify-center  rounded-lg hover:bg-gray-100"
             onClick={() => setcartbarOpen(true)}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 576 512"><path d="M0 24C0 10.7 10.7 0 24 0L69.5 0c22 0 41.5 12.8 50.6 32l411 0c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3l-288.5 0 5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5L488 336c13.3 0 24 10.7 24 24s-10.7 24-24 24l-288.3 0c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5L24 48C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z" /></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1"  stroke="currentColor" width="24" height="24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.5l1.5 9h12.75a1.5 1.5 0 001.47-1.21l.75-3.75a1.5 1.5 0 00-1.47-1.79H6.21" />
+            <circle cx="7" cy="20" r="1.4" stroke="currentColor" fill="none" stroke-width="1.5" />
+            <circle cx="17" cy="20" r="1.4" stroke="currentColor" fill="none" stroke-width="1.5" />
+          </svg>
+
+
+              {/* <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 576 512"><path d="M0 24C0 10.7 10.7 0 24 0L69.5 0c22 0 41.5 12.8 50.6 32l411 0c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3l-288.5 0 5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5L488 336c13.3 0 24 10.7 24 24s-10.7 24-24 24l-288.3 0c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5L24 48C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z" /></svg> */}
               <span className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-[#018d43] text-white text-xs font-bold px-1.5 py-0.5 rounded-full">
                 0
               </span>
@@ -186,7 +210,7 @@ function Navbar() {
 
       <div className={`fixed inset-0 bg-black  bg-opacity-50 z-40 transition-opacity ${sidebarOpen ? 'opacity-50' : 'opacity-0 pointer-events-none'}`} onClick={() => setSidebarOpen(false)}></div>
       <div>
-      <div className={`fixed flex top-0 left-0 w-[calc(100vw-20px)] sm:w-[340px] h-full shadow-lg transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform z-50`}>
+      <div className={`fixed flex top-0 left-0 w-[calc(100vw-20px)] z-110  sm:w-[340px] h-full shadow-lg transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform z-50`}>
         <div className='  bg-white w-full'>
         <div className="flex justify-between items-center p-4 min-h-[60px] border-b border-[#dddddd]">
           <h2 className="text-[16px] leading-[1.425rem] font-semibold">MENU</h2>
@@ -236,7 +260,7 @@ function Navbar() {
       <div className={`fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity ${searchbarOpen ? 'opacity-50' : 'opacity-0 pointer-events-none'}`}
         onClick={() => setsearchbarOpen(false)}></div>
 
-<div className={`fixed top-0 right-0 w-[calc(100vw-65px)] sm:w-[340px] bg-white shadow-lg transform ${
+<div className={`fixed top-0 right-0 w-[calc(100vw-65px)] z-110 sm:w-[340px] bg-white shadow-lg transform ${
     searchbarOpen ? 'translate-x-0' : 'translate-x-full'
   } transition-transform z-50 max-h-screen h-screen flex flex-col`}>
       <div className="flex justify-between items-center ps-4 py-[0.3125rem] min-h-[60px] border-b border-[#dddddd]">
@@ -313,7 +337,7 @@ function Navbar() {
       <div className={`fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity ${loginbarOpen ? 'opacity-50' : 'opacity-0 pointer-events-none'}`}
         onClick={() => setloginbarOpen(false)}></div>
 
-      <div className={`fixed top-0 right-0 w-[calc(100vw-65px)] sm:w-[340px] h-full bg-white shadow-lg transform ${loginbarOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform z-50`}>
+      <div className={`fixed top-0 right-0 w-[calc(100vw-65px)] sm:w-[340px] z-110 h-full bg-white shadow-lg transform ${loginbarOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform z-50`}>
         <div className="flex justify-between items-center ps-4 py-[0.3125rem] min-h-[60px] border-b-1 border-[#dddddd]">
           <h2 className="text-[16px] leading-[1.425rem] font-medium">LOGIN</h2>
           <button onClick={() => setloginbarOpen(false)} className="p-2 transition h-[50px] w-[50px] flex justify-center transform duration-700 hover:rotate-180">
@@ -378,7 +402,7 @@ function Navbar() {
       <div className={`fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity ${cartbarOpen ? 'opacity-50' : 'opacity-0 pointer-events-none'}`}
         onClick={() => setcartbarOpen(false)}></div>
 
-      <div className={`fixed top-0 right-0 w-[calc(100vw-65px)] sm:w-[340px] h-full bg-white shadow-lg transform ${cartbarOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform z-50`}>
+      <div className={`fixed top-0 right-0 w-[calc(100vw-65px)] sm:w-[340px] z-110 h-full bg-white shadow-lg transform ${cartbarOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform z-50`}>
       <div className="flex justify-between items-center ps-4 py-[0.3125rem] min-h-[50px] border-b-1 border-[#dddddd]">
           <h2 className="text-[16px] leading-[1.425rem] font-medium">SHOPPING CART</h2>
           <button onClick={() => setcartbarOpen(false)} className="p-2 h-[50px] w-[50px] flex justify-center transition transform duration-700 hover:rotate-180">
@@ -389,18 +413,66 @@ function Navbar() {
        
 
         <div className="p-4  text-center rounded-md border-b border-gray-300 shadow-md">
-      <div className="text-sm text-start text-[#696969]">
-        Free Shipping for all orders over <span className="text-red-600 font-bold">₹500.00</span>
-      </div>
-      <div className="relative w-full bg-gray-200 h-2 rounded-full mt-2 overflow-hidden flex items-center ">
-        <span className="absolute left-0  top-0 h-full bg-green-500" style={{ width: `${0}%` }}>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" width="22" className="absolute z-10  right-[-20px]">
-          <path className="fill-current text-red-600" d="M64 48C64 21.49 85.49 0 112 0H368C394.5 0 416 21.49 416 48V96H466.7C483.7 96 499.1 102.7 512 114.7L589.3 192C601.3 204 608 220.3 608 237.3V352C625.7 352 640 366.3 640 384C640 401.7 625.7 416 608 416H574.9C567.1 361.7 520.4 320 464 320C407.6 320 360.9 361.7 353.1 416H286.9C279.1 361.7 232.4 320 176 320C127.9 320 86.84 350.4 70.99 392.1C66.56 385.7 64 377.1 64 368V256H208C216.8 256 224 248.8 224 240C224 231.2 216.8 224 208 224H64V192H240C248.8 192 256 184.8 256 176C256 167.2 248.8 160 240 160H64V128H272C280.8 128 288 120.8 288 112C288 103.2 280.8 96 272 96H64L64 48zM544 256V237.3L466.7 160H416V256H544z"></path>
-          <path className="fill-current text-white" d="M272 128H16C7.164 128 0 120.8 0 112C0 103.2 7.164 96 16 96H272C280.8 96 288 103.2 288 112C288 120.8 280.8 128 272 128zM240 160C248.8 160 256 167.2 256 176C256 184.8 248.8 192 240 192H48C39.16 192 32 184.8 32 176C32 167.2 39.16 160 48 160H240zM208 224C216.8 224 224 231.2 224 240C224 248.8 216.8 256 208 256H16C7.164 256 0 248.8 0 240C0 231.2 7.164 224 16 224H208zM256 432C256 476.2 220.2 512 176 512C131.8 512 96 476.2 96 432C96 387.8 131.8 352 176 352C220.2 352 256 387.8 256 432zM544 432C544 476.2 508.2 512 464 512C419.8 512 384 476.2 384 432C384 387.8 419.8 352 464 352C508.2 352 544 387.8 544 432z"></path>
+        <div className="text-sm text-start text-[#696969]">
+  Free Shipping for all orders over <span className="text-red-600 font-bold">₹500.00</span>
+</div>
+
+<div className="relative w-full bg-gray-200 h-2 rounded-full mt-2 overflow-visible">
+        {/* Hidden slider only for layout/tracking */}
+        <RangeSlider
+          className="opacity-0 absolute pointer-events-none"
+          defaultValue={[0, progress]}
+          thumbsDisabled={[true, true]}
+          rangeSlideDisabled={true}
+        />
+
+        {/* Green progress bar */}
+        <div
+          className="absolute left-0 top-0 h-full bg-[#428445] rounded-full"
+          style={{ width: `${progress}%` }}
+        >
+          <span
+          className="absolute top-0 left-0 h-full w-full z-0"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 40' width='60' height='30'><path fill='#fff' fill-opacity='0.47' d='M0 40a19.96 19.96 0 0 1 5.9-14.11 20.17 20.17 0 0 1 19.44-5.2A20 20 0 0 1 20.2 40H0zM65.32.75A20.02 20.02 0 0 1 40.8 25.26 20.02 20.02 0 0 1 65.32.76zM.07 0h20.1l-.08.07A20.02 20.02 0 0 1 .75 5.25 20.08 20.08 0 0 1 .07 0zm1.94 40h2.53l4.26-4.24v-9.78A17.96 17.96 0 0 0 2 40zm5.38 0h9.8a17.98 17.98 0 0 0 6.67-16.42L7.4 40zm3.43-15.42v9.17l11.62-11.59c-3.97-.5-8.08.3-11.62 2.42zm32.86-.78A18 18 0 0 0 63.85 3.63L43.68 23.8zm7.2-19.17v9.15L62.43 2.22c-3.96-.5-8.05.3-11.57 2.4zm-3.49 2.72c-4.1 4.1-5.81 9.69-5.13 15.03l6.61-6.6V6.02c-.51.41-1 .85-1.48 1.33zM17.18 0H7.42L3.64 3.78A18 18 0 0 0 17.18 0zM2.08 0c-.01.8.04 1.58.14 2.37L4.59 0H2.07z'/></svg>`)}`,
+            backgroundRepeat: 'repeat',
+            backgroundSize: '40px',
+            animation: 'movePattern 5s linear infinite'
+          }}
+        />
+        </div>
+        <style>{`
+        @keyframes movePattern {
+          0% {
+            background-position-x: 0px;
+            background-position-y: 0px;
+          }
+          100% {
+            background-position-x: -100px;
+            background-position-y: -100px;
+          }
+        }
+      `}</style>
+
+        {/* Truck SVG */}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 640 512"
+          width="26"
+          className="absolute -top-3 z-10 transition-all duration-300"
+          style={{ left: `calc(${progress}% - 11px)` }} 
+        >
+          <path
+            className="fill-current text-red-600"
+            d="M64 48C64 21.49 85.49 0 112 0H368C394.5 0 416 21.49 416 48V96H466.7C483.7 96 499.1 102.7 512 114.7L589.3 192C601.3 204 608 220.3 608 237.3V352C625.7 352 640 366.3 640 384C640 401.7 625.7 416 608 416H574.9C567.1 361.7 520.4 320 464 320C407.6 320 360.9 361.7 353.1 416H286.9C279.1 361.7 232.4 320 176 320C127.9 320 86.84 350.4 70.99 392.1C66.56 385.7 64 377.1 64 368V256H208C216.8 256 224 248.8 224 240C224 231.2 216.8 224 208 224H64V192H240C248.8 192 256 184.8 256 176C256 167.2 248.8 160 240 160H64V128H272C280.8 128 288 120.8 288 112C288 103.2 280.8 96 272 96H64L64 48zM544 256V237.3L466.7 160H416V256H544z"
+          ></path>
+          <path
+            className="fill-current text-white"
+            d="M272 128H16C7.164 128 0 120.8 0 112C0 103.2 7.164 96 16 96H272C280.8 96 288 103.2 288 112C288 120.8 280.8 128 272 128zM240 160C248.8 160 256 167.2 256 176C256 184.8 248.8 192 240 192H48C39.16 192 32 184.8 32 176C32 167.2 39.16 160 48 160H240zM208 224C216.8 224 224 231.2 224 240C224 248.8 216.8 256 208 256H16C7.164 256 0 248.8 0 240C0 231.2 7.164 224 16 224H208zM256 432C256 476.2 220.2 512 176 512C131.8 512 96 476.2 96 432C96 387.8 131.8 352 176 352C220.2 352 256 387.8 256 432zM544 432C544 476.2 508.2 512 464 512C419.8 512 384 476.2 384 432C384 387.8 419.8 352 464 352C508.2 352 544 387.8 544 432z"
+          ></path>
         </svg>
-        </span>
-        
       </div>
+
     </div>
 
 

@@ -120,7 +120,7 @@ function Query() {
         onClick={() => setIsOpenfilter(false)}></div>
 
 <div>
-      <div className={`fixed flex top-0 left-0 w-[calc(100vw-20px)] sm:w-[340px] h-full shadow-lg transform ${isOpenfilter ? 'translate-x-0' : '-translate-x-full'} transition-transform z-50`}>
+      <div className={`fixed flex top-0 left-0 w-[calc(100vw-20px)] sm:w-[340px] z-110 h-full shadow-lg transform ${isOpenfilter ? 'translate-x-0' : '-translate-x-full'} transition-transform z-50`}>
         <div className='  bg-white w-full'>
         <div className="flex justify-between items-center p-4 min-h-[60px] border-b border-[#dddddd]">
           <h2 className="text-[16px] leading-[1.425rem] font-semibold">Filter</h2>
