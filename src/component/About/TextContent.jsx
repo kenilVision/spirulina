@@ -71,7 +71,7 @@ Spirulina can be taken in tablet or powder form. Dried spirulina contains about 
         <div className='hidden md:block'><img src="https://spiruswastha.com/cdn/shop/files/Why_Spirulina.jpg?v=1733717785&width=1600" className='w-full h-full object-contain'/></div>
     </div>
 
-    <h3 className=" text-[2.5rem] mb-[20px] px-[15px] text-[#222222] font-[600] leading-[3.125rem]">
+    <h3 className=" max-w-[1440px] text-[2.5rem] mx-auto w-full  mb-[20px] px-[15px] text-[#222222] font-[600] leading-[3.125rem]">
      certificate
       </h3>
     <div className='grid grid-cols-2 lg:grid-cols-5 gap-y-[7.5px] gap-x-[7.5px] mt-[20px] md:mt-[60px] md:mb-[50px] max-w-[1440px] mx-auto px-[15px] '>
