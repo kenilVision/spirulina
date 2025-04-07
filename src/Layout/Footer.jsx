@@ -58,7 +58,7 @@ function Footer() {
 
             <div className="flex space-x-2 ">
               <div>
-                <button className='bg-[#018d43] p-2'>
+                <button className='bg-[#018d43] hover:cursor-pointer p-2'>
 
                   <svg fill="#ffffff" height="22px" width="22px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     viewBox="0 0 310 310" xml:space="preserve">
@@ -73,7 +73,7 @@ function Footer() {
                 </button>
               </div>
               <div>
-                <button className='bg-[#018d43] p-2'>
+                <button className='bg-[#018d43] hover:cursor-pointer p-2'>
 
                   <svg viewBox="0 0 24 24" fill="#ffffff" height="22px" width="22px" xmlns="http://www.w3.org/2000/svg">
                     <path d="M3 11C3 7.22876 3 5.34315 4.17157 4.17157C5.34315 3 7.22876 3 11 3H13C16.7712 3 18.6569 3 19.8284 4.17157C21 5.34315 21 7.22876 21 11V13C21 16.7712 21 18.6569 19.8284 19.8284C18.6569 21 16.7712 21 13 21H11C7.22876 21 5.34315 21 4.17157 19.8284C3 18.6569 3 16.7712 3 13V11Z" stroke="#222222" />
@@ -83,7 +83,7 @@ function Footer() {
                 </button>
               </div>
               <div>
-                <button className='bg-[#018d43] p-2'>
+                <button className='bg-[#018d43] hover:cursor-pointer p-2'>
 
                   <svg width="22px" height="22px" viewBox="0 -0.5 25 25" fill="white" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M18.168 19.0028C20.4724 19.0867 22.41 17.29 22.5 14.9858V9.01982C22.41 6.71569 20.4724 4.91893 18.168 5.00282H6.832C4.52763 4.91893 2.58998 6.71569 2.5 9.01982V14.9858C2.58998 17.29 4.52763 19.0867 6.832 19.0028H18.168Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />

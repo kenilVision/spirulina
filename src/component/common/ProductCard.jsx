@@ -3,7 +3,7 @@ import React from 'react';
 function ProductCard({ image , image2, title, price , orignalPrice , discountedPrice , discountPercentage }) {
   return (
     <div className="">
-      <div className="border border-[#dddddd] h-full shadow-sm hover:shadow-md transition-shadow duration-300">
+      <div className="border border-[#dddddd] h-full shadow-sm hover:shadow-md transition-shadow duration-300 hover:cursor-pointer">
         <div className='relative w-full overflow-hidden group'
 
         >  <img
@@ -42,7 +42,7 @@ function ProductCard({ image , image2, title, price , orignalPrice , discountedP
           </div>
         </div>
         <div className="p-4 text-start ">
-          <p className="font-bold truncate">{title}</p>
+          <p className="font-bold truncate hover:text-[#018d43] ">{title}</p>
           {
             orignalPrice && discountedPrice ? (
               <div className="flex text-[1.25rem] leading-10  items-center gap-2 ">

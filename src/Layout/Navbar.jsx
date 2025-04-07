@@ -113,7 +113,11 @@ function Navbar() {
             <ul className='flex'>
               {navigation.map((x) => (
                 <li key={x.to}  >
-                  <NavLink to={x.to} className=" flex items-center font-semibold py-[5px] text-[14px] px-[1.375rem] whitespace-nowrap hover:text-[#018d43] text-[#00000080]">
+                  <NavLink to={x.to} className={({ isActive }) =>
+                        `flex items-center font-semibold py-[5px] text-[14px] px-[1.375rem] whitespace-nowrap hover:text-[#018d43] ${
+                          isActive ? 'text-[#018d43]' : 'text-[#00000080]'
+                        }`
+                      }>
                     <img src={x.image} height='24' width='24' />
                     {x.text}
                   </NavLink>
