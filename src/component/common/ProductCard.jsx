@@ -1,9 +1,14 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function ProductCard({ image , image2, title, price , orignalPrice , discountedPrice , discountPercentage }) {
+  const navigator = useNavigate()
   return (
+   
     <div className="">
-      <div className="border border-[#dddddd] h-full shadow-sm hover:shadow-md transition-shadow duration-300 hover:cursor-pointer">
+      <div className="border border-[#dddddd] h-full shadow-sm hover:shadow-md transition-shadow duration-300 hover:cursor-pointer"
+      onClick={()=>navigator('/Products')}
+      >
         <div className='relative w-full overflow-hidden group'
 
         >  <img

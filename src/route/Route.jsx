@@ -6,6 +6,8 @@ import Wellness from  '../page/Wellness'
 import Cleansing from '../page/Cleansing'
 import HairCare from '../page/HairCare'
 import About from '../page/About'
+import ShopAll from '../page/ShopAll';
+import Products from '../page/Products';
 
 export const roots = [    
     {
@@ -52,6 +54,20 @@ export const roots = [
                <About />
             )  
     },
+    ,
+    { 
+        path: '/ShopAll', 
+        element: ( 
+               <ShopAll />
+            )  
+    },
+    {
+       path: '/Products',
+       element: ( 
+               <Products />
+            )
+    }
+   
    
 
 ];

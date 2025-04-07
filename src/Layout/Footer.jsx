@@ -48,8 +48,8 @@ function Footer() {
 
       <div className=' flex flex-col  items-center px-[15px] pt-[70px] md:pt-[80px] pb-[10p] lg:pb-[40px] lg:pt-[100px] '>
 
-        <div className='max-w-[1650px]  gap-x-[30px] gap-y-[10px] md:gap-y-[30px]  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 '>
-          <div className='' >
+        <div className='max-w-[1650px]  gap-x-[0px] gap-y-[10px] md:gap-y-[30px]  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 '>
+          <div className='whitespace-nowrap' >
 
             <img src="https://spiruswastha.com/cdn/shop/t/25/assets/spiru_logo.svg?v=1687220542393843321737094841" className='mb-[25px] w-[210px]' />
             <p className=' mb-[10px] md:mb-[80px] text-[1.25rem] text-[#222222] '>
@@ -100,16 +100,16 @@ function Footer() {
                 className=" focus:outline-none text-[24px] flex justify-between items-center w-full"
                 onClick={() => setIsOpen(!isOpen)}
               > 
-              <h3 className="text-[22px] font-semibold ">Company</h3>
+              <h3 className="text-[22px] md:text-24 xl:text-[34px] font-medium ">Company</h3>
              
                 <span className='md:hidden'>{isOpen ? "-" : "+"}</span>
               </button>
             </div>
             <div className={`mt-2 ${isOpen ? "block" : "hidden"} md:block`}>
-              <ul className="space-y-2 w-full text-[15px] font-semibold">
+              <ul className="space-y-2 w-full text-[17px] xl:text-[18px] font-medium">
                 <div className='grid grid-cols-2 no-wrap leading-9'>
                   <div ><li> <NavLink to='/' className="">Home</NavLink></li></div><div><li><NavLink to='/About' >About Us</NavLink></li></div>
-                  <div><li><a className="">Shop all</a></li></div><div><li><a className="">Contact Us</a></li></div>
+                  <div><li><NavLink to='/ShopAll' className="">Shop all</NavLink></li></div><div><li><a className="">Contact Us</a></li></div>
                   <div><li><a className="">Blog</a></li></div><div><li><a className="">My Account</a></li></div>
                   <div><li><a className="">Faqs</a></li></div><div><li><a className="">Track Your Order</a></li></div>
 
@@ -125,27 +125,22 @@ function Footer() {
                 className=" focus:outline-none text-[24px] flex justify-between items-center w-full"
                 onClick={() => setIsOpen2(!isOpen2)}
               > 
-              <h3 className="text-[22px] font-semibold ">Best Selling Products</h3>
+              <h3 className="text-[22px] md:text-24 xl:text-[34px] font-medium whitespace-nowrap ">Best Selling Products</h3>
               <span className='md:hidden'>  {isOpen2 ? "-" : "+"}</span>
               </button>
             </div>
             <div className={`mt-2 ${isOpen2 ? "block" : "hidden"} md:block`}>
-              <ul className="space-y-2 w-full text-[15px] font-semibold leading-9">
-
+              <ul className="space-y-2 w-full text-[18px] font-medium leading-9">
                 <div ><li><a className="">Spirulina Tablet</a></li></div>
                 <div><li><a className="">Spirulina Capsule</a></li></div>
                 <div><li><a className="">Spiruvita Oil</a></li></div>
                 <div><li><a className="">Spirushine Shampoo</a></li></div>
                 <div><li><a className="">Moringa Tablet</a></li></div>
-
-
-
-
               </ul>
             </div>
           </div>
           <div>
-            <h3 className="text-[26px] font-semibold mb-5 "> Contact Us</h3>
+            <h3 className="text-[22px] md:text-24 xl:text-[34px] font-medium mb-5 "> Contact Us</h3>
 
             <div className='text-[15px] mb-[15px]'><span className=' font-semibold'>Address </span>: 2nd Floor, Flat No. A/203, Dev Prayag Residency, Opp. Shraddhadip Society, Causeway Singanpor Road, Singanpor, Surat, Gujarat, 395004</div>
             <div className='text-[15px] mb-[15px]'><span className=' font-semibold'>E-mail </span>: info@spiruswastha.com</div>
