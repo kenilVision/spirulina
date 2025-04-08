@@ -45,7 +45,7 @@ function SpiruswasthaTrends() {
 
     {isLargeScreen?
 
-<div className="force-overflow-visible">
+<div className="overflow-hidden">
     <Swiper
         spaceBetween={5}
         freeMode={true}
