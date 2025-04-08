@@ -3,9 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Thumbs } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/thumbs';
-import ReactImageZoom from 'react-image-zoom';
 import { Swiper as SwiperCore } from 'swiper';
-import { Magnifier } from 'react-image-magnifiers';
 import ImageMagnifier from '../common/ImageMagnifier'
 
 SwiperCore.use([Thumbs]);
