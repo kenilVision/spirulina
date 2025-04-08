@@ -30,13 +30,13 @@ function WhyChoosеSpiruSwastha() {
     <div className="w-full max-w-[1440px]  mx-auto text-center px-[15px]">
      
       <h2 className="text-4xl font-bold relative inline-block ">
-      4 Balance
+      Why Choosе SpiruSwastha
       </h2>
-      <div className="max-w-[9.375rem] h-0.5 bg-[#018d43] mx-auto mx-auto mt-[12px] mb-[15px]"></div>
-        <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5' >   
+      <div className="max-w-[9.375rem] h-0.5 bg-[#018d43] mx-auto  mt-[12px] mb-[15px]"></div>
+        <div className='flex flex-wrap  justify-center items-center' >   
         {data.map((x)=>{
                 return (
-                    <div className="flex flex-col items-center text-center mt-[0.625rem] bg-white">
+                    <div className="flex flex-col items-center text-center w-1/2 md:w-1/3 lg:w-1/5 mt-[0.625rem] bg-white">
                         <div className='p-5'>
                             <div className='flex justify-center mb-5'>
                                 <img src={x.image} height='100' width='100' className='h-[6.25rem] jiggle-on-hover w-[6.25rem]'/>

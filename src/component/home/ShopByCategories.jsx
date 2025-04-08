@@ -1,5 +1,6 @@
 import React from 'react'
 import Section from '../common/Section'
+import { NavLink } from 'react-router-dom';
 function ShopByCategories() {
 
     const categories = [
@@ -41,15 +42,51 @@ function ShopByCategories() {
         }
       ];
 
+      const navigation = [
+        {
+          to: '/Immunity',
+          text: "Immunity",
+          image: "//spiruswastha.com/cdn/shop/files/cleansing_0ea84d00-8cca-4836-ad59-4bd4b897caae_medium.svg?v=1736144560"
+      
+        },
+        {
+          to: '/SkinCare',
+          text: "Skin Care",
+          image: "//spiruswastha.com/cdn/shop/files/skin_care_medium.svg?v=1736144421"
+        },
+        {
+          to: '/HairCare',
+          text: "Hair Care",
+          image: "//spiruswastha.com/cdn/shop/files/hair_care_medium.svg?v=1736144487"
+        },
+        {
+          to: '/HeartCare',
+          text: "Heart Care",
+          image: "//spiruswastha.com/cdn/shop/files/heart_care_medium.svg?v=1736144448"
+        },
+        {
+          to: '/Wellness',
+          text: "Wellness",
+          image: "//spiruswastha.com/cdn/shop/files/wellness_medium.svg?v=1736144535"
+        },
+        {
+          to: '/Cleansing',
+          text: "Cleansing",
+          image: "//spiruswastha.com/cdn/shop/files/cleansing_0ea84d00-8cca-4836-ad59-4bd4b897caae_medium.svg?v=1736144560"
+        }
+      
+      ]
+     
+
   return (
     <Section title="Shop By Categories">
-      <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 justify-items-center grid-auto-rows-auto">
-        {categories.map((category) => (
+      <div className="flex flex-wrap  justify-center items-center ">
+        {categories.map((category , i) => (
 
-            <div className="rounded-lg mt-[1.875rem] px-[0.9375rem] transition duration-300">
+            <NavLink to={navigation[i].to} className="rounded-lg mt-[1.875rem] px-[0.9375rem] w-1/3 md:w-1/4 lg:w-1/6 hover:opacity-60 hover:cursor-pointer transition duration-300">
               <img src={category.image} alt={category.name} className="w-full  object-cover" />
               <div className="pt-[1.25rem] bg-white text-center font-semibold">{category.name}</div>
-            </div>
+            </NavLink>
         ))}
       </div>
     </Section>

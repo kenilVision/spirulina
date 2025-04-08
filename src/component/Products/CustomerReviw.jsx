@@ -92,7 +92,7 @@ function CustomerReviw() {
             
                 </div>
             <div className='w-full lg:w-1/3'>
-            <button className='bg-[#018d43] text-white text-[16px] py-[10px] px-[20px] w-full md:w-[240px] '
+            <button className='bg-[#018d43] hover:cursor-pointer text-white text-[16px] py-[10px] px-[20px] w-full md:w-[240px] '
              onClick={toggleForm}>
                   {!showForm ? "write a review":"Cancel Review"}
             </button>

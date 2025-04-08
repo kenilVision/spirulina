@@ -77,7 +77,7 @@ function FAQs() {
           {faqs.map((faq, index) => (
           <div key={index} className="border-b border-[#dddddd] py-[1.875rem] transition-all duration-300 ease-in-out">
             <button
-              className={` w-full text-left rounded-lg  flex  items-center   text-[24px] transition-all duration-300 ease-in-out ${
+              className={` w-full hover:cursor-pointer text-left rounded-lg  flex  items-center   text-[24px] transition-all duration-300 ease-in-out ${
                 activeIndex === index ? 'text-[#018d43]' : 'text-black'
               }`}
               onClick={() => toggleFAQ(index)}

@@ -8,7 +8,16 @@ import HairCare from '../page/HairCare'
 import About from '../page/About'
 import ShopAll from '../page/ShopAll';
 import Products from '../page/Products';
-
+import Contact from '../page/Contact';
+import FAQ from '../page/FAQ';
+import Training from '../page/Training'
+import MyAccount from '../page/MyAccount';
+import Wishlist from '../page/Wishlist';
+import PrivacyPolicy from '../page/PrivacyPolicy';
+import TermsAndServices from '../page/TermsAndServices';
+import ReturnAndRefund from '../page/ReturnAndRefund';
+import Shipping from '../page/Shipping';
+import Contactinformation from '../page/Contactinformation';
 export const roots = [    
     {
         path: '/',
@@ -66,8 +75,76 @@ export const roots = [
        element: ( 
                <Products />
             )
+    },
+    {
+        path: '/Contact',
+        element: ( 
+                <Contact />
+             )
+     }
+     ,
+    {
+        path: '/FAQ',
+        element: ( 
+                <FAQ />
+             )
+     }
+     ,
+     {
+         path: '/Training',
+         element: ( 
+                 <Training />
+              )
+      },
+      {
+        path: '/MyAccount',
+        element: ( 
+                <MyAccount/>
+             )
+     }
+     ,
+      {
+        path: '/Wishlist',
+        element: ( 
+                <Wishlist/>
+             )
+     }
+     ,
+     {
+       path: '/PrivacyPolicy',
+       element: ( 
+               <PrivacyPolicy/>
+            )
     }
-   
-   
+    ,
+     {
+       path: '/TermsAndServices',
+       element: ( 
+               <TermsAndServices/>
+            )
+    }
+    ,
+     {
+       path: '/ReturnAndRefund',
+       element: ( 
+               <ReturnAndRefund/>
+            )
+    }
+    ,
+     {
+       path: '/Shipping',
+       element: ( 
+               <Shipping/>
+            )
+    }
+  ,
+  {
+    path: '/Contactinformation',
+    element: ( 
+            <Contactinformation/>
+         )
+ }
+
+  
 
 ];

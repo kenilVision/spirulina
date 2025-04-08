@@ -109,11 +109,11 @@ function Footer() {
               <ul className="space-y-2 w-full text-[17px] xl:text-[18px] font-medium">
                 <div className='grid grid-cols-2 no-wrap leading-9'>
                   <div ><li> <NavLink to='/' className="">Home</NavLink></li></div><div><li><NavLink to='/About' >About Us</NavLink></li></div>
-                  <div><li><NavLink to='/ShopAll' className="">Shop all</NavLink></li></div><div><li><a className="">Contact Us</a></li></div>
-                  <div><li><a className="">Blog</a></li></div><div><li><a className="">My Account</a></li></div>
-                  <div><li><a className="">Faqs</a></li></div><div><li><a className="">Track Your Order</a></li></div>
+                  <div><li><NavLink to='/ShopAll' className="">Shop all</NavLink></li></div><div><li><NavLink to='/Contact' className="">Contact Us</NavLink></li></div>
+                  <div><li><a className="">Blog</a></li></div><div><li><NavLink to='/MyAccount' className="">My Account</NavLink></li></div>
+                  <div><li><NavLink to='/FAQ' className="">Faqs</NavLink></li></div><div><li><a className="">Track Your Order</a></li></div>
 
-                  <div><li><a className="">Training Center</a></li></div><div></div>
+                  <div><li><NavLink to='/Training' className="">Training Center</NavLink></li></div><div></div>
                 </div>
 
               </ul>
@@ -131,11 +131,11 @@ function Footer() {
             </div>
             <div className={`mt-2 ${isOpen2 ? "block" : "hidden"} md:block`}>
               <ul className="space-y-2 w-full text-[18px] font-medium leading-9">
-                <div ><li><a className="">Spirulina Tablet</a></li></div>
-                <div><li><a className="">Spirulina Capsule</a></li></div>
-                <div><li><a className="">Spiruvita Oil</a></li></div>
-                <div><li><a className="">Spirushine Shampoo</a></li></div>
-                <div><li><a className="">Moringa Tablet</a></li></div>
+                <div ><li><NavLink to='/Products'>Spirulina Tablet</NavLink></li></div>
+                <div><li><NavLink to='/Products'>Spirulina Capsule</NavLink></li></div>
+                <div><li><NavLink to='/Products'>Spiruvita Oil</NavLink></li></div>
+                <div><li><NavLink to='/Products'>Spirushine Shampoo</NavLink></li></div>
+                <div><li><NavLink to='/Products'>Moringa Tablet</NavLink></li></div>
               </ul>
             </div>
           </div>
@@ -149,29 +149,32 @@ function Footer() {
         <div className='w-full max-w-[1650px] pt-[10px]  md:pt-[20px]'>
           <ul className=" flex justify-between flex-wrap space-y-3">
             <li>
-              <a href="/policies/privacy-policy" className="text-gray-600 hover:text-gray-900 transition-colors">
+              <NavLink to='/PrivacyPolicy' className="text-gray-600 hover:text-gray-900 transition-colors">
                 Privacy Policy
-              </a>
+              </NavLink>
             </li>
             <li>
-              <a href="/policies/terms-of-service" className="text-gray-600 hover:text-gray-900 transition-colors">
-                Terms of Service
-              </a>
+            <NavLink to='/TermsAndServices' className="text-gray-600 hover:text-gray-900 transition-colors">
+            Terms of Service
+              </NavLink>
             </li>
             <li>
-              <a href="/policies/refund-policy" className="text-gray-600 hover:text-gray-900 transition-colors">
-                Return and Refund Policy
-              </a>
+            <NavLink to='/ReturnAndRefund' className="text-gray-600 hover:text-gray-900 transition-colors">
+            Return and Refund Policy
+              </NavLink>
+             
             </li>
             <li>
-              <a href="/policies/shipping-policy" className="text-gray-600 hover:text-gray-900 transition-colors">
-                Shipping Policy
-              </a>
+            <NavLink to='/Shipping' className="text-gray-600 hover:text-gray-900 transition-colors">
+            Shipping Policy
+              </NavLink>
+              
             </li>
             <li>
-              <a href="/policies/contact-information" className="text-gray-600 hover:text-gray-900 transition-colors">
-                Contact Information
-              </a>
+            <NavLink to='/Contactinformation' className="text-gray-600 hover:text-gray-900 transition-colors">
+            Contact Information
+              </NavLink>
+              
             </li>
           </ul>
         </div>

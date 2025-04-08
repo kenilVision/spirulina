@@ -1,3 +1,10 @@
 .swiper-wrapper {
     overflow: visible !important;
+    position: static !important;
+  }
+
+  .swiper, 
+  .swiper-wrapper, 
+  .swiper-slide {
+    overflow: visible !important;
   }

@@ -7,6 +7,7 @@ import image2 from '../../assets/New_Product_Lunach_1.jpg';
 import image3 from '../../assets/new_year_slide_3.jpg';
 import image4 from '../../assets/Slider_4_1.jpg';
 import image5 from '../../assets/summer_1.jpg';
+import { NavLink } from 'react-router-dom';
 
 
 
@@ -35,7 +36,7 @@ function ImageCarousel() {
   return (
     <>
 
-    <div className="relative w-full  ">
+    <NavLink to='/Products' className="relative w-full hover:cursor-pointer  ">
       <Carousel
         showArrows={true}
         autoPlay={true}
@@ -57,7 +58,7 @@ function ImageCarousel() {
           </div>
         ))}
       </Carousel>
-    </div>
+    </NavLink>
     </>
   );
 }

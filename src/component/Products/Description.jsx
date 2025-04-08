@@ -63,7 +63,7 @@ function Description() {
       <div className="hidden lg:flex    justify-center items-center text-[20px] gap-x-[25px]">
         <button
           onClick={() => setActiveTab("description")}
-          className={`px-4  whitespace-nowrap w-full lg:w-auto flex: lg:block font-medium ${
+          className={`px-4  whitespace-nowrap w-full lg:w-auto flex: lg:block font-medium hover:cursor-pointer ${
             activeTab === "description"
               ? "px-[25px] bg-[#018d43] text-white "
               : "text-black "
@@ -74,7 +74,7 @@ function Description() {
         </button>
         <button
           onClick={() => setActiveTab("info")}
-          className={`px-4  whitespace-nowrap w-full lg:w-auto font-medium ${
+          className={`px-4  whitespace-nowrap w-full lg:w-auto font-medium hover:cursor-pointer ${
             activeTab === "info"
               ? "px-[25px] bg-[#018d43] text-white"
               : "text-black "
