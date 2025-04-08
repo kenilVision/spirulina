@@ -1,5 +1,6 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import './WhyChoosеSpiruSwastha.css'
+import 'aos/dist/aos.css';
 
 function WhyChoosеSpiruSwastha() {
 
@@ -25,15 +26,16 @@ function WhyChoosеSpiruSwastha() {
           "image": "https://spiruswastha.com/cdn/shop/files/Holistic.png?v=1733463033&width=200"
         }
       ]
+       
   return (
-    <div className='mb-[6.25rem] mt-[3.125rem]'>
+    <div className='mb-[6.25rem] mt-[3.125rem]' >
     <div className="w-full max-w-[1440px]  mx-auto text-center px-[15px]">
      
-      <h2 className="text-4xl font-bold relative inline-block ">
+      <h2 className="text-4xl font-bold relative inline-block " data-aos="fade-up" data-aos-duration="2000" data-aos-offset="2" data-aos-once="false" data-aos-delay="1000">
       Why Choosе SpiruSwastha
       </h2>
-      <div className="max-w-[9.375rem] h-0.5 bg-[#018d43] mx-auto  mt-[12px] mb-[15px]"></div>
-        <div className='flex flex-wrap  justify-center items-center' >   
+      <div className="max-w-[9.375rem] h-0.5 bg-[#018d43] mx-auto  mt-[12px] mb-[15px]" data-aos="fade-up" data-aos-duration="2000" data-aos-offset="2" data-aos-once="false" data-aos-delay="1000"></div>
+        <div className='flex flex-wrap  justify-center items-center' data-aos="fade-up" data-aos-duration="2000" data-aos-offset="2" data-aos-once="false" data-aos-delay="1000">   
         {data.map((x)=>{
                 return (
                     <div className="flex flex-col items-center text-center w-1/2 md:w-1/3 lg:w-1/5 mt-[0.625rem] bg-white">

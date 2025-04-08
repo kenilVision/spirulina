@@ -1,6 +1,7 @@
-import React from 'react'
+import React , {useEffect} from 'react'
 import Section from '../common/Section'
 import { NavLink } from 'react-router-dom';
+import 'aos/dist/aos.css';
 function ShopByCategories() {
 
     const categories = [
@@ -76,14 +77,14 @@ function ShopByCategories() {
         }
       
       ]
-     
+
 
   return (
-    <Section title="Shop By Categories">
-      <div className="flex flex-wrap  justify-center items-center ">
+    <Section title="Shop By Categories  "   >
+      <div  className="flex flex-wrap   justify-center items-center ">
         {categories.map((category , i) => (
 
-            <NavLink to={navigation[i].to} className="rounded-lg mt-[1.875rem] px-[0.9375rem] w-1/3 md:w-1/4 lg:w-1/6 hover:opacity-60 hover:cursor-pointer transition duration-300">
+            <NavLink to={navigation[i].to} data-aos="fade-up" data-aos-duration="2000" data-aos-offset="5" data-aos-once="false" data-aos-delay="1000" className="rounded-lg mt-[1.875rem] px-[0.9375rem] w-1/3 md:w-1/4 lg:w-1/6 hover:opacity-60 hover:cursor-pointer transition duration-300">
               <img src={category.image} alt={category.name} className="w-full  object-cover" />
               <div className="pt-[1.25rem] bg-white text-center font-semibold">{category.name}</div>
             </NavLink>

@@ -1,6 +1,9 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import ProductCard from '../common/ProductCard'
+
+import 'aos/dist/aos.css';
 function Bestsellers() {
+  const image2 = "https://spiruswastha.com/cdn/shop/files/Face_pack_cream_Benefits.jpg?v=1735895098&width=800"
     const data = [
         {
           "title": "Natural Spirulina Tablet",
@@ -43,18 +46,19 @@ function Bestsellers() {
 
 
     return (
-        <div className='mt-[6.25rem] mb-[9.375rem]'>
+        <div className='mt-[6.25rem] mb-[9.375rem]' >
         <div className="w-full max-w-[1440px]  mx-auto text-center px-[15px]">
          
-          <h2 className="text-4xl font-bold relative inline-block ">
+          <h2 className="text-4xl font-bold relative inline-block " data-aos="fade-up" data-aos-duration="2000" data-aos-offset="10" data-aos-once="false" data-aos-delay="1000"  >
           Bestsellers
     
           </h2>
-          <div className="max-w-[9.375rem] h-0.5 bg-[#018d43] mx-auto mt-[12px] mb-[15px]"></div>
-            <div className='grid grid-cols-2 gap-x-[30px] gap-y-[30px] md:grid-cols-3 lg:grid-cols-4' >   
+          <div className="max-w-[9.375rem] h-0.5 bg-[#018d43] mx-auto mt-[12px] mb-[15px]" data-aos="fade-up" data-aos-duration="2000" data-aos-offset="10" data-aos-once="false" data-aos-delay="1000"></div>
+            <div className='grid grid-cols-2 gap-x-[30px] gap-y-[30px] md:grid-cols-3 lg:grid-cols-4' data-aos="fade-up" data-aos-duration="2000" data-aos-offset="10" data-aos-once="false" data-aos-delay="1000" >   
                 {data.map((x,index)=><ProductCard 
                 title={x.title} 
-                image={x.image} 
+                image={x.image}
+                image2={image2} 
                 price={x.price_value}
                 orignalPrice={x.original_price_value}
                 discountedPrice={x.price_value}

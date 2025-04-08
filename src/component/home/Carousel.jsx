@@ -8,7 +8,8 @@ import image3 from '../../assets/new_year_slide_3.jpg';
 import image4 from '../../assets/Slider_4_1.jpg';
 import image5 from '../../assets/summer_1.jpg';
 import { NavLink } from 'react-router-dom';
-
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 
 function ImageCarousel() {
@@ -33,10 +34,15 @@ function ImageCarousel() {
       return () => window.removeEventListener("resize", handleResize);
     }, []);
 
+    useEffect(() => {
+            AOS.refresh(); 
+          }, []);
+
+
   return (
     <>
 
-    <NavLink to='/Products' className="relative w-full hover:cursor-pointer  ">
+    <NavLink to='/Products' data-aos="fade-up" data-aos-duration="2000" data-aos-offset="10" data-aos-once="false"   className="relative w-full hover:cursor-pointer  ">
       <Carousel
         showArrows={true}
         autoPlay={true}

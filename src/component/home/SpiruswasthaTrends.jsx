@@ -4,7 +4,9 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import 'swiper/css/navigation';
 import "swiper/css/pagination";
-import { FreeMode, Navigation } from "swiper/modules";
+import AOS from 'aos';
+import 'aos/dist/aos.css'
+import { FreeMode, } from "swiper/modules";
 
 function SpiruswasthaTrends() {
     const videos = [
@@ -31,23 +33,29 @@ function SpiruswasthaTrends() {
         return () => window.removeEventListener("resize", handleResize);
     }, [isLargeScreen]);
 
+    useEffect(() => {
+        
+        AOS.refresh();
+      }, []);
+
     return (
-        <div className='mb-[9.375rem] px-[15px] lg:px-[40px]'>
+        <div className='mb-[9.375rem] px-[15px] lg:px-[40px]' data-aos="fade-up" data-aos-duration="2000" data-aos-offset="10" data-aos-once="false" data-aos-delay="1000">
             <div className="w-full mx-auto text-center px-[15px]">
-                <h2 className="text-4xl font-bold relative inline-block">
+                <h2 className="text-4xl font-bold relative inline-block"  >
                     SpiruswasthaTrends
                 </h2>
                 <div className="max-w-[9.375rem] h-0.5 bg-[#018d43] mx-auto mt-[12px] mb-[15px]"></div>
             </div>
 
             {isLargeScreen ? (
-                <div className="overflow-hidden px-4">
+                <div className="overflow-hidden px-4" >
                     <Swiper
                         spaceBetween={20}
                         freeMode={true}
                         slidesPerView="auto"
                         centeredSlides={false}
-                        modules={[FreeMode]}
+                        navigation={true}
+                        modules={[FreeMode ]}
                         className="mySwiper"
                         breakpoints={{
                             320: { slidesPerView: 1.2 },
@@ -81,7 +89,7 @@ function SpiruswasthaTrends() {
                     </Swiper>
                 </div>
             ) : (
-                <div className="overflow-hidden px-2">
+                <div className="overflow-hidden px-2"  >
                     <Swiper
                         slidesPerView={1.2}
                         spaceBetween={10}
