@@ -8,7 +8,7 @@ import image3 from '../../assets/new_year_slide_3.jpg';
 import image4 from '../../assets/Slider_4_1.jpg';
 import image5 from '../../assets/summer_1.jpg';
 import { NavLink } from 'react-router-dom';
-import AOS from 'aos';
+
 import 'aos/dist/aos.css';
 
 
@@ -33,10 +33,6 @@ function ImageCarousel() {
       window.addEventListener("resize", handleResize);
       return () => window.removeEventListener("resize", handleResize);
     }, []);
-
-    useEffect(() => {
-            AOS.refresh(); 
-          }, []);
 
 
   return (
