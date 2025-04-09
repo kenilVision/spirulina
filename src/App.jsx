@@ -18,7 +18,6 @@ function App() {
       once: true,
       offset: 100,    
     });
-    AOS.refresh();
   }, []);
   
   return (
