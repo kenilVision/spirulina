@@ -20,6 +20,7 @@ import Shipping from '../page/Shipping';
 import Contactinformation from '../page/Contactinformation';
 import Success from '../page/Success';
 import Cancel from '../page/Cancel';
+import CheckoutForm from '../page/CheckoutForm';
 export const roots = [    
     {
         path: '/',
@@ -159,6 +160,13 @@ export const roots = [
                 <Cancel/>
              )
      }
-  
+     ,
+     {
+             path: '/CheckoutForm',
+             element: ( 
+                     <CheckoutForm/>
+                  )
+          }
+       
 
 ];
