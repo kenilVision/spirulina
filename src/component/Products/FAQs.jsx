@@ -103,15 +103,50 @@ function FAQs() {
                 w-10 h-10
                 `}
                 >
-                {activeIndex === index ? '-' : '+'}
+                <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                className="transition-all duration-300 ease-in-out"
+              >
+                {/* Vertical line (hide when open) */}
+                <line
+                  x1="12"
+                  y1="4"
+                  x2="12"
+                  y2="20"
+                  stroke="#018d43"
+                  strokeWidth="1.5"
+                  className={`transition-all duration-300 ${
+                    activeIndex === index ? "opacity-0 scale-y-0" : "opacity-100 scale-y-100"
+                  } origin-center`}
+                />
+                
+                {/* Horizontal line (always visible) */}
+                <line
+                  x1="4"
+                  y1="12"
+                  x2="20"
+                  y2="12"
+                  stroke="#018d43"
+                  strokeWidth="1.5"
+                />
+              </svg>
                 </span>
               {faq.question}
             </button>
+            <div
+              className={`overflow-hidden transition-all  duration-1000 ease-in-out ${
+                activeIndex === index ? "max-h-[1000px] " : "max-h-0 "
+              }`}
+            >
             {activeIndex === index && (
-              <div className={` ms-13 text-start ${activeIndex === index ? 'max-h-[1000px] opacity-100 mt-4' : 'max-h-0 opacity-0'}     overflow-hidden  text-[#696969] transition-all duration-1000 ease-in-out`}>
+              <div className={` ms-13 text-[18px] text-start ${activeIndex === index ? 'max-h-[1000px] opacity-100 mt-4' : 'max-h-0 opacity-0'}     overflow-hidden  text-[#696969] transition-all duration-1000 ease-in-out`}>
                 <p>{faq.answer}</p>
               </div>
             )}
+            </div>
           </div>
         ))}
           </div>

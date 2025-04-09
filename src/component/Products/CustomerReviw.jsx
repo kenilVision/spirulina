@@ -105,8 +105,8 @@ function CustomerReviw() {
 
         </div>
         <div className='flex justify-center'>
-        {showForm && (<form className="space-y-6 bg-white p-6 w-[568px] text-start text-[#b6b6b6]  ">
-      <h2 className="text-xl font-semibold" >Write a review</h2>
+        {showForm && (<form className="space-y-6 bg-white p-6 w-[568px] text-start text-[18px] text-[#b6b6b6]  ">
+      <h2 className="text-[20px] font-semibold" >Write a review</h2>
 
       {/* Rating */}
       <div className={`{onreview ? "h-0 " : ""} overflow-hidden  `}>
