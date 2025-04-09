@@ -151,18 +151,51 @@ function Description() {
                 {item.title}
               </span>
               <span
-                className={`w-12 h-12 flex items-center justify-center text-[30px] text-white  ${
-                  openIndex === index ? "bg-[#018d43]" : "bg-[#16569d]"
-                }`}
+              className={`w-12 h-12 flex items-center justify-center text-[30px] text-white ${
+                openIndex === index ? "bg-[#018d43]" : "bg-[#16569d]"
+              }`}
+            >
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                className="transition-all duration-300 ease-in-out"
               >
-                {openIndex === index ? "-" : "+"}
-              </span>
+                {/* Vertical line (hide when open) */}
+                <line
+                  x1="12"
+                  y1="4"
+                  x2="12"
+                  y2="20"
+                  stroke="white"
+                  strokeWidth="1.5"
+                  className={`transition-all duration-300 ${
+                    openIndex === index ? "opacity-0 scale-y-0" : "opacity-100 scale-y-100"
+                  } origin-center`}
+                />
+                
+                {/* Horizontal line (always visible) */}
+                <line
+                  x1="4"
+                  y1="12"
+                  x2="20"
+                  y2="12"
+                  stroke="white"
+                  strokeWidth="1.5"
+                />
+              </svg>
+            </span>
             </button>
-            {openIndex === index && (
-              <div className="pt-[25px] border-t border-gray-200">
+            <div
+              className={`overflow-hidden transition-all duration-1000 ${
+                openIndex === index ? "max-h-[1000px] " : "max-h-0 "
+              }`}
+            >
+              <div className="px-[25px] py-[15px] border-t border-gray-200 text-[16px]">
                 {item.content}
               </div>
-            )}
+            </div>
           </div>
         ))}
       </div>
