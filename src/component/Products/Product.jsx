@@ -177,21 +177,35 @@ function Product() {
 
         {/* Product Info Section */}
         <div
-          className="w-full md:w-1/2 text-gray-700 relative"
+          className="w-full md:w-1/2 text-black relative"
           data-aos="fade-up"
           data-aos-duration="1000"
           data-aos-once="true"
         >
           <MagnifierPreview {...zoomData} />
           <h2 className="text-[32px] font-bold">Natural Spirulina Tablet</h2>
-          <div className="flex items-center gap-4 mt-2 text-[18px]">
+          <div className="flex items-center text-[26px] gap-4 mt-2 mb-[14px] ">
             <span className="line-through text-[#696969]">₹499.00</span>
             <span className="text-[#018d43] font-semibold">₹424.00</span>
+            <span className='text-white bg-[#018d43] text-[12px] rounded-lg leading-4 px-[8px] py-[4px] mx-[5px]'>SAVE 15%</span>
           </div>
-          <p className='text-[18px]'><a href="/policies/shipping-policy">Shipping</a> calculated at checkout.</p>
+          <p className='text-[18px] text-[#696969] mb-[10px]'><a className='text-[#696969] underline' >Shipping</a> calculated at checkout.</p>
 
-          <p className="mt-1 text-[18px]text-[#018d43]">Availability: <span className="text-[#018d43]">In Stock</span></p>
-          <p className="text-yellow-500 mt-1">⭐⭐⭐⭐⭐ 5 Reviews</p>
+          <p className="mt-1 text-[18px] mb-[5px] text-[#018d43] ">Availability: <span className="text-[#018d43]">In Stock</span></p>
+          <p className=" mt-1 flex gap text-[#696969] text-[18px] gap-x-2 items-center ">
+             {Array.from({ length: 5 }).map((_, i) => (
+            <svg
+                key={i}
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 576 512"
+                className="w-4 mb-1 h-4"
+                fill="#FDCC0D" 
+                stroke="#FDCC0D"
+                strokeWidth="40"
+            >
+                <path d="M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.7 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0z" />
+            </svg>
+            ))} 5 Reviews</p>
 
           <div className="mt-4  flex flex-row  gap-y-5 gap-4 mb-[15px]">
             <div className="flex items-center border   w-[120px] h-[38px]  text-[14px] text-bold justify-between rounded-full ">
@@ -236,7 +250,7 @@ function Product() {
             ))}
           </div>
 
-          <div className="mt-6 text-sm leading-relaxed">
+          <div className="mt-6 text-[18px] leading-relaxed">
             <p>
               Natural and herbal Spirulina Tablets are a rich source of protein, vitamins, and antioxidants derived from pure spirulina algae.
             </p>

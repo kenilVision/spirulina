@@ -48,7 +48,7 @@ const ImageMagnifier = ({ src, zoom = 2, alt = '', onZoomDataChange }) => {
           ref={imgRef}
           src={src}
           alt={alt}
-          className="w-full h-full object-contain"
+          className="w-full h-full  object-contain "
         />
       </div>
     </div>
