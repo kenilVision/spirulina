@@ -23,6 +23,11 @@ function ProductCard({ image , image2, title, price , orignalPrice , discountedP
         mode: 'payment',
         successUrl: window.location.origin + '/success',
         cancelUrl: window.location.origin + '/cancel',
+        shippingAddressCollection: {
+          allowedCountries: ['IN', 'US', 'CA'], // Customize allowed countries
+        },
+        billingAddressCollection: 'required',
+        customerEmail: 'user@example.com', // Optional: pre-fill email if available
       });
     
       if (result.error) {

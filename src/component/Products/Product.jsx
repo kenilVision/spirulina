@@ -52,6 +52,11 @@ function Product() {
           mode: 'payment',
           successUrl: window.location.origin + '/success',
           cancelUrl: window.location.origin + '/cancel',
+          shippingAddressCollection: {
+            allowedCountries: ['IN', 'US', 'CA'], 
+          },
+          billingAddressCollection: 'required',
+          customerEmail: 'user@example.com', 
         });
       
         if (result.error) {
