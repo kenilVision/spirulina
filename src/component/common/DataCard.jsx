@@ -37,6 +37,11 @@ function DataCard({ data, image }) {
           const hasDiscount = item.price && item.price.discounted !== undefined
 
           return (
+            <div
+            key={startIndex + index}
+            data-aos="fade-up"
+            data-aos-duration="1000"
+          >
             <ProductCard
               key={startIndex + index}
               title={item.name}
@@ -47,12 +52,17 @@ function DataCard({ data, image }) {
               discountPercentage={hasDiscount ? item.price.discount_percentage : null}
               price={!hasDiscount && item.price_range ? `₹${item.price_range.from} - ₹${item.price_range.to}` : null}
             />
+            </div>
           )
         })}
       </div>
 
       {pages > 1 && (
-        <div className='flex items-center border-t border-[#dddddd] justify-center mt-[30px] md:mt-[50px] pt-4 gap-2'>
+        <div 
+        className='flex items-center border-t border-[#dddddd] justify-center mt-[30px] md:mt-[50px] pt-4 gap-2'
+        data-aos="fade-up"
+        data-aos-duration="1000"
+        >
 
           {/* Prev Button */}
           <button

@@ -18,11 +18,23 @@ function Ingredient() {
     <div className='w-full mb-[30px] md:mt-[80px] md:mb-[80px] lg:mt-[100px] lg:mb-[100px]'>
     <div className="w-full max-w-[1440px]  mx-auto text-center px-[15px]">
         <div >
-          <h2 className="text-4xl font-bold relative inline-block ">
+          <h2 
+          className="text-4xl font-bold relative inline-block "
+          data-aos="fade-up"
+          data-aos-duration="1000"
+          >
             Spirulina Powder
             </h2>
-            <div className="max-w-[9.375rem] h-0.5 bg-[#018d43] mx-auto mt-[12px] mb-[30px] "></div>
-          <div className="flex flex-wrap justify-evenly items-center gap gap-x-5 gap-y-5 ">
+            <div 
+            className="max-w-[9.375rem] h-0.5 bg-[#018d43] mx-auto mt-[12px] mb-[30px] "
+            data-aos="fade-up"
+            data-aos-duration="1000"
+            ></div>
+          <div 
+          className="flex flex-wrap justify-evenly items-center gap gap-x-5 gap-y-5 "
+          data-aos="fade-up"
+          data-aos-duration="1000" 
+          >
             {
                 ingredients.map((ingredient, index) => (
                     <div key={index} className='flex justify-center items-center gap-5'  >

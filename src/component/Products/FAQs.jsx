@@ -69,11 +69,23 @@ function FAQs() {
     <div className='w-full mb-[30px] md:mt-[80px] md:mb-[80px] lg:mt-[100px] lg:mb-[100px]'>
     <div className="w-full max-w-[1440px]  mx-auto text-center px-[15px]">
         <div className="t4s-code__liquid" data-hdt-reveal="slide-in">
-          <h2 className="text-4xl font-bold relative inline-block ">
+          <h2 
+          className="text-4xl font-bold relative inline-block "
+          data-aos="fade-up"
+          data-aos-duration="1000"
+          >
             FAQs
             </h2>
-            <div className="max-w-[9.375rem] h-0.5 bg-[#018d43] mx-auto mt-[12px] mb-[30px] "></div>
-          <div className=" ">
+            <div 
+            className="max-w-[9.375rem] h-0.5 bg-[#018d43] mx-auto mt-[12px] mb-[30px] "
+            data-aos="fade-up"
+            data-aos-duration="1000"
+            ></div>
+          <div 
+          className=" "
+          data-aos="fade-up"
+          data-aos-duration="1000"
+          >
           {faqs.map((faq, index) => (
           <div key={index} className="border-b border-[#dddddd] py-[1.875rem] transition-all duration-300 ease-in-out">
             <button

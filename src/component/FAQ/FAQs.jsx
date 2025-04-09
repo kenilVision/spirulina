@@ -85,7 +85,10 @@ function FAQs() {
       <div className="max-w-[1440px] mx-auto px-[15px] ">
 
       {accordionData.map((item, index) => (
-        <div key={index} className="border border-[#f6f6f8] mb-2 rounded">
+        <div 
+        key={index} 
+        className="border border-[#f6f6f8] mb-2 rounded"
+        >
           <button
   onClick={() => toggleAccordion(index)}
   className="flex items-center justify-between w-full bg-[#a3a3a331] text-[20px] font-medium text-black gap-3"

@@ -50,7 +50,11 @@ function Slider() {
     
 
     const Card = ({ title, content, icon }) => (
-        <div className="border border-[#018d43]  p-5 flex items-start space-x-4 min-h-[107px] md:min-h-[114px] lg:min-h-auto bg-white shadow-sm">
+        <div 
+        className="border border-[#018d43]  p-5 flex items-start space-x-4 min-h-[107px] md:min-h-[114px] lg:min-h-auto bg-white shadow-sm"
+        data-aos="fade-up"
+        data-aos-duration="1000"
+        >
           <div className="w-[40px] h-[40px] flex-shrink-0">
             <img src={icon} alt={title} className="w-full h-full object-contain" />
           </div>

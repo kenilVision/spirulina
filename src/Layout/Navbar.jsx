@@ -8,7 +8,7 @@ const navigation = [
   {
     to: '/Immunity',
     text: "Immunity",
-    image: "//spiruswastha.com/cdn/shop/files/cleansing_0ea84d00-8cca-4836-ad59-4bd4b897caae_medium.svg?v=1736144560"
+    image: "https://spiruswastha.com/cdn/shop/files/immune_medium.svg?v=1736144279"
 
   },
   {
@@ -114,11 +114,11 @@ function Navbar() {
               {navigation.map((x) => (
                 <li key={x.to}  >
                   <NavLink to={x.to} className={({ isActive }) =>
-                        `flex items-center font-semibold py-[5px] text-[14px] px-[1.375rem] whitespace-nowrap hover:text-[#018d43] ${
-                          isActive ? 'text-[#018d43]' : 'text-[#00000080]'
+                        `flex items-center font-medium py-[5px] text-[16px] px-[1.375rem] whitespace-nowrap hover:text-[#018d43] ${
+                          isActive ? 'text-[#018d43]' : 'text-[#222222]'
                         }`
                       }>
-                    <img src={x.image} height='24' width='24' />
+                    <img src={x.image} height='24' width='24' className='me-[7px]' />
                     {x.text}
                   </NavLink>
                 </li>

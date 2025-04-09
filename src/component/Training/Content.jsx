@@ -2,7 +2,10 @@ import React from 'react'
 
 function Content() {
   return (
-    <section className="py-10  ">
+    <section className="py-10  "
+    data-aos="fade-up"
+    data-aos-duration="1000"
+    >
         <div className="max-w-[1440px] px-[15px] mx-auto space-y-6 text-[#696969] text-[16px] ">
     <h2 className="text-[29px] font-bold text-cente text-black text-center">Spirulina Cultivation Training Center</h2>
 

@@ -27,11 +27,23 @@ function WhySpiruSwastha() {
     <div className='mb-[20px] mt-[50px] md:mb-[50px] md:mt-[70px] lg:mb-[70px] lg:mt-[100px]'>
     <div className="w-full max-w-[1440px]  mx-auto text-center px-[15px]">
      
-      <h2 className="text-4xl font-bold relative inline-block ">
+      <h2 
+      className="text-4xl font-bold relative inline-block "
+      data-aos="fade-up"
+      data-aos-duration="1000"
+      >
       Why SpiruSwastha?
       </h2>
-      <div className="max-w-[9.375rem] h-0.5 bg-[#018d43] mx-auto  mt-[12px] mb-[15px]"></div>
-        <div className='grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4' >   
+      <div 
+      className="max-w-[9.375rem] h-0.5 bg-[#018d43] mx-auto  mt-[12px] mb-[15px]"
+      data-aos="fade-up"
+      data-aos-duration="1000"
+      ></div>
+        <div 
+        className='grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4'
+        data-aos="fade-up"
+        data-aos-duration="1000"
+        >   
         {data.map((x)=>{
                 return (
                     <div className="flex flex-col items-center text-center px-[15px] mt-[1.875rem] bg-white">

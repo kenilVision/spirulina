@@ -31,7 +31,11 @@ function CustomerReviw() {
 
   return (
     <div className='mb-[20px] mt-[50px] md:mb-[50px] md:mt-[70px] lg:mb-[70px] lg:mt-[100px]'>
-    <div className="w-full max-w-[1440px]  mx-auto text-center px-[15px]">  
+    <div 
+    className="w-full max-w-[1440px]  mx-auto text-center px-[15px]"
+    data-aos="fade-up"
+    data-aos-duration="1000"
+    >  
      
       <h2 className="text-4xl font-bold relative inline-block ">
       Customer Reviews

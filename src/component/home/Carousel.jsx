@@ -7,7 +7,7 @@ import image2 from '../../assets/New_Product_Lunach_1.jpg';
 import image3 from '../../assets/new_year_slide_3.jpg';
 import image4 from '../../assets/Slider_4_1.jpg';
 import image5 from '../../assets/summer_1.jpg';
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from "react-router";
 
 import 'aos/dist/aos.css';
 
@@ -33,12 +33,12 @@ function ImageCarousel() {
       window.addEventListener("resize", handleResize);
       return () => window.removeEventListener("resize", handleResize);
     }, []);
-
+    let navigate = useNavigate();
 
   return (
     <>
 
-    <NavLink to='/Products' data-aos="fade-up" data-aos-duration="2000" data-aos-offset="10" data-aos-once="false"   className="relative w-full hover:cursor-pointer  ">
+    <div data-aos="fade-up" data-aos-duration="1000"   className="relative w-full hover:cursor-pointer  ">
       <Carousel
         showArrows={true}
         autoPlay={true}
@@ -54,13 +54,15 @@ function ImageCarousel() {
             <img
               src={image}
               alt={`Slide ${index + 1}`}
-              className="w-full h-full object-contain
-"
+              className="w-full h-full object-contain"               
+              onClick={() => {
+                navigate('/Products');
+              }}
             />
           </div>
         ))}
       </Carousel>
-    </NavLink>
+    </div>
     </>
   );
 }
