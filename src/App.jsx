@@ -15,6 +15,7 @@ function App() {
   useEffect(() => {
     AOS.init({
       duration: 5000, 
+      once: true,
       offset: 100,    
     });
     AOS.refresh();
