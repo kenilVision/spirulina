@@ -8,6 +8,9 @@ import ImageMagnifier from '../common/ImageMagnifier'
 import "./Product.css"
 import MagnifierPreview from '../common/MagnifierPreview';
 SwiperCore.use([Thumbs]);
+import axios from 'axios'
+import { loadStripe } from '@stripe/stripe-js/dist';
+
 
 function Product() {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
@@ -31,6 +34,31 @@ function Product() {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+
+  const stripePromise = loadStripe('pk_test_51R7WqrJyGt2xEojTq9qXI6S4aXZeU5tVmCMv16mnfnklwl6WXoHbpdWHuCwTSDY7DVe7N8VztWuC2h3toof8DeY700b8CP4HB5');
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const stripe = await stripePromise;
+    try {
+      const { data } = await axios.post('http://localhost:5000/create-checkout-session', {
+        image:"https://spiruswastha.com/cdn/shop/files/Spirulina_3fe544fc-dd3c-432e-a21b-9e52cf11d5fb.jpg?v=1735211315&width=540",
+        title : "Natural Spirulina Tablet",
+        price: 7000,
+      });
+  
+      const result = await stripe.redirectToCheckout({
+        sessionId: data.id,
+      });
+  
+      if (result.error) {
+        console.error(result.error.message);
+      }
+    } catch (error) {
+      console.error('Checkout error:', error);
+    }
+  }
 
   const images = [
     {
@@ -232,7 +260,10 @@ function Product() {
             </button>
           </div>
             <button className="bg-[#018d43] lg:hidden text-white px-6 py-2 w-full mb-[15px]  rounded-full hover:cursor-pointer">Add to Cart</button>
-            <button className="bg-black text-white px-6 py-2 rounded-full hover:cursor-pointer w-full lg:w-[340px]">Buy It Now</button>
+            <button 
+            className="bg-black text-white px-6 py-2 rounded-full hover:cursor-pointer w-full lg:w-[340px]"
+            onClick={handleSubmit}
+            >Buy It Now</button>
           <div
 
             style={{ '--height-img': '30px' }}

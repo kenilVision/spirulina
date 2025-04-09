@@ -18,6 +18,8 @@ import TermsAndServices from '../page/TermsAndServices';
 import ReturnAndRefund from '../page/ReturnAndRefund';
 import Shipping from '../page/Shipping';
 import Contactinformation from '../page/Contactinformation';
+import Success from '../page/Success';
+import Cancel from '../page/Cancel';
 export const roots = [    
     {
         path: '/',
@@ -144,7 +146,19 @@ export const roots = [
             <Contactinformation/>
          )
  }
-
+ ,
+ {
+   path: '/Success',
+   element: ( 
+           <Success/>
+        )
+},
+{
+        path: '/Cancel',
+        element: ( 
+                <Cancel/>
+             )
+     }
   
 
 ];

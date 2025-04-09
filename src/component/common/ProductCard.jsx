@@ -1,16 +1,47 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { loadStripe } from '@stripe/stripe-js';
+import axios from 'axios'
 function ProductCard({ image , image2, title, price , orignalPrice , discountedPrice , discountPercentage }) {
+  
+  
+  
   const navigator = useNavigate()
+    const stripePromise = loadStripe('pk_test_51R7WqrJyGt2xEojTq9qXI6S4aXZeU5tVmCMv16mnfnklwl6WXoHbpdWHuCwTSDY7DVe7N8VztWuC2h3toof8DeY700b8CP4HB5');
+
+    async function handleSubmit(e) {
+      e.preventDefault();
+      const stripe = await stripePromise;
+      console.log(image)
+      try {
+        const { data } = await axios.post('http://localhost:5000/create-checkout-session', {
+          image,
+          title,
+          price: 7000,
+        });
+    
+        const result = await stripe.redirectToCheckout({
+          sessionId: data.id,
+        });
+    
+        if (result.error) {
+          console.error(result.error.message);
+        }
+      } catch (error) {
+        console.error('Checkout error:', error);
+      }
+    }
+
+
+
   return (
    
     <div className="">
       <div className="border border-[#dddddd] h-full shadow-sm hover:shadow-md transition-shadow duration-300 hover:cursor-pointer"
-      onClick={()=>navigator('/Products')}
+      
       >
         <div className='relative w-full overflow-hidden group'
-
+        onClick={()=>navigator('/Products')}
         >  <img
         src={image}
 
@@ -46,7 +77,8 @@ function ProductCard({ image , image2, title, price , orignalPrice , discountedP
             </svg>
           </div>
         </div>
-        <div className="p-4 text-start ">
+        <div className="p-4 text-start "
+        onClick={()=>navigator('/Products')}>
           <p className="font-bold truncate hover:text-[#018d43] ">{title}</p>
           {
             orignalPrice && discountedPrice ? (
@@ -71,7 +103,10 @@ function ProductCard({ image , image2, title, price , orignalPrice , discountedP
               <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
             </svg>
           </div>
-          <div className="w-1/2 flex items-center justify-center font-bold text-white text-lg bg-[#018d43] py-3 cursor-pointer hover:bg-[#016d32] transition duration-300">
+          <div 
+          className="w-1/2 flex items-center justify-center font-bold text-white text-lg bg-[#018d43] py-3 cursor-pointer hover:bg-[#016d32] transition duration-300"
+          onClick={handleSubmit}
+          >
             Buy Now
           </div>
         </div>
