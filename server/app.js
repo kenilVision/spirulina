@@ -30,7 +30,7 @@ app.post('/create-checkout-session', async (req, res) => {
       shipping_address_collection: {
         allowed_countries: ['IN'], 
       },
-      billing_address_collection: 'required', // This triggers billing address form
+      billing_address_collection: 'required', 
       customer_creation: 'always', 
     });
   

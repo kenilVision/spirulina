@@ -56,7 +56,7 @@ function Product() {
             allowedCountries: ['IN', 'US', 'CA'], 
           },
           billingAddressCollection: 'required',
-          customerEmail: 'user@example.com', 
+          
         });
       
         if (result.error) {

@@ -27,7 +27,7 @@ function ProductCard({ image , image2, title, price , orignalPrice , discountedP
           allowedCountries: ['IN', 'US', 'CA'], // Customize allowed countries
         },
         billingAddressCollection: 'required',
-        customerEmail: 'user@example.com', // Optional: pre-fill email if available
+        
       });
     
       if (result.error) {
