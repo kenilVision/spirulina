@@ -38,7 +38,7 @@ function ImageCarousel() {
   return (
     <>
 
-    <div data-aos="fade-up" data-aos-duration="1000"   className="relative w-full hover:cursor-pointer  ">
+    <div data-aos="fade-up" data-aos-duration="1000" data-aos-once="true"   className="relative w-full hover:cursor-pointer  ">
       <Carousel
         showArrows={true}
         autoPlay={true}

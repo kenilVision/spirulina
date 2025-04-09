@@ -39,7 +39,7 @@ function SpiruswasthaTrends() {
       }, []);
 
     return (
-        <div className='mb-[9.375rem] px-[15px] lg:px-[40px]' data-aos="fade-up" data-aos-duration="1000"   >
+        <div className='mb-[9.375rem] px-[15px] lg:px-[40px]' data-aos="fade-up" data-aos-duration="1000" data-aos-once="true"  >
             <div className="w-full mx-auto text-center px-[15px]">
                 <h2 className="text-4xl font-bold relative inline-block"  >
                     SpiruswasthaTrends

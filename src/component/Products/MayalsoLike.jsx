@@ -46,6 +46,7 @@ function MayalsoLike() {
       className="text-4xl font-bold relative inline-block "
       data-aos="fade-up"
       data-aos-duration="1000"
+      data-aos-once="true"
       >
       You may also like
       </h2>
@@ -53,11 +54,13 @@ function MayalsoLike() {
       className="max-w-[9.375rem] h-0.5 bg-[#018d43] mx-auto mt-[12px] mb-[30px] "
       data-aos="fade-up"
       data-aos-duration="1000"
+      data-aos-once="true"
       ></div>
         <div 
         className='grid grid-cols-2 gap-x-[30px] gap-y-[30px] md:grid-cols-3 lg:grid-cols-4  ' 
         data-aos="fade-up"
         data-aos-duration="1000"
+        data-aos-once="true"
         >   
             {data.map((x,index)=><ProductCard 
             title={x.title} 

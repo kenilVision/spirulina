@@ -100,6 +100,7 @@ function Product() {
           className="flex flex-col lg:flex-row-reverse gap-2 w-full md:max-w-1/2 max-h-[600px] h-[600px] static "
           data-aos="fade-up"
           data-aos-duration="1000"
+          data-aos-once="true"
         >
           {/* Main Image Viewer */}
           <div className="flex-1 rounded overflow-hidden   h-full">
@@ -179,6 +180,7 @@ function Product() {
           className="w-full md:w-1/2 text-gray-700 relative"
           data-aos="fade-up"
           data-aos-duration="1000"
+          data-aos-once="true"
         >
           <MagnifierPreview {...zoomData} />
           <h2 className="text-[32px] font-bold">Natural Spirulina Tablet</h2>

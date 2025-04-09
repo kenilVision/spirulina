@@ -6,6 +6,7 @@ function Content() {
     className=" bg-white"
     data-aos="fade-up"
     data-aos-duration="1000"
+    data-aos-once="true"
       >
       <div className="max-w-[1440px] mx-auto grid px-[15px] mt-[0] mb-[50px] md:mt-[80px] md:mb-[60px] lg:my-[80px]  text-center ">
       <svg

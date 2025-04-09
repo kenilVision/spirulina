@@ -41,6 +41,7 @@ function DataCard({ data, image }) {
             key={startIndex + index}
             data-aos="fade-up"
             data-aos-duration="1000"
+            data-aos-once="true"
           >
             <ProductCard
               key={startIndex + index}
@@ -62,6 +63,7 @@ function DataCard({ data, image }) {
         className='flex items-center border-t border-[#dddddd] justify-center mt-[30px] md:mt-[50px] pt-4 gap-2'
         data-aos="fade-up"
         data-aos-duration="1000"
+        data-aos-once="true"
         >
 
           {/* Prev Button */}

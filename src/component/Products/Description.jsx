@@ -72,6 +72,7 @@ function Description() {
         className="w-full max-w-[1440px] mx-auto px-[15px]   lg:pt-[50px]  lg:pb-[30px] ] leading-9.5"
         data-aos="fade-up"
         data-aos-duration="1000"
+        data-aos-once="true"
       >
         {/* Tabs */}
         <div className="hidden lg:flex    justify-center items-center text-[20px] gap-x-[25px]">

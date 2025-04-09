@@ -14,6 +14,7 @@ function TextContent() {
       className='grid grid-cols-1 md:grid-cols-2 md:gap-x-[10px] mt-[20px] md:mt-[60px] md:mb-[50px] max-w-[1440px] mx-auto px-[15px] '
       data-aos="fade-up"
       data-aos-duration="1000"
+      data-aos-once="true"
       >
         <div className='md:hidden block'><img src="https://spiruswastha.com/cdn/shop/files/about_us.jpg?v=1733717600&width=700" /></div>
         <div className='flex flex-col justify-center items-start'>
@@ -47,6 +48,7 @@ function TextContent() {
         className='grid grid-cols-1 md:grid-cols-2 md:gap-x-[10px] md:mt-[60px] md:mb-[50px] max-w-[1440px] mx-auto px-[15px] '
         data-aos="fade-up"
         data-aos-duration="1000"
+        data-aos-once="true"
       >
         <div className=' mt-[10px] flex justify-center '><img src="https://spiruswastha.com/cdn/shop/files/What_is_Spirulina.jpg?v=1733717708&width=1600" className='object-contain' /></div>
         <div className='flex flex-col justify-center items-start'>
@@ -78,6 +80,7 @@ function TextContent() {
         className='grid grid-cols-1 md:grid-cols-2 md:gap-x-[10px] mt-[20px] md:mt-[60px] md:mb-[50px] max-w-[1440px] mx-auto px-[15px] '
         data-aos="fade-up"
         data-aos-duration="1000"
+        data-aos-once="true"
       >
         <div className='md:hidden block'><img src="https://spiruswastha.com/cdn/shop/files/Why_Spirulina.jpg?v=1733717785&width=1600" /></div>
         <div className='flex flex-col justify-center items-start'>
@@ -99,6 +102,7 @@ function TextContent() {
         className=" max-w-[1440px] text-[2.5rem] mx-auto w-full  mb-[20px] px-[15px] text-[#222222] font-[600] leading-[3.125rem]"
         data-aos="fade-up"
         data-aos-duration="1000"
+        data-aos-once="true"
       >
         certificate
       </h3>
@@ -106,6 +110,7 @@ function TextContent() {
         className='grid grid-cols-2 lg:grid-cols-5 gap-y-[7.5px] gap-x-[7.5px] mt-[20px] md:mt-[60px] md:mb-[50px] max-w-[1440px] mx-auto px-[15px] '
         data-aos="fade-up"
         data-aos-duration="1000"
+        data-aos-once="true"
       >
        {certificateImages.map((src, idx) => (
   <div
@@ -113,6 +118,7 @@ function TextContent() {
     className="flex justify-center group relative overflow-hidden"
     data-aos="fade-up"
     data-aos-duration="1000"
+    data-aos-once="true"
   >
     <img
       src={src}

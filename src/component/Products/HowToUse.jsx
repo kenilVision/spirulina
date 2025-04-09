@@ -30,12 +30,14 @@ function HowToUse() {
       className="max-w-[9.375rem] h-0.5 bg-[#018d43] mx-auto  mt-[12px] mb-[15px]"
       data-aos="fade-up"
       data-aos-duration="1000"
+      data-aos-once="true"
       ></div>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-y-5  gap-x-5 lg:gap-x-15  pt-[25px] lg:pt-[35px]    ' > 
         <div 
         className="w-full items-start "
         data-aos="fade-up"
         data-aos-duration="1000"
+        data-aos-once="true"
         >
           <img
             src="https://spiruswastha.com/cdn/shop/files/How_to_Use.jpg?v=1734697181"
@@ -47,6 +49,7 @@ function HowToUse() {
         className="w-full max-h-[300px] md:overflow-scroll "
         data-aos="fade-up"
         data-aos-duration="1000"
+        data-aos-once="true"
         >
             {
                 steps.map((step, index) => (

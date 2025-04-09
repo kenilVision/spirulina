@@ -22,6 +22,7 @@ function Ingredient() {
           className="text-4xl font-bold relative inline-block "
           data-aos="fade-up"
           data-aos-duration="1000"
+          data-aos-once="true"
           >
             Spirulina Powder
             </h2>
@@ -29,11 +30,13 @@ function Ingredient() {
             className="max-w-[9.375rem] h-0.5 bg-[#018d43] mx-auto mt-[12px] mb-[30px] "
             data-aos="fade-up"
             data-aos-duration="1000"
+            data-aos-once="true"
             ></div>
           <div 
           className="flex flex-wrap justify-evenly items-center gap gap-x-5 gap-y-5 "
           data-aos="fade-up"
           data-aos-duration="1000" 
+          data-aos-once="true"
           >
             {
                 ingredients.map((ingredient, index) => (

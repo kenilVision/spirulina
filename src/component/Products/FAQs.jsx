@@ -73,6 +73,7 @@ function FAQs() {
           className="text-4xl font-bold relative inline-block "
           data-aos="fade-up"
           data-aos-duration="1000"
+          data-aos-once="true"
           >
             FAQs
             </h2>
@@ -80,11 +81,13 @@ function FAQs() {
             className="max-w-[9.375rem] h-0.5 bg-[#018d43] mx-auto mt-[12px] mb-[30px] "
             data-aos="fade-up"
             data-aos-duration="1000"
+            data-aos-once="true"
             ></div>
           <div 
           className=" "
           data-aos="fade-up"
           data-aos-duration="1000"
+          data-aos-once="true"
           >
           {faqs.map((faq, index) => (
           <div key={index} className="border-b border-[#dddddd] py-[1.875rem] transition-all duration-300 ease-in-out">
