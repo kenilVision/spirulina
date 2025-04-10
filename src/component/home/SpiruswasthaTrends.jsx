@@ -41,16 +41,17 @@ const  SpiruswasthaTrends = () => {
   return (
     <div
       className="mb-[9.375rem] px-[15px] lg:px-[40px]"
-      data-aos="fade-up"
-      data-aos-duration="1000"
-      data-aos-once="true"
+     
     >
       <div className="w-full text-center">
         <HomeSectionHeading title="Spiruswastha Trends" />
       </div>
 
       {isLargeScreen ? (
-        <div className="overflow-hidden px-4">
+        <div className="overflow-hidden px-4"
+        data-aos="fade-up"
+        data-aos-duration="1000"
+        data-aos-once="true">
           <Swiper
             spaceBetween={20}
             freeMode={true}
