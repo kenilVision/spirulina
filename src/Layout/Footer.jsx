@@ -34,7 +34,7 @@ function Footer() {
               placeholder="Search"
             />
             <div className='p-[1px]'>
-              <button type="submit" className='bg-[#018d43] text-white w-full h-full py-[13px] px-[15px] rounded-full text-[14px] '>
+              <button type="submit" className='bg-[#018d43] hover:cursor-pointer text-white w-full h-full py-[13px] px-[15px] rounded-full text-[14px] '>
                 Subscribe
               </button>
             </div>
