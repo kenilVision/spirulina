@@ -2,19 +2,20 @@ import React,{useState , useEffect} from 'react';
 import "./Carousel.css"
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import image1 from '../../assets/home_banner_destop_3.jpg';
-import image2 from '../../assets/New_Product_Lunach_1.jpg';
-import image3 from '../../assets/new_year_slide_3.jpg';
-import image4 from '../../assets/Slider_4_1.jpg';
-import image5 from '../../assets/summer_1.jpg';
 import { useNavigate } from "react-router";
-
 import 'aos/dist/aos.css';
 
 
-function ImageCarousel() {
-  const backgroundImages = [image1, image2, image3, image4, image5];
-  const link = [
+const  ImageCarousel = () => {
+  const backgroundImages = [    // Desktop Images
+    "https://spiruswastha.com/cdn/shop/files/summer_1.jpg?format=pjpg&v=1740371160&width=2000",
+    "https://spiruswastha.com/cdn/shop/files/2_3.jpg?format=pjpg&v=1741770918&width=2000",
+    "https://spiruswastha.com/cdn/shop/files/New_Product_Lunach_1.jpg?format=pjpg&v=1741869576&width=2000",
+    "https://spiruswastha.com/cdn/shop/files/Slider_4_1.jpg?format=pjpg&v=1739766299&width=2000",
+    "https://spiruswastha.com/cdn/shop/files/new_year_slide_3.jpg?format=pjpg&v=1735303282&width=2000",
+    "https://spiruswastha.com/cdn/shop/files/home_banner_destop_3.jpg?format=pjpg&v=1735100933&width=2000"
+  ];
+  const link = [                // Mobile Images
       "https://spiruswastha.com/cdn/shop/files/new_year_slide_3_mobile.jpg?format=pjpg&v=1735303324&width=1100",
       "https://spiruswastha.com/cdn/shop/files/home_banner_mobile_3.jpg?format=pjpg&v=1735100911&width=1100",
       "https://spiruswastha.com/cdn/shop/files/summer_Mobile_1.jpg?format=pjpg&v=1740375894&width=1100",
@@ -23,17 +24,16 @@ function ImageCarousel() {
       "https://spiruswastha.com/cdn/shop/files/4_2.jpg?format=pjpg&v=1739766310&width=1100"
   ]
 
-    const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 768);
+    const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 768);       // State to track screen size
 
     
-    useEffect(() => {
-
-      
+    useEffect(() => {                     // Effect to update screen size on resize
       const handleResize = () => setIsLargeScreen(window.innerWidth >= 768);
       window.addEventListener("resize", handleResize);
       return () => window.removeEventListener("resize", handleResize);
     }, []);
-    let navigate = useNavigate();
+
+    let navigate = useNavigate();         // Hook to navigate to different routes
 
   return (
     <>

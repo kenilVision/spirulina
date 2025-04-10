@@ -76,6 +76,7 @@ function Form() {
   width="100%"
   height="600"
   style={{ border: 0 }}
+  className='md:h-auto h-[450px] '
   allowFullScreen=""
   loading="lazy"
   referrerPolicy="no-referrer-when-downgrade"

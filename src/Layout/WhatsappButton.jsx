@@ -2,7 +2,7 @@ import React from 'react'
 
 function WhatsappButton() {
   return (
-    <div className="fixed bottom-6 left-6 z-500">
+    <div className="fixed bottom-[40px] left-6 z-500">
     <a
     
       className="bg-[#59ce72] hover:cursor-pointer rounded-full w-[64px] h-[64px] flex items-center justify-center shadow-lg"

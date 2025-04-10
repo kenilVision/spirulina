@@ -58,7 +58,7 @@ const faqs = [
 
 function FAQs() {
 
-    const [activeIndex, setActiveIndex] = useState(null);
+    const [activeIndex, setActiveIndex] = useState(0);
 
     const toggleFAQ = (index) => {
       setActiveIndex(index === activeIndex ? null : index);
@@ -99,8 +99,10 @@ function FAQs() {
             >
                 <span
                 className={`mr-3 border-2 rounded-full border-[#018d43] text-[#018d43] font-thin text-[30px] 
-                    flex items-center justify-center transition-all duration-300 ease-in-out
+                    flex items-center justify-center transition-all duration-1000 ease-in-out
                 w-10 h-10
+                 ${
+                    activeIndex === index ? "rotate-180" :"rotate-0"}
                 `}
                 >
                 <svg
@@ -141,11 +143,15 @@ function FAQs() {
                 activeIndex === index ? "max-h-[1000px] " : "max-h-0 "
               }`}
             >
-            {activeIndex === index && (
-              <div className={` ms-13 text-[18px] text-start ${activeIndex === index ? 'max-h-[1000px] opacity-100 mt-4' : 'max-h-0 opacity-0'}     overflow-hidden  text-[#696969] transition-all duration-1000 ease-in-out`}>
+               <div
+              className={`overflow-hidden transition-all duration-1000 ease-in-out  ${
+                activeIndex === index ? "max-h-[1000px] " : "max-h-0 "
+              }`}
+            >
+              <div className={` ms-13 text-[18px] text-start     overflow-hidden  text-[#696969] transition-all duration-1000 ease-in-out`}>
                 <p>{faq.answer}</p>
               </div>
-            )}
+            </div>
             </div>
           </div>
         ))}

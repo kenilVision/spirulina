@@ -152,9 +152,14 @@ function Description() {
               </span>
               <span
               className={`w-12 h-12 flex items-center justify-center text-[30px] text-white ${
-                openIndex === index ? "bg-[#018d43]" : "bg-[#16569d]"
+                openIndex === index ? "bg-[#018d43] " : "bg-[#16569d]"
               }`}
             >
+              <span
+                  className={`text-[28px] font-bold transition-transform duration-1000 ease-in-out transform ${
+                    openIndex === index ? "rotate-180" : "rotate-0"
+                  }`}
+                >
               <svg
                 width="24"
                 height="24"
@@ -185,10 +190,11 @@ function Description() {
                   strokeWidth="1.5"
                 />
               </svg>
+              </span>
             </span>
             </button>
             <div
-              className={`overflow-hidden transition-all duration-1000 ${
+              className={`overflow-hidden transition-all duration-1000 ease-in-out  ${
                 openIndex === index ? "max-h-[1000px] " : "max-h-0 "
               }`}
             >
