@@ -1,12 +1,24 @@
-import React,{useState} from "react";
+import React,{useEffect, useState} from "react";
 import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
-
+import { useSelector, useDispatch } from 'react-redux'
+import {add,remove} from '../Slice/cart'
+import MiniCartItem from "../component/common/MiniCartItem";
 function CartSideBar({ cartbarOpen, setcartbarOpen }) {
-
+   const carts = useSelector((state) => state.cart)
+    const dispatch = useDispatch()
+  
       const [progress, setProgress] = useState(50);
 
 
+      useEffect(() => {
+
+        const totalPrice = carts.reduce((acc, item) => acc + item.price * item.qty, 0);
+        const targetPrice = 500; // Target price for free shipping
+        const newProgress = Math.min((totalPrice / targetPrice) * 100, 100); // Ensure progress doesn't exceed 100%
+        setProgress(newProgress);
+      }
+, [carts]);  
   return (
     <>
       <div
@@ -89,7 +101,7 @@ function CartSideBar({ cartbarOpen, setcartbarOpen }) {
         }
       `}</style>
 
-            {/* Truck SVG */}
+            
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 640 512"
@@ -108,8 +120,13 @@ function CartSideBar({ cartbarOpen, setcartbarOpen }) {
             </svg>
           </div>
         </div>
-
-        <div className="text-center mt-[2.5rem] text-[#696969] ">
+        {carts && carts.length > 0 ? (
+          <div className="overflow-y-auto max-h-[calc(100vh-50px)] px-4">
+          {carts.map((x) => (
+            <MiniCartItem product={x}  />
+          ))}
+        </div>
+        ):(<div className="text-center mt-[2.5rem] text-[#696969] ">
           <svg
             id="icon-cart-empty"
             width="50"
@@ -128,6 +145,8 @@ function CartSideBar({ cartbarOpen, setcartbarOpen }) {
             Return To Shop
           </button>
         </div>
+          
+        )}
       </div>
     </>
   );

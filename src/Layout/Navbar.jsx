@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect ,useState } from "react";
 import { NavLink } from "react-router-dom";
-
+import { useSelector, useDispatch } from 'react-redux'
 const navigation = [
   {
     to: "/Immunity",
@@ -44,6 +44,18 @@ function Navbar({
   sidebarOpen,
   setSidebarOpen,
 }) {
+
+   const carts = useSelector((state) => state.cart)
+  const [Cartcount, setCartcount] = useState(0);
+  
+  
+        useEffect(() => {
+  
+          const totalitme = carts.reduce((acc, item) => acc +  item.qty, 0);
+          setCartcount(totalitme);
+        }
+  , [carts]); 
+   
   useEffect(() => {
     if (sidebarOpen || searchbarOpen || loginbarOpen || cartbarOpen) {
       document.body.style.overflow = "hidden";
@@ -278,7 +290,7 @@ function Navbar({
               </svg>
 
               <span className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-[#018d43] text-white text-xs font-bold px-1.5 py-0.5 rounded-full">
-                0
+              {Cartcount}
               </span>
             </button>
           </div>

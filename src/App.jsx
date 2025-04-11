@@ -12,6 +12,9 @@ import { Elements } from "@stripe/react-stripe-js";
 import { CookiesProvider } from "react-cookie";
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK); 
 
+import { Provider } from 'react-redux'
+import store from './Store/Store'
+
 function App() {
   useEffect(() => {
     AOS.init({
@@ -23,6 +26,7 @@ function App() {
   
   
   return (
+    <Provider store={store}>
     <Elements stripe={stripePromise}>
       <BrowserRouter>
         <ScrollToTop />
@@ -39,6 +43,7 @@ function App() {
         </CookiesProvider>
       </BrowserRouter>
     </Elements>
+    </Provider>
   );
 }
 

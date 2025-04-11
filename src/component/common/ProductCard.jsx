@@ -1,10 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { loadStripe } from "@stripe/stripe-js";
-
+import { useSelector, useDispatch } from 'react-redux'
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK);
-
+import {add,remove} from '../../Slice/cart'
 function ProductCard({ data }) {
+  const carts = useSelector((state) => state.cart)
+  const dispatch = useDispatch()
   const navigate = useNavigate();
 
   async function handleSubmit(e) {
@@ -30,6 +32,18 @@ function ProductCard({ data }) {
     if (result.error) {
       console.error(result.error.message);
     }
+  }
+
+  function handleCart(x) {
+      const {name , image, price} = x
+   
+    console.log(x)
+    const cartItem = {
+      name,
+      image,
+      price:  price.discounted,
+    };
+    dispatch(add(cartItem))
   }
 
   return (
@@ -101,7 +115,10 @@ function ProductCard({ data }) {
               )}
             </div>
             <div className="flex">
-              <div className="w-1/2 bg-[#222] flex items-center justify-center py-3 cursor-pointer hover:bg-[#444] transition duration-300">
+              <div 
+              className="w-1/2 bg-[#222] flex items-center justify-center py-3 cursor-pointer hover:bg-[#444] transition duration-300"
+              onClick={()=>handleCart(x)}
+              >
               <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
