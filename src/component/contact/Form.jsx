@@ -61,7 +61,7 @@ function Form() {
         </div>
 
         {/* Embedded Map */}
-        <div>
+        <div >
           {/* <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3719.1558182231074!2d72.80666497587615!3d21.22566888098516!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be04fa535872d2f%3A0xd022b05cca2643f8!2sDevprayag%20residency!5e0!3m2!1sen!2sin!4v1733720544625!5m2!1sen!2sin"
             width="100%"
@@ -76,7 +76,7 @@ function Form() {
   width="100%"
   height="600"
   style={{ border: 0 }}
-  className='md:h-auto h-[450px] '
+  className='  '
   allowFullScreen=""
   loading="lazy"
   referrerPolicy="no-referrer-when-downgrade"

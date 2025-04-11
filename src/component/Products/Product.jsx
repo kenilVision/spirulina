@@ -36,7 +36,7 @@ function Product() {
   }, []);
 
 
-  const stripePromise = loadStripe('pk_test_51R7Wr4FS9PdJc9as9JGTC5u82YHtYLp3HdxLkTxLCXR5h0WVnUtYmLp1kyHqTp8OK6VsQSuFlMSBcvYsCSizGcTW00PlCHxj6L');
+  const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK);
   
       async function handleSubmit(e) {
         e.preventDefault();

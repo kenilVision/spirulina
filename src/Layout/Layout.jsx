@@ -1,34 +1,57 @@
-import React,{useState} from 'react'
-import Navbar from './Navbar'
-import Footer from './Footer'
-import WhatsappButton from './WhatsappButton'
-import BottomNavbar from './BottomNavbar'
-import LoginSignupSideBar from './LoginSignupSideBar'
-import CartSideBar from './CartSideBar'
-import SearchSideBar from './SearchSideBar'
-import MenuSideBar from './MenuSideBar'
+import React, { useState } from "react";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
+import WhatsappButton from "./WhatsappButton";
+import BottomNavbar from "./BottomNavbar";
+import LoginSignupSideBar from "./LoginSignupSideBar";
+import CartSideBar from "./CartSideBar";
+import SearchSideBar from "./SearchSideBar";
+import MenuSideBar from "./MenuSideBar";
+import CookieConcent from "./CookieConcent";
+import { useCookies } from "react-cookie";
 
-function Layout({children}) {
 
-    const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [searchbarOpen, setsearchbarOpen] = useState(false);
-    const [loginbarOpen, setloginbarOpen] = useState(false);
-    const [cartbarOpen, setcartbarOpen] = useState(false);
+function Layout({ children }) {
 
+
+  // State variables to manage the visibility of different components
+  const [cookies, setCookie] = useCookies(["cookieConsent"]);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [searchbarOpen, setsearchbarOpen] = useState(false);
+  const [loginbarOpen, setloginbarOpen] = useState(false);
+  const [cartbarOpen, setcartbarOpen] = useState(false);
+  console.log(cookies.cookieConsent)
   return (
-      <>       
-      <Navbar loginbarOpen={loginbarOpen} setloginbarOpen={setloginbarOpen} cartbarOpen={cartbarOpen} setcartbarOpen={setcartbarOpen} searchbarOpen={searchbarOpen} setsearchbarOpen={setsearchbarOpen} sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} /> 
+    <>
+      <Navbar
+        loginbarOpen={loginbarOpen}
+        setloginbarOpen={setloginbarOpen}
+        cartbarOpen={cartbarOpen}
+        setcartbarOpen={setcartbarOpen}
+        searchbarOpen={searchbarOpen}
+        setsearchbarOpen={setsearchbarOpen}
+        sidebarOpen={sidebarOpen}
+        setSidebarOpen={setSidebarOpen}
+      />
       {children}
-      <Footer/>
+      <Footer />
       <WhatsappButton />
-      <BottomNavbar setloginbarOpen={setloginbarOpen}/>
-      <LoginSignupSideBar loginbarOpen={loginbarOpen} setloginbarOpen={setloginbarOpen} />
+      <BottomNavbar setloginbarOpen={setloginbarOpen} />
+      <LoginSignupSideBar
+        loginbarOpen={loginbarOpen}
+        setloginbarOpen={setloginbarOpen}
+      />
       <CartSideBar cartbarOpen={cartbarOpen} setcartbarOpen={setcartbarOpen} />
-      <SearchSideBar searchbarOpen={searchbarOpen} setsearchbarOpen={setsearchbarOpen} />
+      <SearchSideBar
+        searchbarOpen={searchbarOpen}
+        setsearchbarOpen={setsearchbarOpen}
+      />
       <MenuSideBar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-      </>
-
-  )
+      {cookies.cookieConsent == undefined ? (
+        <CookieConcent cookies={cookies} setCookie={setCookie} />
+      ) : null}
+    </>
+  );
 }
 
-export default Layout
+export default Layout;

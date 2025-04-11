@@ -77,10 +77,15 @@ function HeartCare() {
       "description": "Tablets formulated with Arjun Chaal extract to support cardiovascular health."
     }
   ]
+
+  const combinedData = data.map((item, index) => ({
+    ...item,
+    image: image[index] || item.image, 
+  }));
   return (
     <div className='w-full max-w-[1470px] mx-auto p-[15px]  pb-[50px] lg:pb-[60px] mb-0 md:mb-[50px]'>
    <Query />
-   <DataCard data={data} image={image} />
+   <DataCard combinedData={combinedData} />
 
    </div>
   )

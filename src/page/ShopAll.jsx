@@ -508,14 +508,18 @@ function ShopAll() {
             "image": "https://spiruswastha.com/cdn/shop/products/Spiru_Conditioner.jpg",
             "description": "A Spirulina-based conditioner that strengthens and revitalizes hair, leaving it soft and manageable."
           }
-
     ]
+
+
+    const combinedData = data.map((item, index) => ({
+      ...item,
+      image: image[index] || item.image, 
+    }));
   return (
    <>
     <div className='w-full max-w-[1470px] mx-auto p-[15px]  pb-[50px] lg:pb-[60px] mb-0 md:mb-[50px]'>
    <Query />
-   <DataCard data={data} image={image} />
-
+   <DataCard combinedData={combinedData} />
    </div>
    </>
   )
