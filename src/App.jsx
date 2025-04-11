@@ -11,7 +11,6 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import { CookiesProvider } from "react-cookie";
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK); 
-import { useCookies } from "react-cookie";
 
 function App() {
   useEffect(() => {
@@ -21,24 +20,7 @@ function App() {
       offset: 100,
     });
   }, []);
-   const [Cookies, setCookie] = useCookies(["cookieConsent"]);
-  useEffect(() => {
-    if (Cookies.get("cookieConsent")) {
-      const script = document.createElement("script");
-      script.src = "https://www.googletagmanager.com/gtag/js?id=G-4T1FPJYJFF";
-      script.async = true;
-      document.body.appendChild(script);
   
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        window.dataLayer.push(arguments);
-      }
-  
-      gtag("js", new Date());
-      gtag("config", "GA_MEASUREMENT_ID");
-    }
-  }, []);
-
   
   return (
     <Elements stripe={stripePromise}>
