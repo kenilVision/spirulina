@@ -20,7 +20,7 @@ function App() {
       offset: 100,
     });
   }, []);
-
+   const [Cookies, setCookie] = useCookies(["cookieConsent"]);
   useEffect(() => {
     if (Cookies.get("cookieConsent")) {
       const script = document.createElement("script");
