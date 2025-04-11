@@ -15,7 +15,7 @@ app.get("/acceptCookie", (req, res) => {
     const guestUserId = uuidv4();
     res.cookie("cookieConsent", "true", { maxAge: 900000});
     res.cookie("guestUserId", guestUserId, {
-      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+      maxAge: 30 * 24 * 60 * 60 * 1000, 
       httpOnly: false,
       sameSite: "Lax",
     });

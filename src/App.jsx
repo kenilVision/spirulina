@@ -11,6 +11,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import { CookiesProvider } from "react-cookie";
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK); 
+import { useCookies } from "react-cookie";
 
 function App() {
   useEffect(() => {
