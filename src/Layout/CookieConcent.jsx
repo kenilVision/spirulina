@@ -4,18 +4,18 @@ import axios from "axios";
 function CookieConcent({ cookies, setCookie }) {
 
   const handleAccept = async() => {
-    // setCookie("cookieConsent", true, { path: "/" });
-    // console.log("cookies", cookies); 
+    setCookie("cookieConsent", true, { path: "/" });
+    console.log("cookies", cookies); 
 
-    await axios.get("http://localhost:5000/acceptCookie", { withCredentials: true });
+    // await axios.get("http://localhost:5000/acceptCookie", { withCredentials: true });
 
   };
 
   const handleReject = async () => {
-    // setCookie("cookieConsent", false, { path: "/" });
-    // console.log("cookies", cookies);
+    setCookie("cookieConsent", false, { path: "/" });
+    console.log("cookies", cookies);
 
-    await axios.get("http://localhost:5000/rejectCookie", { withCredentials: true });
+    // await axios.get("http://localhost:5000/rejectCookie", { withCredentials: true });
   };
 
   const svg = (
