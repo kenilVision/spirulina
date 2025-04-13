@@ -508,7 +508,7 @@ function ShopAll() {
             "image": "https://spiruswastha.com/cdn/shop/products/Spiru_Conditioner.jpg",
             "description": "A Spirulina-based conditioner that strengthens and revitalizes hair, leaving it soft and manageable."
           }
-    ]0
+    ]
 
 
     const combinedData = data.map((item, index) => ({

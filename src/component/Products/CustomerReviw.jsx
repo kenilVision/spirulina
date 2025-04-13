@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Review from "../common/Review";
 
-function CustomerReviw() {
+function CustomerReviw({CustomerReview , id}) {
   const [hovered, setHovered] = useState(null);
 
   const handleClick = (val) => {
@@ -9,17 +9,7 @@ function CustomerReviw() {
   };
   const [showForm, setShowForm] = useState(false);
   const toggleForm = () => setShowForm((prev) => !prev);
-  const reviews = [
-    {
-      rating: 3,
-      date: "2025-04-07",
-      author: "kenil",
-      title: "good",
-      body: "good product",
-      productTitle: "Spirulina Face Pack Powder",
-      productUrl: "/products/spirulina-face-pack-powder",
-    },
-  ];
+  const reviews = CustomerReview.filter((item) => item.productId === id)
   const ratingsData = [
     { stars: 5, count: 0 },
     { stars: 4, count: 0 },

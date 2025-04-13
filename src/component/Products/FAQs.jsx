@@ -56,7 +56,7 @@ const faqs = [
 
   
 
-function FAQs() {
+function FAQs( {FAQs}) {
 
     const [activeIndex, setActiveIndex] = useState(0);
 
@@ -89,7 +89,7 @@ function FAQs() {
           data-aos-duration="1000"
           data-aos-once="true"
           >
-          {faqs.map((faq, index) => (
+          {FAQs.map((faq, index) => (
           <div key={index} className="border-b border-[#dddddd] py-[1.875rem] transition-all duration-300 ease-in-out">
             <button
               className={` w-full hover:cursor-pointer text-left rounded-lg  flex  items-center   text-[24px] transition-all duration-300 ease-in-out ${

@@ -62,7 +62,7 @@ export const roots = [
     element: <ShopAll />,
   },
   {
-    path: "/Products",
+    path: "/product/:slug",
     element: <Products />,
   },
   {

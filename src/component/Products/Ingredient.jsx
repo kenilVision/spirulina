@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Ingredient() {
+function Ingredient({ name }) {
 
     const ingredients = [
         {
@@ -24,7 +24,7 @@ function Ingredient() {
           data-aos-duration="1000"
           data-aos-once="true"
           >
-            Spirulina Powder
+            {name}
             </h2>
             <div 
             className="max-w-[9.375rem] h-0.5 bg-[#018d43] mx-auto mt-[12px] mb-[30px] "

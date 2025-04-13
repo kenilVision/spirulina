@@ -75,7 +75,7 @@ function CookieConcent({ cookies, setCookie }) {
   return (
     <div className="w-full  flex items-center justify-center">
       <div
-        className="fixed bottom-[50px]  rounded-xl max-w-[750px] w-[calc(100%-30px)]  bg-[#ffffff] py-[1rem] px-[1rem]  flex flex-col items-center justify-center gap-4"
+        className="fixed bottom-[50px] z-100  rounded-xl max-w-[750px] w-[calc(100%-30px)]  bg-[#ffffff] py-[1rem] px-[1rem]  flex flex-col items-center justify-center gap-4"
         style={{ boxShadow: "0 5px 15px rgba(0, 0, 0, 0.35)" }}
       >
         <div class="text-[18px] bext-bold">

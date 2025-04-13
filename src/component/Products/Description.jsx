@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 
-function Description() {
-  const title = "Spirulina Face Pack Powder";
-  const Description =
-    "Spirulina Face Pack Powder is crafted from pure nutrient dense spirulina, a superfood algae known for its high antioxidant and anti-inflammatory content. This spirulina face powder nourishes the skin helping to fight free radicals, reduce signs of ageing and enhance skin radiance. Ideal for cleansing and rejuvenating spirulina face pack powder gently detoxifies the skin making it a perfect addition to any natural and herbal skincare routine. Regular use helps reveal a clear smooth and revitalised complexion.";
+function Description({description , name}) {
+
   const [activeTab, setActiveTab] = useState("description");
 
   const [openIndex, setOpenIndex] = useState(null);
@@ -17,10 +15,10 @@ function Description() {
       content: (
         <>
           <h3 className="text-[23px] text-[#018d43] pb-[10px] font-medium">
-            {title}
+            {name}
           </h3>
           <p className="tracking-normal leading-[2] mb-[15px] text-[#696969] ">
-            {Description}
+            {description}
           </p>
         </>
       ),
@@ -103,10 +101,10 @@ function Description() {
           {activeTab === "description" && (
             <div>
               <h3 className="text-[23px] text-[#018d43] pb-[10px] font-medium">
-                {title}
+                {name}
               </h3>
               <p className="text-[18px] tracking-normal leading-[2] mb-[15px] text-[#696969]">
-                {Description}
+                {description}
               </p>
             </div>
           )}

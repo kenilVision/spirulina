@@ -3,13 +3,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import HomeSectionHeading from "../common/HomeSectionHeading";
 import "swiper/css";
 import "swiper/css/free-mode";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { FreeMode } from "swiper/modules";
 
-const  SpiruswasthaTrends = () => {
+const SpiruswasthaTrends = () => {
   const videos = [
     "https://cdn.shopify.com/s/files/1/0611/1038/6771/files/whatmore_tn_13d16737-6683-4bde-a6c9-d04d6c94f0b2.mp4?v=1739158911",
     "https://cdn.shopify.com/s/files/1/0611/1038/6771/files/whatmore_tn_41cc0459-29c4-4255-9836-e2c4719ee73c.mp4?v=1739159450",
@@ -18,46 +16,48 @@ const  SpiruswasthaTrends = () => {
     "https://cdn.shopify.com/s/files/1/0611/1038/6771/files/whatmore_tn_b77f7a45-53c4-495a-8f81-8d3205115476.mp4?v=1739764888",
     "https://cdn.shopify.com/s/files/1/0611/1038/6771/files/whatmore_tn_c64097d6-fd0d-4d20-ad94-99b98138b64a.mp4?v=1739861245",
     "https://cdn.shopify.com/s/files/1/0611/1038/6771/files/whatmore_tn_8d3a3ef8-0cda-4c6b-8ce6-feb96ad02f3a.mp4?v=1740456060",
-  ];        // Array of video URLs
+  ];
 
-  const [activeIndex, setActiveIndex] = useState(0);            // State to track the active index of the video
-  const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 769);   // State to track if the screen is large
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 769);
+  const [selectedVideo, setSelectedVideo] = useState(null);
+
+  const openModal = (video) => setSelectedVideo(video);
+  const closeModal = () => setSelectedVideo(null);
 
   useEffect(() => {
     const handleResize = () => {
-      const newIsLargeScreen = window.innerWidth >= 769;
-      if (newIsLargeScreen !== isLargeScreen) {
-        setIsLargeScreen(newIsLargeScreen);
-      }
+      setIsLargeScreen(window.innerWidth >= 769);
     };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [isLargeScreen]);              // Effect to handle screen resize
+  }, []);
 
   useEffect(() => {
     AOS.refresh();
-  }, []);       // Effect to refresh AOS animations
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = selectedVideo ? "hidden" : "auto";
+  }, [selectedVideo]);
 
   return (
-    <div
-      className="mb-[9.375rem] px-[15px] lg:px-[40px]"
-     
-    >
+    <div className="mb-[9.375rem] px-[15px] lg:px-[40px]">
       <div className="w-full text-center">
         <HomeSectionHeading title="Spiruswastha Trends" />
       </div>
 
       {isLargeScreen ? (
-        <div className="overflow-hidden px-4"
-        data-aos="fade-up"
-        data-aos-duration="1000"
-        data-aos-once="true">
+        <div
+          className="overflow-hidden px-4"
+          data-aos="fade-up"
+          data-aos-duration="1000"
+          data-aos-once="true"
+        >
           <Swiper
             spaceBetween={20}
             freeMode={true}
             slidesPerView="auto"
-            centeredSlides={false}
-            navigation={true}
             modules={[FreeMode]}
             className="mySwiper"
             breakpoints={{
@@ -77,11 +77,12 @@ const  SpiruswasthaTrends = () => {
               >
                 <div className="rounded-lg overflow-hidden">
                   <video
+                    onClick={() => openModal(videoSrc)}
                     autoPlay
                     loop
                     muted
-                    className="w-full h-auto rounded-lg shadow-lg object-cover"
                     playsInline
+                    className="w-full h-auto rounded-lg shadow-lg object-cover cursor-pointer"
                     style={{ width: "280px", height: "500px" }}
                   >
                     <source src={videoSrc} type="video/mp4" />
@@ -117,11 +118,12 @@ const  SpiruswasthaTrends = () => {
                 }`}
               >
                 <video
+                  onClick={() => openModal(video)}
                   autoPlay
                   loop
                   muted={idx !== activeIndex}
                   playsInline
-                  className="w-full rounded-lg object-cover shadow-md"
+                  className="w-full rounded-lg object-cover shadow-md cursor-pointer"
                   style={{ height: "500px" }}
                 >
                   <source src={video} type="video/mp4" />
@@ -131,8 +133,34 @@ const  SpiruswasthaTrends = () => {
           </Swiper>
         </div>
       )}
+
+      {/* Modal */}
+      {selectedVideo && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[#00000080]"
+          onClick={closeModal}
+        >
+          <div
+            className="relative max-w-4xl w-full px-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <video
+              src={selectedVideo}
+              
+              autoPlay
+              className="w-full h-[600px] rounded-lg shadow-lg"
+            />
+            <button
+              className="absolute top-2 right-2 text-white text-4xl font-bold"
+              onClick={closeModal}
+            >
+              &times;
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
-}
+};
 
 export default SpiruswasthaTrends;
