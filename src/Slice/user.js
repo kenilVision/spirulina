@@ -80,25 +80,27 @@ const user = createSlice({
       const index = state.address.findIndex((address) => address.addressid === addressid);
     
       if (index !== -1) {
-        // If updated address is being set to default
         if (updatedAddress.default === true) {
-          // Remove default from all other addresses
-          state.address = state.address.map((addr, i) => ({
-            ...addr,
-            default: i === index ? true : false,
-          }));
+          // Set this one to default and remove default from others
+          state.address = state.address.map((addr, i) => {
+            if (addr.addressid === addressid) {
+              return { ...addr, ...updatedAddress };
+            }
+            return { ...addr, default: false };
+          });
         } else {
           // Just update the specific address
           state.address[index] = { ...state.address[index], ...updatedAddress };
         }
       }
+  }
     },
     removeAddress: (state, action) => {
       const { addressid } = action.payload;
       state.address = state.address.filter((address) => address.addressid !== addressid);
     }
   }
-});
+);
 
 export const {setUser, login, setAddress,updateFullName, updateAddress, removeAddress} = user.actions;
 export default user.reducer;

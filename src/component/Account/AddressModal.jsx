@@ -23,7 +23,7 @@ return (
             changeEditMode();
             resetForm()
         }}
-          className="absolute top-2 right-3 text-2xl font-bold text-gray-500 hover:text-black"
+          className="absolute top-2 right-3 text-2xl font-bold text-gray-500 hover:cursor-pointer hover:text-black"
         >
           ×
         </button>
@@ -262,7 +262,7 @@ return (
               name="default"
               checked={initialData.default}
               onChange={handleChange}
-              className="w-4 h-4"
+              className="w-4 h-4 "
             />
             <label htmlFor="default">Set as default address</label>
           </div>
@@ -270,7 +270,7 @@ return (
           <div className="flex  space-x-3 pt-2">
           <button
               type="submit"
-              className="px-4 py-2 text-[14px] bg-[#67BB8E] text-white "
+              className="px-4 py-2 text-[14px] bg-[#67BB8E] hover:cursor-pointer text-white "
             >
               {editmode ? "Update Address":"Add Address"}
             </button>
@@ -281,7 +281,7 @@ return (
                 changeEditMode();
                 resetForm()
             }}
-              className="px-4 py-2 border text-[14px] bg-[#16569D] text-white "
+              className="px-4 py-2 border text-[14px] bg-[#16569D] hover:cursor-pointer text-white "
             >
               Cancel
             </button>

@@ -26,7 +26,7 @@ function Addresses() {
       address1: item.address,
       address2: item.address2,
       state: item.state,
-      city: item.county,
+      city: item.city,
       country:  'India',
       default: item.default,
     }
@@ -96,7 +96,7 @@ function Addresses() {
 
         <div className='flex'>
         <button 
-        className=" ms-auto p-2 bg-[#018d43] w-fit text-white rounded mb-4"
+        className=" ms-auto p-2 bg-[#018d43] w-fit text-white rounded mb-4 hover:cursor-pointer"
         onClick={() => {
 
           let data ={
@@ -128,7 +128,7 @@ function Addresses() {
                   {item.default ? 'Default Address' : `Address ${index + 1}`}
                 </h2>
                 <div className="flex space-x-2">
-                  <div
+                  <div className='hover:cursor-pointer'
                    onClick={() => {
                           handleEdit(item) 
                                 }
@@ -140,7 +140,7 @@ function Addresses() {
                   <path d="M18.6406 5.18848C19.4781 8.17598 21.8156 10.5135 24.8156 11.3635" stroke="#018D43" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
                 </svg>
                 </div>
-                <div
+                <div className='hover:cursor-pointer'
                   onClick={() => {
                     alert('Are you sure you want to delete this address?');
                     dispatch(removeAddress({ addressid: item.addressid }));
