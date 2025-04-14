@@ -2,7 +2,7 @@ import React from "react";
 import ProductCard from "../common/ProductCard";
 import HomeSectionHeading from "../common/HomeSectionHeading";
 import "aos/dist/aos.css";
-import { Products } from "../../constant/Product";
+import { Products } from "../../Constant/Product";
 
 const  Bestsellers = () => {
   const data = Products.sort((a, b) => b.rating - a.rating).slice(0, 4); 

@@ -3,7 +3,7 @@ import ProductCard from "../common/ProductCard";
 import "aos/dist/aos.css";
 import AOS from "aos";
 import HomeSectionHeading from "../common/HomeSectionHeading";
-import {Products} from "../../constant/Product";
+import {Products} from "../../Constant/Product";
 
 const  SummerWellnessCombos = () => {
  
