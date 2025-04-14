@@ -1,7 +1,7 @@
 import React from 'react'
 import Query from '../component/common/Query'
 import DataCard from '../component/common/DataCard'
-import { Products } from '../Constant/Product'
+import { Products } from '../Constant/Product.js'
 function ShopAll() {
   const data = Products
   return (
