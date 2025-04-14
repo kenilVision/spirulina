@@ -9,7 +9,7 @@ import HowToUse from '../component/Products/HowToUse'
 import Benefit from '../component/Products/Benefit'
 import CustomerReviw from '../component/Products/CustomerReviw'
 import Product from '../component/Products/Product'
-import { Products } from '../constant/Product'
+import { Products } from '../Constant/Product'
 import { CustomerReview } from '../constant/CustomerReview'
 import StickyAddToCart from '../component/Products/StickyAddToCart'
 
