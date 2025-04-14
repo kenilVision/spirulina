@@ -1,5 +1,5 @@
 import React from 'react'
-import { steps } from '../../constant/Steps'
+import { steps } from '../../Constant/Steps'
 
 function HowToUse({ slug }) {
   const data = steps.find(item => item.slug === slug)
