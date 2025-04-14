@@ -47,9 +47,9 @@ function Layout({ children }) {
         setsearchbarOpen={setsearchbarOpen}
       />
       <MenuSideBar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-      {cookies.cookieConsent == undefined ? (
+      {/* {cookies.cookieConsent == undefined ? (
         <CookieConcent cookies={cookies} setCookie={setCookie} />
-      ) : null}
+      ) : null} */}
     </>
   );
 }
