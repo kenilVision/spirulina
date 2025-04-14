@@ -1,7 +1,7 @@
 import React from 'react'
 import Query from '../component/common/Query'
 import DataCard from '../component/common/DataCard'
-import { Products } from '../constant/Product'
+import { Products } from '../Constant/Product'
 function HeartCare() {
 
   const data =  Products.filter((item) => item.category.toLowerCase() === "heart care")

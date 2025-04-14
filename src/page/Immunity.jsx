@@ -1,7 +1,7 @@
 import React from "react";
 import Query from "../component/common/Query";
 import DataCard from "../component/common/DataCard";
-import { Products } from '../constant/Product'
+import { Products } from '../Constant/Product'
 
 function Immunity() {
   // Memoize the filtered data to prevent unnecessary recalculations
