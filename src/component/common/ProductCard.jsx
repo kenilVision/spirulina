@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK);
 import { add, remove } from '../../Slice/cart'
 
+
 function ProductCard({ data }) {
   const carts = useSelector((state) => state.cart)
   const dispatch = useDispatch()
@@ -17,7 +18,7 @@ function ProductCard({ data }) {
     const result = await stripe.redirectToCheckout({
       lineItems: [
         {
-          price: "price_1RBxMVFS9PdJc9asxD3pIj9P", // You might want to make this dynamic based on product
+          price: "price_1RBxMVFS9PdJc9asxD3pIj9P", 
           quantity: 1,
         },
       ],
@@ -37,7 +38,7 @@ function ProductCard({ data }) {
 
   function handleCart(product) {
     const { name, images, variants } = product;
-    // Using the first variant for cart (you might want to let user select variant)
+   
     const firstVariant = variants[0];
     
     const cartItem = {
@@ -49,6 +50,7 @@ function ProductCard({ data }) {
       quantity: 1,
       variant: firstVariant
     };
+    console.log(cartItem)
     dispatch(add(cartItem))
   }
 

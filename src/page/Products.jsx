@@ -9,12 +9,13 @@ import HowToUse from '../component/Products/HowToUse'
 import Benefit from '../component/Products/Benefit'
 import CustomerReviw from '../component/Products/CustomerReviw'
 import Product from '../component/Products/Product'
-import StickyAddToCart from '../component/Products/StickyAddToCart'
 import { Products } from '../constant/Product'
 import { CustomerReview } from '../constant/CustomerReview'
+import StickyAddToCart from '../component/Products/StickyAddToCart'
 
 function Prooducts() {
   const { slug } = useParams()
+
 
   // Find first product that matches the slug
   const product = Products.find(item => item.slug === slug)
@@ -31,7 +32,7 @@ function Prooducts() {
 
   return (
     <>
-      <Product product={product} />
+      <Product product={product}  />
       <Description description={product.description} name={product.name} />
       <CustomerReviw CustomerReview={CustomerReview} id={product.id} />
 
@@ -39,7 +40,7 @@ function Prooducts() {
         <>
           <MayalsoLike relatedProducts={relatedProducts} />
           <WhySpiruSwastha />
-          <StickyAddToCart product={product} />
+          {/* <StickyAddToCart product={product} /> */}
         </>
       ) : (
         <>
@@ -49,7 +50,7 @@ function Prooducts() {
           <HowToUse slug={product.slug} />
           <FAQs FAQs={product.faqs} />
           <WhySpiruSwastha />
-          <StickyAddToCart product={product} />
+          {/* <StickyAddToCart product={product} /> */}
         </>
       )}
     </>

@@ -2,7 +2,7 @@ import React,{useEffect, useState} from "react";
 import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
 import { useSelector, useDispatch } from 'react-redux'
-import {add,remove} from '../Slice/cart'
+
 import MiniCartItem from "../component/common/MiniCartItem";
 function CartSideBar({ cartbarOpen, setcartbarOpen }) {
    const carts = useSelector((state) => state.cart)
@@ -141,7 +141,10 @@ function CartSideBar({ cartbarOpen, setcartbarOpen }) {
           <p className="text-lg font-medium text-gray-700 mb-4">
             Your cart is empty.
           </p>
-          <button className="w-6/10 px-5 bg-[#018d43] hover:cursor-pointer text-white py-2   mb-[0.9375rem] hover:bg-[#16569d]">
+          <button 
+          className="w-6/10 px-5 bg-[#018d43] hover:cursor-pointer text-white py-2   mb-[0.9375rem] hover:bg-[#16569d]"
+          onClick={() => setcartbarOpen(false)}
+          >
             Return To Shop
           </button>
         </div>

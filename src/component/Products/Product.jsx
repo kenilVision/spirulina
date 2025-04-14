@@ -8,10 +8,14 @@ import ImageMagnifier from '../common/ImageMagnifier';
 import "./Product.css";
 import MagnifierPreview from '../common/MagnifierPreview';
 import { loadStripe } from '@stripe/stripe-js';
-
+import { add, remove,addwithQuantity } from '../../Slice/cart'
+import { useSelector, useDispatch } from 'react-redux'
 SwiperCore.use([Thumbs]);
 
 function Product({ product }) {
+
+  const carts = useSelector((state) => state.cart)
+  const dispatch = useDispatch()
   // Destructure product data
   const {
     name,
@@ -30,7 +34,7 @@ function Product({ product }) {
     url: img,
     alt: name
   }));
-
+  const quant = 10
   // State management
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [quantity, setQuantity] = useState(1);
@@ -83,6 +87,22 @@ function Product({ product }) {
     if (result.error) {
       console.error(result.error.message);
     }
+  }
+
+  const handlecart = () => {
+    const { name, images, variants } = product;
+    // Using the selected variant for cart
+    const cartItem = {
+      id: product.id,
+      name,
+      image: images[0],
+      price: selectedVariant.discounted_price,
+      originalPrice: selectedVariant.original_price,
+      qty: quantity,
+      options: selectedVariant, // Passing selected variant as options
+    };
+    console.log(cartItem);
+    dispatch(addwithQuantity(cartItem));
   }
 
   // Payment icons data
@@ -268,12 +288,15 @@ function Product({ product }) {
               <span className="px-3">{quantity}</span>
               <button 
                 className='hover:cursor-pointer pe-[15px]' 
-                onClick={() => setQuantity(q => q + 1)}
+                onClick={() => setQuantity(q => (q < quant ? q + 1 : q))}
               >
                 +
               </button>
             </div>
-            <button className="bg-[#018d43] hidden lg:block text-white px-6 py-2 w-full lg:w-auto rounded-full hover:cursor-pointer">
+            <button 
+            className="bg-[#018d43] hidden lg:block text-white px-6 py-2 w-full lg:w-auto rounded-full hover:cursor-pointer"
+            onClick={handlecart}
+            >
               Add to Cart
             </button>
             <button
@@ -293,7 +316,10 @@ function Product({ product }) {
             </button>
           </div>
           
-          <button className="bg-[#018d43] lg:hidden text-white px-6 py-2 w-full mb-[15px] rounded-full hover:cursor-pointer">
+          <button 
+          className="bg-[#018d43] lg:hidden text-white px-6 py-2 w-full mb-[15px] rounded-full hover:cursor-pointer"
+          onClick={handlecart}
+          >
             Add to Cart
           </button>
           
