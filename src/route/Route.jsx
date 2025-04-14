@@ -21,8 +21,10 @@ import Contactinformation from "../page/Contactinformation";
 import Success from "../page/Success";
 import Cancel from "../page/Cancel";
 import CheckoutForm from "../page/CheckoutForm";
-
-
+import Account from "../page/Account";
+import Dashboard from "../component/Account/Dashboard";
+import Orders from "../component/Account/Orders";
+import Addresses from "../component/Account/Addresses";
 export const roots = [
   {
     path: "/",
@@ -117,4 +119,29 @@ export const roots = [
     path: "/CheckoutForm",
     element: <CheckoutForm />,
   },
+  {
+    path: "/account/Dashboard",
+    element: (
+      <Account>
+        <Dashboard />
+      </Account>
+    ),
+  },
+  {
+    path: "/account/Orders",
+    element: (
+      <Account>
+        <Orders />
+      </Account>
+    ),
+  },
+  {
+    path: "/account/Addresses",
+    element: (
+      <Account>
+        <Addresses />
+      </Account>
+    ),
+  },
+  
 ];

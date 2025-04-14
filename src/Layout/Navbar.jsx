@@ -1,6 +1,8 @@
 import React, { useEffect ,useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux'
+import { useNavigate } from "react-router-dom";
+
 const navigation = [
   {
     to: "/Immunity",
@@ -46,8 +48,10 @@ function Navbar({
 }) {
 
    const carts = useSelector((state) => state.cart)
+   const user = useSelector((state) => state.User)
   const [Cartcount, setCartcount] = useState(0);
   
+  const navigate = useNavigate();
   
         useEffect(() => {
   
@@ -67,6 +71,61 @@ function Navbar({
       document.body.style.overflow = "auto";
     };
   }, [sidebarOpen, searchbarOpen, loginbarOpen, cartbarOpen]);   // Close the sidebar when the component unmounts
+
+
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const menuItems = [
+    {
+      label: "Dashboard",
+      href: "/account/Dashboard",
+      view: "dashboard",
+      icon: (
+        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="3" y="3" width="7" height="7" />
+          <rect x="14" y="3" width="7" height="7" />
+          <rect x="14" y="14" width="7" height="7" />
+          <rect x="3" y="14" width="7" height="7" />
+        </svg>
+      ),
+    },
+    {
+      label: "Order History",
+      href: "/account/Orders",
+      view: "orders",
+      icon: (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M22 6V8.42C22 10 21 11 19.42 11H16V4.01C16 2.9 16.91 2 18.02 2C19.11 2.01 20.11 2.45 20.83 3.17C21.55 3.9 22 4.9 22 6Z" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M2 7V21C2 21.83 2.94 22.3 3.6 21.8L5.31 20.52C5.71 20.22 6.27 20.26 6.63 20.62L8.29 22.29C8.68 22.68 9.32 22.68 9.71 22.29L11.39 20.61C11.74 20.26 12.3 20.22 12.69 20.52L14.4 21.8C15.06 22.29 16 21.82 16 21V4C16 2.9 16.9 2 18 2H6C3 2 2 3.79 2 6V7Z" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M6 9H12" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M6.75 13H11.25" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      ),
+    },
+    {
+      label: "Addresses",
+      href: "/account/Addresses",
+      view: "addresses",
+      icon: (
+        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+          <circle cx="12" cy="10" r="3" />
+        </svg>
+      ),
+    },
+    {
+      label: "Logout",
+      href: "/account/logout",
+      view: "logout",
+      icon: (
+        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+          <polyline points="16 17 21 12 16 7" />
+          <line x1="21" y1="12" x2="9" y2="12" />
+        </svg>
+      ),
+    },
+  ];
 
   return (
     <>
@@ -201,10 +260,20 @@ function Navbar({
             </button>
           </div>
 
-          <div className=" hidden md:flex px-[5px]">
+          <div 
+              className=" relative hidden md:flex px-[5px]"
+              onMouseEnter={() => {
+                if (user.login) setDropdownOpen(true);
+              }}
+              onMouseLeave={() => setDropdownOpen(false)}
+          >
             <button
               className="relative flex items-center justify-center hover:cursor-pointer  rounded-lg stroke-current  hover:stroke-[#018d43]"
-              onClick={() => setloginbarOpen(true)}
+              onClick={() =>{
+                if(!user.login){ 
+                  setloginbarOpen(true)}
+              }}
+                
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -227,6 +296,20 @@ function Navbar({
                 />
               </svg>
             </button>
+            {dropdownOpen && (
+              <div className="absolute right-0 top-[15px]  mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-md z-500">
+                  {menuItems.map(({ label, href, icon }) => (
+                  <button
+                    key={label}
+                    onClick={() => navigate(href)}
+                    className="flex items-center gap-3 w-full px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-md transition"
+                  >
+                    {icon}
+                    <span>{label}</span>
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
           <div className="hidden md:flex px-[5px]">
             <NavLink
