@@ -8,14 +8,14 @@ function Orders() {
     { productid: "product_003" }
   ];
   
-  const orderedProducts = []
+  // const orderedProducts = []
 
-  // const orderedProducts = order
-  //   .map(({ productid }) => Products.find((item) => item.id === productid))
-  //   .filter(Boolean); // Skip any unmatched products
+  const orderedProducts = order
+    .map(({ productid }) => Products.find((item) => item.id === productid))
+    .filter(Boolean); // Skip any unmatched products
 
   return (
-    <div className="w-full p-4">
+    <div className="w-full p-4  bg-white">
       {orderedProducts.length > 0 ? (
         <div className="space-y-4">
           {orderedProducts.map((product, index) => (

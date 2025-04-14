@@ -63,7 +63,7 @@ function Account({children}) {
                 <NavLink
                   to={item.to}
                   className={({ isActive }) =>
-                    `flex items-center gap-2 text-[14px] py-[10px] px-[20px]  transition-all duration-300 ${
+                    `flex items-center gap-2 text-[18px] p-[17px]  transition-all duration-300 ${
                       isActive ? 'bg-[#00800026] text-[#018d43]  border-l-5 ' : 'text-gray-700 hover:text-black hover:bg-[#f5f5f5]'
                     }`
                   }
