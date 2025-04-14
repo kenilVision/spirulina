@@ -87,7 +87,7 @@ return (
                         placeholder="Full Name"
                         value={initialData.fullName}
                         onChange={handleChange}
-                        className="peer w-full border text-sm border-[#dddddd] px-3 py-3 pt-5 focus:outline-none placeholder-transparent"
+                        className="peer w-full border text-sm border-[#dddddd] px-3 py-3 pt-5 focus:outline-none focus:ring-2 focus:ring-[#018d43] placeholder-transparent"
                     />
                     <span className="absolute left-3 text-sm text-[#696969] transition-all duration-200 top-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-1 peer-focus:translate-y-0 peer-focus:text-sm peer-focus:text-gray-600">
                         fullName <span className="text-red-500">*</span>

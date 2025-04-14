@@ -66,9 +66,9 @@ function Addresses() {
       fullName: fullName,
       address: address1,
       address2,
-      county: city,
       zip,
       state,
+      city,
       phone,
       country,
       default: isDefault,
@@ -187,7 +187,7 @@ function Addresses() {
                 </div>
                 <div className="grid grid-cols-2">
                   <div className="px-4 py-4 font-medium">Town/City:</div>
-                  <div className="px-4 py-4">{item.county}</div>
+                  <div className="px-4 py-4">{item.city}</div>
                 </div>
               </div>
             </div>

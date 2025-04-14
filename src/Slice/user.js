@@ -14,9 +14,10 @@ const user = createSlice({
             fullName: "Kenil Ptel",
             address:"123 Main St",
             address2:"Apt 4B",
-            county:"Los Angeles",
-            zip:"90001",
-            state:"California",
+            county:"India",
+            zip:"396450",
+            state:"Gujarat",
+            city:"Ahmedabad",
             phone:"1234567890",
             default:true
         },
@@ -25,9 +26,10 @@ const user = createSlice({
             fullName: "Kenil Pa",
             address:"123 Main St",
             address2:"Apt 4B",
-            county:"Los Angeles",
-            state:"California",
-            zip:"90001",
+            county:"India",
+            state:"Gujarat",
+            city:"Ahmedabad",
+            zip:"335600",
             phone:"1234567890",
             default:false
         }

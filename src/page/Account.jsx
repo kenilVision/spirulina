@@ -54,9 +54,9 @@ function Account({children}) {
 
   return (
     <div className="py-[30px] bg-[#f8f8f8]">
-      <div className="w-full max-w-[1440px] flex mx-auto text-center px-[15px] gap-2">
+      <div className="w-full max-w-[1440px] md:flex mx-auto text-center px-[15px] gap-2">
         {/* Sidebar Navigation */}
-        <nav className="w-1/4 ">
+        <nav className="w-full md:w-1/4 ">
           <ul className='bg-white rounded-lg overflow-hidden'>
             {accountNavLinks.map((item, index) => (
               <li key={index}>
@@ -77,7 +77,7 @@ function Account({children}) {
         </nav>
 
         {/* Route Content */}
-        <div className="w-3/4  text-left">
+        <div className="w-full md:w-3/4 mt-5 md:mt-0 text-left">
         {children}
         </div>
       </div>
