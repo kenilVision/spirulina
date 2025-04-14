@@ -33,36 +33,36 @@ const Dashboard = () => {
       </div>
 
       <div className="overflow-hidden border border-gray-300 rounded-md">
-        <table className="min-w-full">
-          <tbody>
+        <table className="min-w-full text-[18px]">
+          <tbody >
             <tr className="odd:bg-white even:bg-gray-50">
-              <td className="px-4 py-4 font-semibold border-b border-gray-300 w-1/4">Name:</td>
+              <td className="px-4 py-4 font-semibold border-b border-e border-gray-300 w-1/4">Name:</td>
               <td className="px-4 py-4 border-b border-gray-300">{firstname} {lastname}</td>
             </tr>
             <tr className="odd:bg-white even:bg-gray-50">
-              <td className="px-4 py-4 font-semibold border-b border-gray-300">E-mail:</td>
+              <td className="px-4 py-4 font-semibold border-b border-e border-gray-300">E-mail:</td>
               <td className="px-4 py-4 border-b border-gray-300">{email}</td>
             </tr>
             {defaultAddress ? (
               <>
                 <tr className="odd:bg-white even:bg-gray-50">
-                  <td className="px-4 py-4 font-semibold border-b border-gray-300">Address:</td>
+                  <td className="px-4 py-4 font-semibold border-b border-e border-gray-300">Address:</td>
                   <td className="px-4 py-4 border-b border-gray-300">{defaultAddress.address}</td>
                 </tr>
                 <tr className="odd:bg-white even:bg-gray-50">
-                  <td className="px-4 py-4 font-semibold border-b border-gray-300">Address 2:</td>
+                  <td className="px-4 py-4 font-semibold border-b border-e border-gray-300">Address 2:</td>
                   <td className="px-4 py-4 border-b border-gray-300">{defaultAddress.address2}</td>
                 </tr>
                 <tr className="odd:bg-white even:bg-gray-50">
-                  <td className="px-4 py-4 font-semibold border-b border-gray-300">Country:</td>
+                  <td className="px-4 py-4 font-semibold border-b border-e border-gray-300">Country:</td>
                   <td className="px-4 py-4 border-b border-gray-300">{defaultAddress.county}, India</td>
                 </tr>
                 <tr className="odd:bg-white even:bg-gray-50">
-                  <td className="px-4 py-4 font-semibold border-b border-gray-300">Zip:</td>
+                  <td className="px-4 py-4 font-semibold border-b border-e border-gray-300">Zip:</td>
                   <td className="px-4 py-4 border-b border-gray-300">{defaultAddress.zip}</td>
                 </tr>
                 <tr className="odd:bg-white even:bg-gray-50">
-                  <td className="px-4 py-4 font-semibold">Phone:</td>
+                  <td className="px-4 py-4  border-e border-gray-300 font-semibold">Phone:</td>
                   <td className="px-4 py-4">{defaultAddress.phone}</td>
                 </tr>
               </>

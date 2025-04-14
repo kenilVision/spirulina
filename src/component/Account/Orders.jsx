@@ -22,7 +22,7 @@ function Orders() {
             <NavLink
               to={`/product/${product.slug}`}
               key={index}
-              className="flex flex-row items-start gap-4 border border-[#b4b4b4] rounded-lg p-4 shadow-sm hover:shadow-md transition duration-300"
+              className="flex flex-row items-start gap-4 border border-gray-300 rounded-lg p-4 shadow-sm hover:shadow-md transition duration-300"
             >
               <div className="w-24 h-24 flex-shrink-0">
                 <img
@@ -32,7 +32,7 @@ function Orders() {
                 />
               </div>
               <div className="flex-1">
-                <h2 className="text-lg font-semibold text-gray-800">{product.name}</h2>
+                <h2 className="text-[18px] font-semibold text-gray-800">{product.name}</h2>
                 <p className="text-sm text-gray-500">{product.category}</p>
                 <p className="mt-2 text-green-600 font-bold">
                   ₹{product.variants?.[0]?.discounted_price}

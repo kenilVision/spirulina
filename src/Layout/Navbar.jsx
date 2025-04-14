@@ -2,6 +2,7 @@ import React, { useEffect ,useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from "react-router-dom";
+import { isAction } from "@reduxjs/toolkit";
 
 const navigation = [
   {
@@ -78,7 +79,7 @@ function Navbar({
   const menuItems = [
     {
       label: "Dashboard",
-      href: "/account/Dashboard",
+      to: "/account/dashboard",
       view: "dashboard",
       icon: (
         <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
@@ -91,20 +92,20 @@ function Navbar({
     },
     {
       label: "Order History",
-      href: "/account/Orders",
+      to: "/account/orders",
       view: "orders",
       icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M22 6V8.42C22 10 21 11 19.42 11H16V4.01C16 2.9 16.91 2 18.02 2C19.11 2.01 20.11 2.45 20.83 3.17C21.55 3.9 22 4.9 22 6Z" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M2 7V21C2 21.83 2.94 22.3 3.6 21.8L5.31 20.52C5.71 20.22 6.27 20.26 6.63 20.62L8.29 22.29C8.68 22.68 9.32 22.68 9.71 22.29L11.39 20.61C11.74 20.26 12.3 20.22 12.69 20.52L14.4 21.8C15.06 22.29 16 21.82 16 21V4C16 2.9 16.9 2 18 2H6C3 2 2 3.79 2 6V7Z" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M6 9H12" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M6.75 13H11.25" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="stroke-current">
+          <path d="M22 6V8.42C22 10 21 11 19.42 11H16V4.01C16 2.9 16.91 2 18.02 2C19.11 2.01 20.11 2.45 20.83 3.17C21.55 3.9 22 4.9 22 6Z"  strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M2 7V21C2 21.83 2.94 22.3 3.6 21.8L5.31 20.52C5.71 20.22 6.27 20.26 6.63 20.62L8.29 22.29C8.68 22.68 9.32 22.68 9.71 22.29L11.39 20.61C11.74 20.26 12.3 20.22 12.69 20.52L14.4 21.8C15.06 22.29 16 21.82 16 21V4C16 2.9 16.9 2 18 2H6C3 2 2 3.79 2 6V7Z"  strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M6 9H12" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M6.75 13H11.25"  strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       ),
     },
     {
       label: "Addresses",
-      href: "/account/Addresses",
+      to: "/account/addresses",
       view: "addresses",
       icon: (
         <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
@@ -115,7 +116,7 @@ function Navbar({
     },
     {
       label: "Logout",
-      href: "/account/logout",
+      to: "/account/logout",
       view: "logout",
       icon: (
         <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
@@ -298,15 +299,19 @@ function Navbar({
             </button>
             {dropdownOpen && (
               <div className="absolute right-0 top-[15px]  mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-md z-500">
-                  {menuItems.map(({ label, href, icon }) => (
-                  <button
+                  {menuItems.map(({ label, to, icon }) => (
+                  <NavLink
                     key={label}
-                    onClick={() => navigate(href)}
-                    className="flex items-center gap-3 w-full px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-md transition"
+                    to={to}
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 w-full px-3 py-2 hover:bg-gray-100 rounded-md transition ${
+                        isActive ? 'text-[#018d43]' : 'text-gray-700'
+                      }`
+                    }
                   >
                     {icon}
                     <span>{label}</span>
-                  </button>
+                  </NavLink>
                 ))}
               </div>
             )}

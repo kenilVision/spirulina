@@ -156,32 +156,32 @@ function Addresses() {
                 </div>
                 </div>
               </div>
-              <div className="border border-[#a3a3a3] text-[18px] rounded overflow-hidden">
-              <div className="grid grid-cols-2 border-[#a3a3a3] border-b">
+              <div className="border border-gray-300 text-[18px] rounded overflow-hidden">
+              <div className="grid grid-cols-2 border-gray-300 border-b">
                   <div className="px-4 py-4 font-medium">Full Name:</div>
                   <div className="px-4 py-4 ">{item.fullName}</div>
                 </div>
-                <div className="grid grid-cols-2 border-b border-[#a3a3a3]">
+                <div className="grid grid-cols-2 border-b border-gray-300">
                   <div className="px-4 py-4 font-medium">Address:</div>
                   <div className="px-4 py-4">{item.address}</div>
                 </div>
-                <div className="grid grid-cols-2 border-b border-[#a3a3a3]">
+                <div className="grid grid-cols-2 border-b border-gray-300">
                   <div className="px-4 py-4 font-medium">Address2:</div>
                   <div className="px-4 py-4">{item.address2}</div>
                 </div>
-                <div className="grid grid-cols-2 border-b border-[#a3a3a3]">
+                <div className="grid grid-cols-2 border-b border-gray-300">
                   <div className="px-4 py-4 font-medium">Mobile Number:</div>
                   <div className="px-4 py-4">{item.phone}</div>
                 </div>
-                <div className="grid grid-cols-2 border-b border-[#a3a3a3]">
+                <div className="grid grid-cols-2 border-b border-gray-300">
                   <div className="px-4 py-4 font-medium">Pincode:</div>
                   <div className="px-4 py-4">{item.zip}</div>
                 </div>
-                <div className="grid grid-cols-2 border-b border-[#a3a3a3]">
+                <div className="grid grid-cols-2 border-b border-gray-300">
                   <div className="px-4 py-4 font-medium">Country:</div>
                   <div className="px-4 py-4">{item.country || 'India'}</div>
                 </div>
-                <div className="grid grid-cols-2 border-b border-[#a3a3a3]">
+                <div className="grid grid-cols-2 border-b border-gray-300">
                   <div className="px-4 py-4 font-medium">State:</div>
                   <div className="px-4 py-4">{item.state}</div>
                 </div>
