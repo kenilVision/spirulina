@@ -18,7 +18,7 @@ const user = createSlice({
             zip:"396450",
             state:"Gujarat",
             city:"Ahmedabad",
-            phone:"1234567890",
+            phone:"123456789",
             default:true
         },
         {     
@@ -30,7 +30,7 @@ const user = createSlice({
             state:"Gujarat",
             city:"Ahmedabad",
             zip:"335600",
-            phone:"1234567890",
+            phone:"123456789",
             default:false
         }
     ],
