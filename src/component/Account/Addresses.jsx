@@ -1,7 +1,7 @@
 import React ,{useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateAddress, setAddress ,updateFullName ,removeAddress} from '../../Slice/user'; // adjust path if needed
-// Optional: Icons from lucide-react or use any icon library
+import { updateAddress, setAddress  , removeAddress} from '../../Slice/user'; 
+
 import AddressModal from './AddressModal';
 
 
@@ -13,7 +13,7 @@ function Addresses() {
   const [editData, setEditData] = useState(null);
 
 
- 
+ console.log(removeAddress)
 
 
 
@@ -34,6 +34,8 @@ function Addresses() {
     seteditmode(true);
     setShowModal(true);
   }
+
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setEditData({ ...editData, [name]: type === 'checkbox' ? checked : value });
@@ -56,10 +58,6 @@ function Addresses() {
       country,
       default: isDefault,
     } = editData;
-
-
-   
-
 
     const newAddress = {
       addressid: addressid || Date.now(),
@@ -84,6 +82,13 @@ function Addresses() {
     setEditData(null);
 
   };
+
+  const removeAd=(add)=>{
+    const confirmed = window.confirm('Are you sure you want to delete this address?');
+  if (confirmed) {
+    dispatch(removeAddress({ addressid: add}));
+  }
+  }
 
 
 
@@ -142,9 +147,8 @@ function Addresses() {
                 </div>
                 <div className='hover:cursor-pointer'
                   onClick={() => {
-                    alert('Are you sure you want to delete this address?');
-                    dispatch(removeAddress({ addressid: item.addressid }));
-                  }}
+                    removeAd(item.addressid)
+                  }}  
                 >
                 <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M26.25 7.4751C22.0875 7.0626 17.9 6.8501 13.725 6.8501C11.25 6.8501 8.775 6.9751 6.3 7.2251L3.75 7.4751" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>

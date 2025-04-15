@@ -108,11 +108,10 @@ return (
                 <div  className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                     <div className="relative mb-6">
                     <input
-                      type="number"
+                      type="tel"
                       name="phone"
                       required
-                      min={10}
-                      max={10}
+                       pattern="\d{10}"
                       placeholder="Phone"
                       value={initialData.phone}
                       onChange={handleChange}

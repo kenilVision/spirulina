@@ -14,7 +14,7 @@ const user = createSlice({
             fullName: "Kenil Ptel",
             address:"123 Main St",
             address2:"Apt 4B",
-            county:"India",
+            country:"India",
             zip:"396450",
             state:"Gujarat",
             city:"Ahmedabad",
@@ -26,7 +26,7 @@ const user = createSlice({
             fullName: "Kenil Pa",
             address:"123 Main St",
             address2:"Apt 4B",
-            county:"India",
+            country:"India",
             state:"Gujarat",
             city:"Ahmedabad",
             zip:"335600",
@@ -93,13 +93,13 @@ const user = createSlice({
           state.address[index] = { ...state.address[index], ...updatedAddress };
         }
       }
-  }
-    },
+  },
     removeAddress: (state, action) => {
       const { addressid } = action.payload;
       state.address = state.address.filter((address) => address.addressid !== addressid);
     }
   }
+}
 );
 
 export const {setUser, login, setAddress,updateFullName, updateAddress, removeAddress} = user.actions;
