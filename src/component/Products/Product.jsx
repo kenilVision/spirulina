@@ -21,39 +21,30 @@ function Product({ product }) {
     name,
     description,
     variants,
-    images: rawImages,
-    rating,
-    faqs,
-    benefits,
-    ingredients,
-    certifications
-  } = product;
+    ratings,
+   } = product;
 
   // Format images
-  const images = rawImages.map(img => ({
-    url: img,
-    alt: name
-  }));
-  const quant = 10
   // State management
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [thumbDirection, setThumbDirection] = useState('horizontal');
   const [activeIndex, setActiveIndex] = useState(0);
-  const [selectedVariant, setSelectedVariant] = useState(variants[0]);
   const [zoomData, setZoomData] = useState({
     show: false,
     backgroundPosition: '0% 0%',
     backgroundSize: '200%',
     src: ''
   });
+  
 
+  const [selectedVariant, setSelectedVariant] = useState(variants[0]);
   useEffect(()=>{
 
     console.log(selectedVariant)
 
   },[selectedVariant])
-  // Handle window resize
+ 
   useEffect(() => {
     const handleResize = () => {
       setThumbDirection(window.innerWidth >= 1024 ? 'vertical' : 'horizontal');
@@ -160,19 +151,18 @@ function Product({ product }) {
               className="h-full overflow-visible"
               onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
             >
-              {images.map((item, i) => (
+              {selectedVariant.images.map((item, i) => (
                 <SwiperSlide key={i} className="overflow-visible">
                   <div className="w-full h-full">
                     {activeIndex === i ? (
                       <ImageMagnifier 
-                        src={item.url} 
-                        alt={item.alt} 
+                        src={`http://localhost:5050/image/products/${item}`} 
                         zoom={2} 
                         onZoomDataChange={setZoomData} 
                       />
                     ) : (
                       <img
-                        src={item.url}
+                        src={`http://localhost:5050/image/products/${item}`}
                         alt={item.alt}
                         loading="lazy"
                         className="w-full h-full max-h-[600px] object-contain"
@@ -185,7 +175,6 @@ function Product({ product }) {
           </div>
 
           {/* Thumbnails */}
-          {product.category == "Wellness Combo" ? null :(
           <div className="w-full lg:w-[100px] h-[100px] lg:h-full overflow-hidden ">
             <Swiper
               onSwiper={setThumbsSwiper}
@@ -195,19 +184,18 @@ function Product({ product }) {
               slidesPerView={5}
               className="h-full"
             >
-              {images.map((item, i) => (
+              {selectedVariant.images.map((item, i) => (
                 <SwiperSlide key={i}>
                   <div className="w-full h-[100px]">
                     <img
-                      src={item.url}
-                      alt={item.alt}
+                      src={`http://localhost:5050/image/products/${item}`}
                       className="cursor-pointer w-full h-full object-cover rounded"
                     />
                   </div>
                 </SwiperSlide>
               ))}
             </Swiper>
-          </div>)}
+          </div>
         </div>
             
         {/* Product Info Section */}
@@ -216,15 +204,15 @@ function Product({ product }) {
           data-aos-duration="1000"
           data-aos-once="true">
           
-          <MagnifierPreview {...zoomData} />
+          <div className='hidden md:flex'><MagnifierPreview {...zoomData} /></div>
           <h2 className="text-[32px] font-bold">{name}</h2>
           
           {/* Price Display */}
           <div className="flex items-center text-[26px] gap-4 mt-2 mb-[14px]">
-            <span className="line-through text-[#696969]">₹{selectedVariant.original_price}</span>
-            <span className="text-[#018d43] font-semibold">₹{selectedVariant.discounted_price}</span>
+            <span className="line-through text-[#696969]">₹{selectedVariant.price}</span>
+            <span className="text-[#018d43] font-semibold">₹{selectedVariant.originalPrice}</span>
             <span className='text-white bg-[#018d43] text-[12px] rounded-lg leading-4 px-[8px] py-[4px] mx-[5px]'>
-              SAVE {Math.round(selectedVariant.discount_percentage)}%
+              SAVE {Math.round(selectedVariant.discount)}%
             </span>
           </div>
           
@@ -238,20 +226,36 @@ function Product({ product }) {
           
           {/* Rating */}
           <p className="mt-1 flex gap text-[#696969] text-[18px] gap-x-2 items-center">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <svg
-                key={i}
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 576 512"
-                className="w-4 mb-1 h-4"
-                fill="#FDCC0D" 
-                stroke="#FDCC0D"
-                strokeWidth="40"
-              >
-                <path d="M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.7 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0z" />
-              </svg>
-            ))} 
-            {rating} Reviews
+            {Array.from({ length: 5 }).map((_, i) => {
+              let fill = "none"; // empty star color by default
+
+              if (i < Math.floor(ratings)) {
+                fill = "#FDCC0D"; // full star
+              } else if (i < ratings) {
+                fill = "url(#half-gradient)"; // half star
+              }
+          
+              return (
+                <svg
+                  key={i}
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 576 512"
+                  className="w-4 h-4 mb-1"
+                  fill={fill}
+                  stroke="#FDCC0D"
+                  strokeWidth="40"
+                >
+                  <defs>
+                    <linearGradient id="half-gradient">
+                      <stop offset="50%" stopColor="#FDCC0D" />
+                      <stop offset="50%" stopColor="#E0E0E0" />
+                    </linearGradient>
+                  </defs>
+                  <path d="M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.7 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0z" />
+                </svg>
+              );
+            })} 
+            {ratings} Reviews
           </p>
 
           {/* Variant Selection */}
@@ -265,11 +269,7 @@ function Product({ product }) {
                     onClick={() => setSelectedVariant(variant)}
                     className={`px-4 py-2 border rounded-full ${ selectedVariant == variant ? 'border-[#018d43] bg-[#018d43]/10 text-[#018d43]': 'border-gray-300 hover:border-[#018d43]'}`}
                   >
-                    {variant.type === 'quantity' 
-                      ? `${variant.quantity} Tablets` 
-                      : variant.type === 'weight' 
-                        ? variant.weight 
-                        : variant.type}
+                    {variant.label}
                   </button>
                 ))}
               </div>
@@ -287,8 +287,8 @@ function Product({ product }) {
               </button>
               <span className="px-3">{quantity}</span>
               <button 
-                className='hover:cursor-pointer pe-[15px]' 
-                onClick={() => setQuantity(q => (q < quant ? q + 1 : q))}
+                className='hover:cursor-pointer pe-[15px] ' 
+                onClick={() => setQuantity(q => (q < variants.stock ? q + 1 : q))}
               >
                 +
               </button>
@@ -357,7 +357,7 @@ function Product({ product }) {
           </div>
 
           {/* Certifications */}
-          {certifications && certifications.length > 0 && (
+          {/* {certifications && certifications.length > 0 && (
             <div className="mt-6">
               <h3 className="text-[23px] font-medium mb-2">Globally Certified</h3>
               <div className="flex gap-4 w-full lg:w-1/2">
@@ -367,7 +367,7 @@ function Product({ product }) {
                 />
               </div>
             </div>
-          )}
+          )} */}
         </div>
       </div>
     </div>

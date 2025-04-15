@@ -1,62 +1,52 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import axiosInstance from "../axios/axios"; // Adjust the import path as necessary
+
+
+
+export const signupUser = createAsyncThunk("user/signup", async (formData, { rejectWithValue }) => {
+  try {
+    console.log(formData)
+    const res = await axiosInstance.post("/auth/register", formData);
+    console.log(res.data.data);
+    return res.data.data;
+  } catch (err) {
+    throw rejectWithValue(err.response?.data || err);
+  }
+});
+
+export const loginUser = createAsyncThunk("user/login", async (formData, { rejectWithValue }) => {
+  try {
+    console.log(formData);
+    const res = await axiosInstance.post("/auth/login", formData);
+    localStorage.setItem("token", res.data.data.token); 
+    const userData = res.data.data;
+    return userData;
+  } catch (err) {
+    throw rejectWithValue(err.response?.data || err);
+  }
+});
+
+
 
 
 const user = createSlice({
   name: "user",
   initialState: {
-    firstname:"Kenil",
-    lastname:"Patel",
-    email:"Kenilp1911@gmail.com",
-    password:"9879758184",
-    address:[
-        { 
-            addressid:17777376871,
-            fullName: "Kenil Ptel",
-            address:"123 Main St",
-            address2:"Apt 4B",
-            country:"India",
-            zip:"396450",
-            state:"Gujarat",
-            city:"Ahmedabad",
-            phone:"123456789",
-            default:true
-        },
-        {     
-            addressid:168781871,
-            fullName: "Kenil Pa",
-            address:"123 Main St",
-            address2:"Apt 4B",
-            country:"India",
-            state:"Gujarat",
-            city:"Ahmedabad",
-            zip:"335600",
-            phone:"123456789",
-            default:false
-        }
-    ],
-    login:true
+    _id: null,
+    firstname: "",
+    lastname: "",
+    fullname: "",
+    email: "",
+    phone: "",
+    token: "",
+    isActive: false,
+    address: [],
+    login: false,
+    loading: false,
+    error: null
   },
   reducers: { 
-    setUser: (state, action) => {
-      const { firstname, lastname, email, password } = action.payload;
-      state.firstname = firstname;
-      state.lastname = lastname;
-      state.email = email;
-      state.password = password;
-      state.login = true;
-    },
-    login: (state, action) => {
-      const { email, password } = action.payload;
-      state.email = email;
-      state.password = password;
-      state.login = true;
-      return true;
-    },
-    updateFullName: (state, action) => {
-      const { first, last } = action.payload;
-      if (first) state.firstname = first;
-      if (last) state.lastname = last;
-    },
     setAddress: (state, action) => {
       let { address } = action.payload;
 
@@ -97,12 +87,63 @@ const user = createSlice({
     removeAddress: (state, action) => {
       const { addressid } = action.payload;
       state.address = state.address.filter((address) => address.addressid !== addressid);
-    }
+    },
+    logout: (state) => {
+      localStorage.removeItem('token');
+      return {
+        ...state,
+        _id: null,
+        firstname: "",
+        lastname: "",
+        fullname: "",
+        email: "",
+        phone: "",
+        token: "",
+        isActive: false,
+        login: false,
+        address: [],
+      };
+  },
+},
+  extraReducers: (builder) => {
+    builder
+      .addCase(signupUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(signupUser.fulfilled, (state, action) => { 
+        state.loading = false;
+      })
+      .addCase(signupUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(loginUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        const user = action.payload;
+        state._id = user._id;
+        state.firstname = user.firstname;
+        state.lastname = user.lastname;
+        state.fullname = user.fullname;
+        state.email = user.email;
+        state.phone = user.phone;
+        state.token = user.token; 
+        state.isActive = user.isActive;
+        state.address = user.address || [];
+        state.login = true;
+        state.loading = false;
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
   }
-}
-);
+});
 
-export const {setUser, login, setAddress,updateFullName, updateAddress, removeAddress} = user.actions;
+export const {setAddress ,logout , updateAddress, removeAddress} = user.actions;
 export default user.reducer;
 
 

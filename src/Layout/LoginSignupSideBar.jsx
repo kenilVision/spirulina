@@ -1,6 +1,70 @@
 import React, { useState } from "react";
+import { useDispatch , useSelector } from "react-redux";
+import { loginUser , signupUser  } from "../Slice/user";
+
 
 function LoginSignupSideBar({ loginbarOpen, setloginbarOpen }) {
+
+  const dispatch = useDispatch();
+  const [register, setRegister] = useState({
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: ""
+});
+  const [login, setLogin] = useState({
+    email: "",
+    password: ""
+});
+
+  const handleChangelogin = (e) => {
+    const { name, value } = e.target;
+    setLogin((prev) => ({ ...prev, [name]: value }));
+    console.log(login);
+  };
+  const handleChangeregister = (e) => {
+    const { name, value } = e.target;
+    setRegister((prev) => ({ ...prev, [name]: value }));
+    console.log(register);
+  };
+
+  const handlelogin = async (e) => {
+    e.preventDefault();
+  
+    try {
+      console.log(login);
+      const resultAction = await dispatch(loginUser(login));
+  
+      if (loginUser.fulfilled.match(resultAction)) {
+        setloginbarOpen(false)   
+      } else {
+        console.error("Login failed:", resultAction.payload);
+      }
+  
+    } catch (err) {
+      console.error("Error during login:", err);
+    }
+  };
+const handleSignUp = async (e) => {
+  e.preventDefault();
+
+  try {
+    console.log(register);
+    const resultAction = await dispatch(signupUser(register));
+
+    if (signupUser.fulfilled.match(resultAction)) {
+      console.log("Signup success:", resultAction.payload);
+      setIsSignup(false); // move inside success condition
+    } else {
+      console.error("Signup failed:", resultAction.payload);
+    }
+
+  } catch (err) {
+    console.error("Error during signup:", err);
+  }
+
+}
+
   const [isSignup, setIsSignup] = useState(false);
 
   return (
@@ -52,10 +116,12 @@ function LoginSignupSideBar({ loginbarOpen, setloginbarOpen }) {
                   <div className="relative mb-6">
                     <input
                       type="text"
-                      name="firstName"
+                      name="firstname"
                       required
                       autoComplete="off"
                       placeholder="First Name"
+                      onChange={handleChangeregister}
+                      value={register.firstname}
                       className="peer w-full border border-[#dddddd] px-3 pt-6 pb-2 focus:outline-none focus:ring-2 focus:ring-[#018d43] placeholder-transparent"
                     />
                     <span className="absolute left-3 text-sm text-[#696969] transition-all duration-200 top-2 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:translate-y-0 peer-focus:text-sm peer-focus:text-gray-600">
@@ -66,9 +132,11 @@ function LoginSignupSideBar({ loginbarOpen, setloginbarOpen }) {
                   <div className="relative mb-6">
                     <input
                       type="text"
-                      name="lastName"
+                      name="lastname"
                       required
                       autoComplete="off"
+                      onChange={handleChangeregister}
+                      value={register.lastname}
                       placeholder="Last Name"
                       className="peer w-full border border-[#dddddd] px-3 pt-6 pb-2 focus:outline-none focus:ring-2 focus:ring-[#018d43] placeholder-transparent"
                     />
@@ -82,10 +150,12 @@ function LoginSignupSideBar({ loginbarOpen, setloginbarOpen }) {
               <div className="relative mb-6">
                 <input
                   type="email"
-                  name="customer[email]"
+                  name="email"
                   id="CustomerEmail"
                   required
                   autoComplete="off"
+                  onChange={isSignup ? handleChangeregister : handleChangelogin}
+                  value={isSignup ? register.email : login.email}
                   placeholder="Email"
                   className="peer w-full border border-[#dddddd] px-3 pt-6 pb-2 focus:outline-none focus:ring-2 focus:ring-[#018d43] placeholder-transparent"
                 />
@@ -101,6 +171,8 @@ function LoginSignupSideBar({ loginbarOpen, setloginbarOpen }) {
                   id="CustomerPassword"
                   required
                   autoComplete="off"
+                  onChange={isSignup ? handleChangeregister : handleChangelogin}
+                  value={isSignup ? register.password : login.password}
                   placeholder="Password"
                   className="peer w-full border border-[#dddddd] px-3 pt-6 pb-2 focus:outline-none focus:ring-2 focus:ring-[#018d43] placeholder-transparent"
                 />
@@ -118,8 +190,10 @@ function LoginSignupSideBar({ loginbarOpen, setloginbarOpen }) {
               <button
                 type="submit"
                 className="w-full bg-[#018d43] hover:cursor-pointer text-[14px] font-semibold text-white py-2 px-4 h-[40px] mb-5 hover:bg-[#16569d]"
+                onClick={isSignup ? handleSignUp : handlelogin}
               >
                 {isSignup ? "Create Account" : "Sign In"}
+                
               </button>
 
               <a

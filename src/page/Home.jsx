@@ -3,7 +3,7 @@ import Carousel from '../component/home/Carousel'
 import ShopByCategories from '../component/home/ShopByCategories'
 import SummerWellnessCombos from '../component/home/SummerWellnessCombos'
 import Balance from '../component/home/Balance'
-import WhyChoosеSpiruSwastha from '../component/home/WhyChoosеSpiruSwastha'
+import WhyChooseSpiruSwastha from '../component/home/WhyChooseSpiruSwastha'
 import Bestsellers from '../component/home/Bestsellers'
 import SpiruswasthaTrends from '../component/home/SpiruswasthaTrends'
 
@@ -38,7 +38,7 @@ function Home() {
       <SpiruswasthaTrends />
       <Balance />
       <Bestsellers />
-      <WhyChoosеSpiruSwastha /> 
+      <WhyChooseSpiruSwastha /> 
     </>
   )
 }

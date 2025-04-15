@@ -1,42 +1,58 @@
-import React from 'react'
+import React , {useEffect , useState} from 'react'
 import { NavLink } from 'react-router-dom';
+import { GetCategories } from "../Api/Category";
 
 function MenuSideBar({sidebarOpen, setSidebarOpen}) {
 
-    const navigation = [
-        {
-          to: '/Immunity',
-          text: "Immunity",
-          image: "https://spiruswastha.com/cdn/shop/files/immune_medium.svg?v=1736144279"
-      
-        },
-        {
-          to: '/SkinCare',
-          text: "Skin Care",
-          image: "//spiruswastha.com/cdn/shop/files/skin_care_medium.svg?v=1736144421"
-        },
-        {
-          to: '/HairCare',
-          text: "Hair Care",
-          image: "//spiruswastha.com/cdn/shop/files/hair_care_medium.svg?v=1736144487"
-        },
-        {
-          to: '/HeartCare',
-          text: "Heart Care",
-          image: "//spiruswastha.com/cdn/shop/files/heart_care_medium.svg?v=1736144448"
-        },
-        {
-          to: '/Wellness',
-          text: "Wellness",
-          image: "//spiruswastha.com/cdn/shop/files/wellness_medium.svg?v=1736144535"
-        },
-        {
-          to: '/Cleansing',
-          text: "Cleansing",
-          image: "//spiruswastha.com/cdn/shop/files/cleansing_0ea84d00-8cca-4836-ad59-4bd4b897caae_medium.svg?v=1736144560"
+
+  const [navigation, setNavigation] = useState([]);
+  
+    useEffect(() => {
+      const fetchCategories = async () => {
+        const data = await GetCategories();
+        if (data) {
+          setNavigation(data.data);
         }
+        console.log(data);
+      };
+  
+      fetchCategories();
+    }, []);
+
+    // const navigation = [
+    //     {
+    //       to: '/Immunity',
+    //       text: "Immunity",
+    //       image: "https://spiruswastha.com/cdn/shop/files/immune_medium.svg?v=1736144279"
       
-      ]
+    //     },
+    //     {
+    //       to: '/SkinCare',
+    //       text: "Skin Care",
+    //       image: "//spiruswastha.com/cdn/shop/files/skin_care_medium.svg?v=1736144421"
+    //     },
+    //     {
+    //       to: '/HairCare',
+    //       text: "Hair Care",
+    //       image: "//spiruswastha.com/cdn/shop/files/hair_care_medium.svg?v=1736144487"
+    //     },
+    //     {
+    //       to: '/HeartCare',
+    //       text: "Heart Care",
+    //       image: "//spiruswastha.com/cdn/shop/files/heart_care_medium.svg?v=1736144448"
+    //     },
+    //     {
+    //       to: '/Wellness',
+    //       text: "Wellness",
+    //       image: "//spiruswastha.com/cdn/shop/files/wellness_medium.svg?v=1736144535"
+    //     },
+    //     {
+    //       to: '/Cleansing',
+    //       text: "Cleansing",
+    //       image: "//spiruswastha.com/cdn/shop/files/cleansing_0ea84d00-8cca-4836-ad59-4bd4b897caae_medium.svg?v=1736144560"
+    //     }
+      
+    //   ]
 
 
   return (
@@ -51,15 +67,15 @@ function MenuSideBar({sidebarOpen, setSidebarOpen}) {
         <nav className="">
           <ul>
           
-            {navigation.map((x) => (
-              <li key={x.to} className='h-[50px] flex items-center border-b border-[#dddddd]'>
+            {navigation.map((x , i) => (
+              <li key={i} className='h-[50px] flex items-center border-b border-[#dddddd]'>
                 <NavLink
-                  to={x.to}
-                  className="flex items-center py-3 px-6 text-[14px] hover:bg-gray-100"
+                  to={`/collection/${x.name.toLowerCase().replace(/\s+/g, '-')}`}
+                  className="flex items-center py-3 px-6 text-xl hover:bg-gray-100"
                   onClick={() => setSidebarOpen(false)}
                 >
-                  <img src={x.image} alt={x.text} className="h-6 w-6 mr-3" />
-                  {x.text}
+                  <img src={`http://localhost:5050/image/categories/icons/${x.icon}`} alt={x.name} className="h-6 w-6 mr-3" />
+                  {x.name}
                 </NavLink>
               </li>
             ))}

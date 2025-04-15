@@ -3,39 +3,7 @@ import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from "react-router-dom";
 import { isAction } from "@reduxjs/toolkit";
-
-const navigation = [
-  {
-    to: "/Immunity",
-    text: "Immunity",
-    image:"https://spiruswastha.com/cdn/shop/files/immune_medium.svg?v=1736144279",
-  },
-  {
-    to: "/SkinCare",
-    text: "Skin Care",
-    image:"//spiruswastha.com/cdn/shop/files/skin_care_medium.svg?v=1736144421",
-  },
-  {
-    to: "/HairCare",
-    text: "Hair Care",
-    image:"//spiruswastha.com/cdn/shop/files/hair_care_medium.svg?v=1736144487",
-  },
-  {
-    to: "/HeartCare",
-    text: "Heart Care",
-    image:"//spiruswastha.com/cdn/shop/files/heart_care_medium.svg?v=1736144448",
-  },
-  {
-    to: "/Wellness",
-    text: "Wellness",
-    image:"//spiruswastha.com/cdn/shop/files/wellness_medium.svg?v=1736144535",
-  },
-  {
-    to: "/Cleansing",
-    text: "Cleansing",
-    image:"//spiruswastha.com/cdn/shop/files/cleansing_0ea84d00-8cca-4836-ad59-4bd4b897caae_medium.svg?v=1736144560",
-  },
-];
+import { GetCategories } from "../Api/Category";
 
 function Navbar({
   loginbarOpen,
@@ -47,6 +15,22 @@ function Navbar({
   sidebarOpen,
   setSidebarOpen,
 }) {
+
+  const [navigation, setNavigation] = useState([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const data = await GetCategories();
+      if (data) {
+        setNavigation(data.data);
+      }
+      console.log(data);
+    };
+
+    fetchCategories();
+  }, []);
+
+
 
    const carts = useSelector((state) => state.cart)
    const user = useSelector((state) => state.User)
@@ -167,22 +151,23 @@ function Navbar({
           <nav>
             <ul className="flex">
               {navigation.map((x) => (
-                <li key={x.to}>
+                <li key={x.id}>
                   <NavLink
-                    to={x.to}
+                     to={`/collection/${x.name.toLowerCase().replace(/\s+/g, '-')}`}
                     className={({ isActive }) =>
                       `flex items-center font-medium py-[5px] text-[16px] px-[1.375rem] whitespace-nowrap hover:text-[#018d43] ${
                         isActive ? "text-[#018d43]" : "text-[#222222]"
                       }`
                     }
                   >
-                    <img
-                      src={x.image}
+                  <img
+                      src={`http://localhost:5050/image/categories/icons/${x.icon}`}
                       height="24"
                       width="24"
                       className="me-[7px]"
+                      alt={`${x.name} icon`}
                     />
-                    {x.text}
+                    {x.name}
                   </NavLink>
                 </li>
               ))}

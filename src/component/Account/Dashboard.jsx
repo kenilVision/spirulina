@@ -3,7 +3,10 @@ import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 const Dashboard = () => {
   const { firstname, lastname, email, address } = useSelector((state) => state.User);
-  const defaultAddress = address.find((addr) => addr.default === true);
+
+  const addressList = Array.isArray(address) ? address : [];
+  const defaultAddress = addressList.find((addr) => addr.default === true);
+ 
 
   return (
     <div className="bg-white rounded-md p-6 shadow-md  ">
@@ -55,7 +58,7 @@ const Dashboard = () => {
                 </tr>
                 <tr className="odd:bg-white even:bg-gray-50">
                   <td className="px-4 py-4 font-semibold border-b border-e border-gray-300">Country:</td>
-                  <td className="px-4 py-4 border-b border-gray-300">{defaultAddress.county}, India</td>
+                  <td className="px-4 py-4 border-b border-gray-300">{defaultAddress.country}</td>
                 </tr>
                 <tr className="odd:bg-white even:bg-gray-50">
                   <td className="px-4 py-4 font-semibold border-b border-e border-gray-300">Zip:</td>

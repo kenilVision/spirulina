@@ -3,17 +3,11 @@ import { NavLink } from 'react-router-dom';
 import { Products } from '../../Constant/Product';
 
 function Orders() {
-  const order = [
-    { productid: "product_001" },
-    { productid: "product_003" }
-  ];
+
   
-  // const orderedProducts = []
+  const orderedProducts = []
 
-  const orderedProducts = order
-    .map(({ productid }) => Products.find((item) => item.id === productid))
-    .filter(Boolean); // Skip any unmatched products
-
+ 
   return (
     <div className="w-full p-4  bg-white">
       {orderedProducts.length > 0 ? (

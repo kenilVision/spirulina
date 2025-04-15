@@ -1,10 +1,10 @@
 import React from "react";
-import "./WhyChoosеSpiruSwastha.css";
+import "./WhyChooseSpiruSwastha.css";
 import "aos/dist/aos.css";
 import HomeSectionHeading from "../common/HomeSectionHeading";
 
 
-const  WhyChoosеSpiruSwastha = () => {
+const  WhyChooseSpiruSwastha = () => {
   const data = [
     {
       heading: "Pure Potent Superfoods",
@@ -31,7 +31,7 @@ const  WhyChoosеSpiruSwastha = () => {
   return (
     <div className="mb-[6.25rem] mt-[3.125rem]">
       <div className="w-full max-w-[1440px]  mx-auto text-center px-[15px]">
-        <HomeSectionHeading title="Why Choosе SpiruSwastha" />
+        <HomeSectionHeading title="Why Choose SpiruSwastha" />
         <div
           className="flex flex-wrap justify-center items-center"
           data-aos="fade-up"
@@ -65,4 +65,4 @@ const  WhyChoosеSpiruSwastha = () => {
   );
 }
 
-export default WhyChoosеSpiruSwastha;
+export default WhyChooseSpiruSwastha;
