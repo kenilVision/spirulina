@@ -35,7 +35,7 @@ return (
               name="country"
               value={initialData.country}
               onChange={handleChange}
-              className="w-full border rounded px-3 py-2"
+              className="w-full border border-gray-300 rounded px-3 py-2"
             >
               <option value="India">India</option>
             </select>
@@ -217,7 +217,7 @@ return (
               name="state"
               value={initialData.state}
               onChange={handleChange}
-              className="w-full border rounded px-3 py-2"
+              className="w-full border border-gray-300 rounded px-3 py-2"
             >
               <option value="">Select State</option>
               {states.map((state) => (
@@ -248,7 +248,7 @@ return (
               name="city"
               value={initialData.city}
               onChange={handleChange}
-              className="w-full border rounded px-3 py-2"
+              className="w-full border border-gray-300 rounded px-3 py-2"
             >
               <option value="">Select city</option>
               {city.map((city) => (
