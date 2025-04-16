@@ -1,10 +1,10 @@
 import axiosInstance from "../axios/axios";
 
 
-export const GetproductbyCategories = async (categoryId) =>{    
+export const GetproductbyCategories = async (query) =>{    
 
     try{
-        const res = await axiosInstance.get(`/product/get?categoryId=${categoryId}`);
+        const res = await axiosInstance.get(`/product/get?${query}`);
         return res.data;
     }
     catch (error) {

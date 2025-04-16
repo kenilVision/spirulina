@@ -1,7 +1,7 @@
 import React from 'react'
 import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
-function FilterSideBar({isOpenfilter , setIsOpenfilter , value ,  setValue}) {
+function FilterSideBar({isOpenfilter , setIsOpenfilter , value ,  setValue , minmaxcontrol}) {
   return (
    <>
          <div
@@ -82,7 +82,13 @@ function FilterSideBar({isOpenfilter , setIsOpenfilter , value ,  setValue}) {
                   ₹{value[0]} - ₹{value[1]}
                 </span>
               </div>
-              <button className="py-[10px] px-[14px] mb-[10px] bg-[#018d43] text-white text-[12px] min-w-[100px]   leading-4 tracking-[.3px] font-semibold">
+              <button 
+              className="py-[10px] px-[14px] hover:cursor-pointer mb-[10px] bg-[#018d43] text-white text-[12px] min-w-[100px]   leading-4 tracking-[.3px] font-semibold"
+              onClick={() => {
+                setIsOpenfilter(false);
+                minmaxcontrol();
+              }}
+              >
                 Filter
               </button>
             </div>

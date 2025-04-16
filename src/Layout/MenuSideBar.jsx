@@ -11,9 +11,8 @@ function MenuSideBar({sidebarOpen, setSidebarOpen}) {
       const fetchCategories = async () => {
         const data = await GetCategories();
         if (data) {
-          setNavigation(data.data);
+          setNavigation(data);
         }
-        console.log(data);
       };
   
       fetchCategories();

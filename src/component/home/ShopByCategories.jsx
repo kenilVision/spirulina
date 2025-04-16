@@ -12,7 +12,7 @@ const  ShopByCategories = () => {
       const fetchCategories = async () => {
         const data = await GetCategories();
         if (data) {
-          setCategories(data.data);
+          setCategories(data);
         }
       };
   

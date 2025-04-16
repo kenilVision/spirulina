@@ -1,36 +1,62 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import axiosInstance from "../axios/axios"; // Adjust the import path as necessary
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axiosInstance from "../axios/axios";
+import Cookies from "js-cookie";
 
 
 
-export const signupUser = createAsyncThunk("user/signup", async (formData, { rejectWithValue }) => {
-  try {
-    console.log(formData)
-    const res = await axiosInstance.post("/auth/register", formData);
-    console.log(res.data.data);
-    return res.data.data;
-  } catch (err) {
-    throw rejectWithValue(err.response?.data || err);
+export const signupUser = createAsyncThunk(
+  "user/signup",
+  async (formData, { rejectWithValue }) => {
+    try {
+      const res = await axiosInstance.post("/auth/register", formData,{
+        headers: {
+          "Content-Type": "application/json"
+        }}
+      );
+      return res.data.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data || err);
+    }
   }
-});
+);
 
-export const loginUser = createAsyncThunk("user/login", async (formData, { rejectWithValue }) => {
-  try {
-    console.log(formData);
-    const res = await axiosInstance.post("/auth/login", formData);
-    localStorage.setItem("token", res.data.data.token); 
-    const userData = res.data.data;
-    return userData;
-  } catch (err) {
-    throw rejectWithValue(err.response?.data || err);
+export const loginUser = createAsyncThunk(
+  "user/login",
+  async (formData, { rejectWithValue }) => {
+    try {
+      const res = await axiosInstance.post("/auth/login", formData,
+        {
+          headers: {
+            "Content-Type": "application/json"
+        }}
+      );
+      const userData = res.data;
+
+      // Store token in cookie
+      Cookies.set("Token", userData.token, { expires: 1 }); 
+
+      return userData;
+    } catch (err) {
+      return rejectWithValue(err.response?.data || err);
+    }
   }
-});
+);
 
+export const fetchUserProfile = createAsyncThunk(
+  "user/fetchProfile",
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await axiosInstance.get("/auth/profile");
+      return res.data.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data || err);
+    }
+  }
+);
 
+// --- Slice ---
 
-
-const user = createSlice({
+const userSlice = createSlice({
   name: "user",
   initialState: {
     _id: null,
@@ -44,54 +70,45 @@ const user = createSlice({
     address: [],
     login: false,
     loading: false,
-    error: null
+    error: null,
   },
-  reducers: { 
+  reducers: {
     setAddress: (state, action) => {
       let { address } = action.payload;
-
-      // If no addresses exist, set as default
       if (state.address.length === 0) {
         address.default = true;
       }
-    
-      // If this address is marked default, unset others
       if (address.default) {
-        state.address = state.address.map((addr) => ({
+        state.address = state.address.map(addr => ({
           ...addr,
           default: false,
         }));
       }
-    
       state.address.push(address);
     },
     updateAddress: (state, action) => {
       const { addressid, updatedAddress } = action.payload;
-      const index = state.address.findIndex((address) => address.addressid === addressid);
-    
+      const index = state.address.findIndex(addr => addr.addressid === addressid);
       if (index !== -1) {
         if (updatedAddress.default === true) {
-          // Set this one to default and remove default from others
-          state.address = state.address.map((addr, i) => {
+          state.address = state.address.map((addr) => {
             if (addr.addressid === addressid) {
               return { ...addr, ...updatedAddress };
             }
             return { ...addr, default: false };
           });
         } else {
-          // Just update the specific address
           state.address[index] = { ...state.address[index], ...updatedAddress };
         }
       }
-  },
+    },
     removeAddress: (state, action) => {
       const { addressid } = action.payload;
-      state.address = state.address.filter((address) => address.addressid !== addressid);
+      state.address = state.address.filter(addr => addr.addressid !== addressid);
     },
     logout: (state) => {
-      localStorage.removeItem('token');
+      Cookies.remove("userToken"); // Remove token from cookie
       return {
-        ...state,
         _id: null,
         firstname: "",
         lastname: "",
@@ -100,18 +117,20 @@ const user = createSlice({
         phone: "",
         token: "",
         isActive: false,
-        login: false,
         address: [],
+        login: false,
+        loading: false,
+        error: null,
       };
+    },
   },
-},
   extraReducers: (builder) => {
     builder
       .addCase(signupUser.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(signupUser.fulfilled, (state, action) => { 
+      .addCase(signupUser.fulfilled, (state) => {
         state.loading = false;
       })
       .addCase(signupUser.rejected, (state, action) => {
@@ -130,7 +149,7 @@ const user = createSlice({
         state.fullname = user.fullname;
         state.email = user.email;
         state.phone = user.phone;
-        state.token = user.token; 
+        state.token = user.token;
         state.isActive = user.isActive;
         state.address = user.address || [];
         state.login = true;
@@ -139,11 +158,30 @@ const user = createSlice({
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(fetchUserProfile.fulfilled, (state, action) => {
+        const user = action.payload;
+        state._id = user._id;
+        state.firstname = user.firstname;
+        state.lastname = user.lastname;
+        state.fullname = user.fullname;
+        state.email = user.email;
+        state.phone = user.phone;
+        state.token = user.token;
+        state.isActive = user.isActive;
+        state.address = user.address || [];
+        state.login = true;
       });
-  }
+  },
 });
 
-export const {setAddress ,logout , updateAddress, removeAddress} = user.actions;
-export default user.reducer;
+// --- Exports ---
 
+export const {
+  setAddress,
+  updateAddress,
+  removeAddress,
+  logout,
+} = userSlice.actions;
 
+export default userSlice.reducer;

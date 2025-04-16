@@ -1,13 +1,28 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ProductCard from "../common/ProductCard";
 import "aos/dist/aos.css";
 import AOS from "aos";
 import HomeSectionHeading from "../common/HomeSectionHeading";
-import {Products} from "../../Constant/Product";
+import { Getallcombo } from "../../Api/combo";
 
 const  SummerWellnessCombos = () => {
- 
-const data  =  Products.filter((product) => product.category == "Wellness Combo")
+  const [data, setdata] = useState([])
+
+  useEffect(() => {
+
+    const fetchCombo = async () => {
+      try {
+        const comboData = await Getallcombo();
+        setdata(comboData);
+        console.log(comboData)
+      } catch (error) {
+        console.error("Failed to fetch combo data:", error);
+        setdata([]); // fallback to empty array on error
+      }
+    };
+    fetchCombo();
+  }, []);
+
   useEffect(() => {
     AOS.init({
       once: false,
@@ -38,7 +53,7 @@ const data  =  Products.filter((product) => product.category == "Wellness Combo"
           data-aos-once="true"
         >
 
-            <ProductCard data= {data} />
+            <ProductCard data= {data} type="combo" />
 
         </div>
       </div>

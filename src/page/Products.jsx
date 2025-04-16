@@ -14,21 +14,20 @@ import { CustomerReview } from '../Constant/CustomerReview'
 import StickyAddToCart from '../component/Products/StickyAddToCart'
 import {fetchSingleProduct} from '../Slice/product.js'
 import { useDispatch , useSelector } from 'react-redux'
+
+
 function Prooducts() {
   const { slug, id } = useParams();
-  const [loading, setLoading] = useState(true);
   const product = useSelector((state) => state.product.product)
+  const loading= useSelector((state) => state.product.loading)
   const dispatch = useDispatch()
   useEffect(() => {
     const fetchProduct = async () => {
       try {
         dispatch(fetchSingleProduct(id))
-        console.log(data)
       } catch (error) {
         console.error("Failed to fetch product:", error);
-      } finally {
-        setLoading(false);
-      }
+      } 
     };
 
     fetchProduct();

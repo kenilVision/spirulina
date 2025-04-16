@@ -4,7 +4,7 @@ function SortBottomslider({isOpen2, setIsOpen2 ,selected , setSelected ,sortOpti
   return (
     <>
               <div
-        className={`fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity ${
+        className={`fixed inset-0 bg-black bg-opacity-50 z-400 transition-opacity ${
           isOpen2 ? "opacity-50" : "opacity-0 pointer-events-none"
         }`}
         onClick={() => setIsOpen2(false)}

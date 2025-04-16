@@ -3,23 +3,23 @@ import SortBottomslider from "./SortBottomslider";
 import FilterSideBar from "./FilterSideBar";
 import "./Query.css";
 
-function Query() {
-  const sortOptions = [
-    { label: "Featured", value: "manual" },
-    { label: "Best selling", value: "best-selling" },
-    { label: "Alphabetically, A-Z", value: "title-ascending" },
-    { label: "Alphabetically, Z-A", value: "title-descending" },
-    { label: "Price, low to high", value: "price-ascending" },
-    { label: "Price, high to low", value: "price-descending" },
-    { label: "Date, old to new", value: "created-ascending" },
-    { label: "Date, new to old", value: "created-descending" },
-  ];      // Sort options for the dropdown
+function Query({
+  sortOptions,
+  selected,
+  setSelected,
+  isOpenfilter,
+  setIsOpenfilter,
+  isOpen,
+  setIsOpen,
+  isOpen2,
+  setIsOpen2,
+  value,
+  setValue,
+  minmaxcontrol
+}) {
 
-  const [selected, setSelected] = useState(sortOptions[0]);  // Default selected option
-  const [isOpenfilter, setIsOpenfilter] = useState(false);   // State to control filter sidebar visibility
-  const [isOpen, setIsOpen] = useState(false);        // State to control dropdown visibility
-  const [isOpen2, setIsOpen2] = useState(false);      // State to control sort slider visibility
-  const [value, setValue] = useState([0.0, 3599.0]);    // State to control range slider values
+
+ 
 
   useEffect(() => {
     if (isOpen2 || isOpenfilter || isOpen) {
@@ -40,7 +40,11 @@ function Query() {
         <div>
           <button
             className="flex items-center gap-2 text-[14px] hover:cursor:pointer text-[#696969] "
-            onClick={() => setIsOpenfilter(!isOpenfilter)}
+            onClick={() => {
+              setIsOpenfilter(!isOpenfilter)
+              
+            }
+            }
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -136,6 +140,7 @@ function Query() {
         setIsOpenfilter={setIsOpenfilter}
         value={value}
         setValue={setValue}
+        minmaxcontrol={minmaxcontrol}
       />
       <SortBottomslider
         isOpen2={isOpen2}

@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from "react-router-dom";
 import { isAction } from "@reduxjs/toolkit";
 import { GetCategories } from "../Api/Category";
+import Cookies from 'js-cookie';
 
 function Navbar({
   loginbarOpen,
@@ -17,14 +18,12 @@ function Navbar({
 }) {
 
   const [navigation, setNavigation] = useState([]);
-
   useEffect(() => {
     const fetchCategories = async () => {
       const data = await GetCategories();
       if (data) {
-        setNavigation(data.data);
+        setNavigation(data);
       }
-      console.log(data);
     };
 
     fetchCategories();
@@ -100,8 +99,13 @@ function Navbar({
     },
     {
       label: "Logout",
-      to: "/account/logout",
+      to: "/",
       view: "logout",
+      function: () => {
+        Cookies.remove("Token");
+       
+        window.location.href = "/"; 
+      },
       icon: (
         <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
           <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
@@ -249,15 +253,18 @@ function Navbar({
           <div 
               className=" relative hidden md:flex px-[5px]"
               onMouseEnter={() => {
-                if (user.login) setDropdownOpen(true);
+                const Token = Cookies.get("Token");
+                if (Token) setDropdownOpen(true);
               }}
               onMouseLeave={() => setDropdownOpen(false)}
           >
             <button
               className="relative flex items-center justify-center hover:cursor-pointer  rounded-lg stroke-current  hover:stroke-[#018d43]"
-              onClick={() =>{
-                if(!user.login){ 
-                  setloginbarOpen(true)}
+              onClick={() => {
+                const Token = Cookies.get("Token");
+                if (!Token) {
+                  setloginbarOpen(true);
+                }
               }}
                 
             >
@@ -284,20 +291,31 @@ function Navbar({
             </button>
             {dropdownOpen && (
               <div className="absolute right-0 top-[15px]  mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-md z-500">
-                  {menuItems.map(({ label, to, icon }) => (
-                  <NavLink
-                    key={label}
-                    to={to}
-                    className={({ isActive }) =>
-                      `flex items-center gap-3 w-full px-3 py-2 hover:bg-gray-100 rounded-md transition ${
-                        isActive ? 'text-[#018d43]' : 'text-gray-700'
-                      }`
-                    }
-                  >
-                    {icon}
-                    <span>{label}</span>
-                  </NavLink>
-                ))}
+                  {menuItems.map(({ label, to, icon, function: customFunction }) =>
+                    customFunction ? (
+                      <div
+                        key={label}
+                        onClick={customFunction}
+                        className="flex items-center gap-3 w-full px-3 py-2 hover:bg-gray-100 rounded-md transition text-gray-700 cursor-pointer"
+                      >
+                        {icon}
+                        <span>{label}</span>
+                      </div>
+                    ) : (
+                      <NavLink
+                        key={label}
+                        to={to}
+                        className={({ isActive }) =>
+                          `flex items-center gap-3 w-full px-3 py-2 hover:bg-gray-100 rounded-md transition ${
+                            isActive ? 'text-[#018d43]' : 'text-gray-700'
+                          }`
+                        }
+                      >
+                        {icon}
+                        <span>{label}</span>
+                      </NavLink>
+                    )
+                  )}
               </div>
             )}
           </div>

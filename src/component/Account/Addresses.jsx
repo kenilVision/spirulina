@@ -147,7 +147,7 @@ function Addresses() {
                 </div>
                 <div className='hover:cursor-pointer'
                   onClick={() => {
-                    removeAd(item.addressid)
+                    removeAd(item.addressid)  
                   }}  
                 >
                 <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">

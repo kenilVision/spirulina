@@ -27,7 +27,7 @@ const  Footer = () =>  {
     },
     {
       label: "Shop all",
-      to: "/ShopAll",
+      to: "/collection/all",
     },
     {
       label: "Contact Us",
@@ -174,9 +174,7 @@ const  Footer = () =>  {
                       ) : (
                         <NavLink
                           to={item.to}
-                          className={({ isActive }) =>
-                            `${isActive ? "text-[#018d43]" : "text-black"}`
-                          }
+                          className={({ isActive }) =>` hover:text-[#018d43] ${isActive ? "text-[#018d43]" : "text-black"}`}
                         >
                           {item.label}
                         </NavLink>
@@ -204,7 +202,7 @@ const  Footer = () =>  {
                 {productLinks.map((product, index) => (
                   <div key={index}>
                     <li>
-                      <NavLink to="/Products">{product}</NavLink>
+                      <NavLink to="/Products" className="hover:text-[#018d43]">{product}</NavLink>
                     </li>
                   </div>
                 ))}

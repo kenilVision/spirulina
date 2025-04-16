@@ -1,36 +1,31 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_STRIPE_BEurl,
   headers: {
-    'Content-Type': 'application/json',
-  }
+    'Content-Type': 'multipart/form-data',
+  },
 });
 
-
-axiosInstance.interceptors.request.use(    /// this will always pass token with req
+axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      config.headers.Authorization = token;
+    const accessToken = Cookies.get('userToken');
+
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
     }
+
     return config;
   },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+axiosInstance.interceptors.response.use(
+  (response) => response.data,
   (error) => Promise.reject(error)
 );
 
-// axiosInstance.interceptors.response.use(   // this will always check if unauthorize send you to login page
-//   (response) => {
-//     return response;
-//   },
-//   (error) => {
-//     if (error.response) {
-//       if (error.response.data.flag === 1000) {
-//         console.error('Unauthorized, redirecting to login...');
-//         window.location.href = '/login'; 
-//       }
-//     }
-//     return Promise.reject(error);
-//   }
-// );
 export default axiosInstance;
