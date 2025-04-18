@@ -118,7 +118,7 @@ function Query({
                       className={`px-[10px] py-[15px] cursor-pointer  ${
                         selected.value === option.value
                           ? "bg-[#018D4314]  text-[#018d43]"
-                          : " text-[#696969] "
+                          : " text-[#696969]"
                       }`}
                       onClick={() => {
                         setSelected(option);

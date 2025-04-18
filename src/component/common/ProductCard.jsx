@@ -1,24 +1,28 @@
-  import React, { useEffect } from "react";
+  import React, { useEffect ,useState } from "react";
   import { useNavigate } from "react-router-dom";
   import { loadStripe } from "@stripe/stripe-js";
   import { useSelector, useDispatch } from 'react-redux'
   const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK);
-  import { add, remove } from '../../Slice/cart'
+  import { AddtoCart } from '../../Slice/cart'
+  import { AddtoWishlist, RemovefromWishlist } from '../../Slice/wishlist';
 
 
 
-
-  function ProductCard({ data, type }) {
+  function ProductCard({ data, type = "product" }) {
     const dispatch = useDispatch()
     const navigate = useNavigate();
-
-
-    const getSlug = (productName, type) =>
-      `${productName
-        .toLowerCase()
-        .replace(/[^a-z0-9\s]/g, '') // Remove special characters
-        .trim()
-        .replace(/\s+/g, '-')}${type === 'combo' ? '-combo' : ''}`;
+    
+    const wishlist = useSelector(state => state.wishlist.items); // Access wishlist from the store
+    
+    function handleCart(product) {
+      const data = {
+        ...product,
+        qty: 1,
+        type: type
+      };
+      
+      dispatch(AddtoCart(data));
+    }
   
     async function handleSubmit(e, productId) {
       e.preventDefault();
@@ -45,23 +49,6 @@
       }
     }
 
-    function handleCart(product) {
-      const { name, images, variants } = product;
-    
-      const firstVariant = variants[0];
-      
-      const cartItem = {
-        id: product.id,
-        name,
-        image: images[0],
-        price: firstVariant.discounted_price,
-        originalPrice: firstVariant.original_price,
-        quantity: 1,
-        variant: firstVariant
-      };
-      console.log(cartItem)
-      dispatch(add(cartItem))
-    }
 
     return (
       <>
@@ -73,30 +60,8 @@
             ratings
           } = product;
 
-          const firstVariant = isVariantBased ? product.variants[0] : product;
-          // useEffect(() => {
-          //   if (isVariantBased) {
-          //     const firstVariant = product.variants[0];
-          //     const price = firstVariant.price;
-          //     const discountedPrice = firstVariant.originalPrice;
-          //     const discountPercentage = firstVariant.discount;
-          //     const images = firstVariant.image[0] || product.images[0] || [];
-          //     const image2 = firstVariant.image[0] || product.images[1] || [];
-          //   }
-          //   else {
-          //     const price = product.price;
-          //     const discountedPrice = product.originalPrice;
-          //     const discountPercentage = product.discount;
-          //     const images = product.images[0] || [];
-          //     const image2 = product.images[1] || [];
-          //   }
-          // },[])
-          // // // Using the first variant for display (consider adding variant selection)
-          // // const firstVariant = variants[0];
-          // // const originalPrice = firstVariant.original_price;
-          // // const discountedPrice = firstVariant.discounted_price;
-          // // const discountPercentage = firstVariant.discount_percentage;
-
+          const firstVariant = isVariantBased ? product.variants[product.variants.length - 1] : product;
+          
           return (
             <div
               key={_id || index}
@@ -105,7 +70,7 @@
               <div
                 className="relative w-full overflow-hidden group"
                 onClick={() =>
-                  navigate(`/product/${getSlug(product.name, type)}/${product._id}`)
+                  navigate(`/product/${product.slug}`,{state:type})
                 } 
               >
             <img
@@ -118,7 +83,7 @@
               alt={name}
               className="w-full h-auto object-cover absolute top-0 left-0 transition-all duration-1000 opacity-0 group-hover:scale-105 group-hover:opacity-100"
             />
-                <div className="absolute top-0 right-0 p-5 flex items-center justify-between w-full">
+                <div className="absolute top-0 right-0 p-5 flex items-center h-15 justify-between w-full">
                   {firstVariant.discount != 0 ? (
                     <span className="bg-[#018d43] text-white rounded-md h-[22px] text-[13px] px-[6px] min-w-[38px]">
                       {Math.round(firstVariant.discount)}%
@@ -127,20 +92,69 @@
                     <p></p>
                   )}
                   {/* Heart icon */}
-                  <svg
-                    fill="#018d43"
-                    height="1.5rem"
-                    width="1.5rem"
-                    viewBox="0 0 471.701 471.701"
-                  >
-                    <path d="...full path here..." />
-                  </svg>
+
+                  
+             {wishlist.some(item => item._id === _id) ? (
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        style={{
+                          position: 'absolute',
+                          top: '50%',
+                          right: '0',
+                          transform: 'translate(-50%, -50%)',
+                        }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          dispatch(RemovefromWishlist(_id));
+                        }}
+                      >
+                        <path
+                          d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                          stroke="red"  // Red color for the heart
+                          strokeWidth="1.5"
+                          fill="red"    // Optional: to make the heart solid red
+                        />
+                      </svg>
+                    ) : (
+                      // Default heart with hover effect when not in the wishlist
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="transition-all duration-300 transform group-hover:translate-x-[-20px] group-hover:opacity-100 opacity-0"
+                        style={{
+                          position: 'absolute',
+                          top: '50%',
+                          right: '0',
+                          transform: 'translate(-50%, -50%)',
+                        }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          dispatch(AddtoWishlist({
+                            ...product,
+                            type, // add type along with the rest of the product
+                          }));
+                        }}
+                      >
+                        <path
+                          d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                          stroke="#018d43"
+                          strokeWidth="1.5"
+                        />
+                      </svg>
+                    )}
                 </div>
               </div>
               <div
                 className="p-4 text-start mt-auto"
                 onClick={() =>
-                  navigate(`/product/${getSlug(product.name, type)}/${product._id}`)
+                  navigate(`/product/${product.slug}`,{state:type})
                 }
               >
                 <p className="font-bold truncate hover:text-[#018d43]">
@@ -187,7 +201,7 @@
               <div className="flex">
                 <div 
                   className="w-1/2 bg-[#222] flex items-center justify-center py-3 cursor-pointer hover:bg-[#444] transition duration-300"
-                  onClick={() => handleCart(product)}
+                  onClick={() =>{ handleCart(product)}}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

@@ -32,7 +32,7 @@ export const roots = [
     element: <About />,
   },
   {
-    path: "/product/:slug/:id",
+    path: "/product/:slug",
     element: <Products />,
   },
   {

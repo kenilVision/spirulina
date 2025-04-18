@@ -67,7 +67,7 @@ function Account({children}) {
                 {customFunction ? (
                   <div
                     onClick={customFunction}
-                    className="flex items-center gap-2 text-[18px] p-[17px] text-gray-700 hover:text-black hover:bg-[#f5f5f5] cursor-pointer transition-all duration-300"
+                    className="flex items-center gap-2 text-[18px] p-[17px] text-gray-700  hover:bg-[#00800026] hover:text-[#018d43] hover:border-l-5 cursor-pointer transition-all duration-300"
                   >
                     {icon}
                     {label}
@@ -76,10 +76,10 @@ function Account({children}) {
                   <NavLink
                     to={to}
                     className={({ isActive }) =>
-                      `flex items-center gap-2 text-[18px] p-[17px] transition-all duration-300 ${
+                      `flex items-center gap-2 text-[18px] p-[17px] transition-all duration-300 hover:bg-[#00800026] hover:text-[#018d43] hover:border-l-5 ${
                         isActive
                           ? 'bg-[#00800026] text-[#018d43] border-l-5'
-                          : 'text-gray-700 hover:text-black hover:bg-[#f5f5f5]'
+                          : 'text-gray-700 '
                       }`
                     }
                   >

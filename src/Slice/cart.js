@@ -1,52 +1,100 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const CartSlice = createSlice({
+// Async Thunks
+export const AddtoCart = createAsyncThunk(
+  "cart/add",
+  async (data, { getState, rejectWithValue }) => {
+    try {
+
+      const { items } = getState().cart;
+      console.log(data)
+
+      const newItems = [...items];
+      
+      const existingIndex = newItems.findIndex(
+        item => item.data._id === data._id 
+      );
+      
+      if (existingIndex !== -1) {
+        // Create a new object for the existing item
+        newItems[existingIndex] = {
+          ...newItems[existingIndex],
+          qty: newItems[existingIndex].qty + data.qty
+        };
+      } else {
+        // Add new item
+        newItems.push({data});
+      }
+      
+      return newItems;
+      
+    } catch (err) {
+      return rejectWithValue(err.message || "Failed to add to cart");
+    }
+  }
+);
+
+export const RemovefromCart = createAsyncThunk(
+  "cart/remove",
+  async ({ productId, type }, { getState, rejectWithValue }) => {
+    try {
+      const { items } = getState().cart;
+      return items.filter(item => !(item.product._id === productId && item.type === type));
+    } catch (err) {
+      return rejectWithValue(err.message || "Failed to remove from cart");
+    }
+  }
+);
+
+// Slice
+const cartSlice = createSlice({
   name: "cart",
-  initialState: [],
-  reducers: {
-    add: (state, action) => {
-      const { name, options } = action.payload; // options is the selected variant object
-      const existingItem = state.find(
-        (item) =>
-          item.name === name &&
-          JSON.stringify(item.options) === JSON.stringify(options) // Comparing options to check if the same variant exists
-      );
-
-      if (existingItem) {
-        existingItem.qty += 1; // Increase quantity if the variant exists
-      } else {
-        state.push({ ...action.payload, qty: 1 }); // Add new item if variant doesn't exist
-      }
-    },
-
-    addwithQuantity: (state, action) => {
-      const { name, options, qty } = action.payload; // options is the selected variant
-      const existingItemIndex = state.findIndex(
-        (item) =>
-          item.name === name &&
-          JSON.stringify(item.options) === JSON.stringify(options) // Comparing options to check if the same variant exists
-      );
-
-      if (existingItemIndex !== -1) {
-        // Replace the existing item with the updated one
-        state[existingItemIndex] = { ...action.payload, qty };
-      } else {
-        // Add a new item with given quantity if not present
-        state.push({ ...action.payload, qty });
-      }
-    },
-
-    remove: (state, action) => {
-      return state.filter(
-        (item) =>
-          item.id !== action.payload.id ||
-          JSON.stringify(item.options) !== JSON.stringify(action.payload.options) 
-      );
-    },
+  initialState: {
+    items: [],
+    loading: false,
+    error: null
   },
+  reducers: {
+    // Optional: Add direct reducer for quick quantity updates
+    updateQuantity: (state, action) => {
+      const { productId, type, newQty } = action.payload;
+      const item = state.items.find(
+        item => item.product._id === productId && item.type === type
+      );
+      if (item) item.qty = newQty;
+    }
+  },
+  extraReducers: (builder) => {
+    builder
+      // Add to Cart
+      .addCase(AddtoCart.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(AddtoCart.fulfilled, (state, action) => {
+        state.items = action.payload;
+        state.loading = false;
+      })
+      .addCase(AddtoCart.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      
+      // Remove from Cart
+      .addCase(RemovefromCart.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(RemovefromCart.fulfilled, (state, action) => {
+        state.items = action.payload;
+        state.loading = false;
+      })
+      .addCase(RemovefromCart.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+  }
 });
 
-export const { add, remove, addwithQuantity } = CartSlice.actions;
-export default CartSlice.reducer;
-
-
+export const { updateQuantity } = cartSlice.actions;
+export default cartSlice.reducer;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { add, remove, addwithQuantity } from '../../Slice/cart';
+// import { add, remove, addwithQuantity } from '../../Slice/cart';
 import { useSelector, useDispatch } from 'react-redux';
 
 const MiniCartItem = ({ product }) => {

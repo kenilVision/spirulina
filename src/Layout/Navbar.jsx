@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { isAction } from "@reduxjs/toolkit";
 import { GetCategories } from "../Api/Category";
 import Cookies from 'js-cookie';
-
 function Navbar({
   loginbarOpen,
   setloginbarOpen,
@@ -16,6 +15,8 @@ function Navbar({
   sidebarOpen,
   setSidebarOpen,
 }) {
+
+  const wishlist = useSelector(state => state.wishlist.items);
 
   const [navigation, setNavigation] = useState([]);
   useEffect(() => {
@@ -31,18 +32,18 @@ function Navbar({
 
 
 
-   const carts = useSelector((state) => state.cart)
+  //  const carts = useSelector((state) => state.cart)
    const user = useSelector((state) => state.User)
-  const [Cartcount, setCartcount] = useState(0);
+  // const [Cartcount, setCartcount] = useState(0);
   
   const navigate = useNavigate();
   
-        useEffect(() => {
+  //       useEffect(() => {
   
-          const totalitme = carts.reduce((acc, item) => acc +  item.qty, 0);
-          setCartcount(totalitme);
-        }
-  , [carts]); 
+  //         const totalitme = carts.reduce((acc, item) => acc +  item.qty, 0);
+  //         setCartcount(totalitme);
+  //       }
+  // , [carts]); 
    
   useEffect(() => {
     if (sidebarOpen || searchbarOpen || loginbarOpen || cartbarOpen) {
@@ -341,7 +342,7 @@ function Navbar({
               </svg>
 
               <span className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-[#018d43] text-white text-xs font-bold px-1.5 py-0.5 rounded-full">
-                0
+              {wishlist.length}
               </span>
             </NavLink>
           </div>
@@ -381,7 +382,7 @@ function Navbar({
               </svg>
 
               <span className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-[#018d43] text-white text-xs font-bold px-1.5 py-0.5 rounded-full">
-              {Cartcount}
+              {/* {Cartcount} */}
               </span>
             </button>
           </div>

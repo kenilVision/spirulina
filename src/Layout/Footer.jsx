@@ -213,7 +213,7 @@ const  Footer = () =>  {
                 {bestseller.map((product, index) => (
                   <div key={index}>
                     <li>
-                      <NavLink to={`/product/${getSlug(product.name, type)}/${product._id}`}className="hover:text-[#018d43]">{product.name}</NavLink>
+                      <NavLink to={{ pathname: `/product/${product.slug}` }}  className="hover:text-[#018d43]">{product.name}</NavLink>
                     </li>
                   </div>
                 ))}

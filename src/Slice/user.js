@@ -13,7 +13,7 @@ export const signupUser = createAsyncThunk(
           "Content-Type": "application/json"
         }}
       );
-      return res.data.data;
+      return res.data;
     } catch (err) {
       return rejectWithValue(err.response?.data || err);
     }

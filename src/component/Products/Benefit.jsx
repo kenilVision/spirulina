@@ -4,30 +4,8 @@ function Benefit({benefits ,name }) {
   console.log(benefits)
 
   if (!benefits || benefits.length === 0) {
-    return null; // Don't render anything if no benefits
+    return null; 
   }
-
-
-    // const benefits = [
-    //     {
-    //       title: "Keeps Skin Oil-Free and Balanced",
-    //       description:
-    //         "Spirulina Face Pack Powder works wonders for oily skin by controlling excess oil production. Its natural and herbal properties absorb oil from the skin's surface, leaving it fresh, matte, and balanced without drying it out. Regular use helps prevent greasiness while maintaining a healthy, natural and herbal glow.",
-    //       img: "https://spiruswastha.com/cdn/shop/files/Keeps_Skin_Oil-Free_and_Balanced.svg?v=1734697320",
-    //     },
-    //     {
-    //       title: "Smoothens Skin Texture",
-    //       description:
-    //         "Packed with proteins and amino acids, Spirulina helps repair and renew skin cells, resulting in smoother and softer skin. By gently exfoliating dead skin cells, it improves skin texture, making your face feel silky, supple, and rejuvenated.",
-    //       img: "https://spiruswastha.com/cdn/shop/files/Smoothens_Skin_Texture.svg?v=1734697361",
-    //     },
-    //     {
-    //       title: "Brightens Skin Tone",
-    //       description:
-    //         "Spirulina Face Pack Powder is rich in vitamins and antioxidants like Vitamin C, which help to brighten the skin and even out the complexion. It combats dullness and dark spots caused by environmental stress, promoting a radiant, glowing skin tone.",
-    //       img: "https://spiruswastha.com/cdn/shop/files/Brightens_Skin_Tone.svg?v=1734697406",
-    //     },
-    //   ];
 
 
 
@@ -44,12 +22,12 @@ function Benefit({benefits ,name }) {
             {name}
             </h2>
             <div className="max-w-[9.375rem] h-0.5 bg-[#018d43] mx-auto mt-[12px] mb-[30px] "></div>
-          <div className="flex flex-wrap justify-center gap-y-10  ">
+            <div className="flex flex-wrap md:flex-nowrap gap-4  justify-center">
 
           {benefits.map((benefit, index) => (
           <div
             key={index}
-            className=" w-full sm:w-1/2 md:w-1/2 lg:w-1/3  flex flex-col items-center text-center  "
+            className="  md:w-full flex flex-col items-center text-center p-2"
           >
             <img
               src={`http://localhost:5050/image/productContent/benefits/${benefit.benefitImage}`} 

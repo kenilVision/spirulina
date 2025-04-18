@@ -215,6 +215,7 @@ return (
             <select
               name="state"
               value={initialData.state}
+              required
               onChange={handleChange}
               className="w-full border border-gray-300 rounded px-3 py-2"
             >
@@ -247,6 +248,7 @@ return (
               name="city"
               value={initialData.city}
               onChange={handleChange}
+              required
               className="w-full border border-gray-300 rounded px-3 py-2"
             >
               <option value="">Select city</option>

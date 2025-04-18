@@ -9,7 +9,7 @@ export const fetchSingleProduct = createAsyncThunk(
       const response = await axiosInstance.get(`/product/get/${productId}`);
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data || error.message);
+      throw rejectWithValue(error.response?.data || error.message);
     }
   }
 );
@@ -22,7 +22,7 @@ export const fetchSinglecombo = createAsyncThunk(
       const response = await axiosInstance.get(`/product-combo/get/${comboId}`);
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data || error.message);
+      throw rejectWithValue(error.response?.data || error.message);
     }
   }
 );

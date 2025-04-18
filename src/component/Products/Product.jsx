@@ -8,10 +8,10 @@ import ImageMagnifier from '../common/ImageMagnifier';
 import "./Product.css";
 import MagnifierPreview from '../common/MagnifierPreview';
 import { loadStripe } from '@stripe/stripe-js';
-import { add, remove,addwithQuantity } from '../../Slice/cart'
+// import { add, remove,addwithQuantity } from '../../Slice/cart'
 import { useSelector, useDispatch } from 'react-redux'
 SwiperCore.use([Thumbs]);
-
+import { AddtoWishlist, RemovefromWishlist } from '../../Slice/wishlist';
 function Product({ product , slug }) {
 
   const carts = useSelector((state) => state.cart)
@@ -33,13 +33,14 @@ function Product({ product , slug }) {
   });
   
   const [selectedVariant, setSelectedVariant] = useState(variants[0] || {});
-  const allVariantImages = product?.variants
-  ?.slice() // to avoid mutating original
-  ?.reverse()
-  ?.flatMap(variant => variant.images || []);
-  console.log(allVariantImages)
-  const isComboProduct = slug.endsWith('-combo');
+  const allVariantImages = [
+    ...(product?.variants?.slice()?.reverse()?.flatMap(variant => variant.images || []) || []),
+    ...(product?.productVideos || [])
+  ];
+  const isComboProduct = (slug == 'combo');
+   const wishlist = useSelector(state => state.wishlist.items);
 
+   
 
   useEffect(()=>{
 
@@ -175,6 +176,7 @@ function Product({ product , slug }) {
               <>
                 
                 {allVariantImages.map((item, i) => {
+
                   const isVideo = item.endsWith('.mp4');
                   return (
                     <SwiperSlide key={i} className="overflow-visible">
@@ -184,7 +186,7 @@ function Product({ product , slug }) {
                             controls
                             autoplay
                             className="w-full h-full max-h-[600px] object-contain rounded"
-                            src={`http://localhost:5050/image/products/${item}`}
+                            src={`http://localhost:5050/image/productVideos/${item}`}
                           />
                         ) : activeIndex === i ? (
                           <ImageMagnifier
@@ -218,7 +220,7 @@ function Product({ product , slug }) {
           </Swiper>
             </div>
           {/* Thumbnails */}
-          {!slug.endsWith('-combo')?
+          {!isComboProduct?
           <div className="w-full lg:w-[100px] h-[100px] lg:h-full overflow-hidden ">
            <Swiper
               onSwiper={setThumbsSwiper}
@@ -437,20 +439,48 @@ function Product({ product , slug }) {
               Add to Cart
             </button>
             <button
-              type="button"
-              className="w-[38px] h-[38px] flex items-center justify-center border border-green-600 rounded-full hover:bg-green-50 transition"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 512 512"
-                fill="none"
-                stroke="green"
-                strokeWidth="32"
-                className="w-5 h-5"
-              >
-                <path d="M256 448l-35.3-32.6C120 312 64 256 64 176c0-61.9 50.1-112 112-112 43.2 0 81.4 25.4 99.6 61.6C302.6 89.4 340.8 64 384 64c61.9 0 112 50.1 112 112 0 80-56 136-156.7 239.4L256 448z" />
-              </svg>
-            </button>
+  type="button"
+  className={`w-[38px] h-[38px] flex items-center justify-center border rounded-full hover:bg-green-50 transition 
+    ${wishlist.some(item => item._id === product._id) ? 'border-red-600' : 'border-green-600'}`}
+>
+  {wishlist.some(item => item._id === product._id) ? (
+    // Filled heart with red stroke (in wishlist)
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 512 512"
+      fill="red"
+      stroke="red"
+      strokeWidth="32"
+      className="w-5 h-5 cursor-pointer"
+      onClick={(e) => {
+        e.stopPropagation();
+        dispatch(RemovefromWishlist(product._id));
+      }}
+    >
+      <path d="M256 448l-35.3-32.6C120 312 64 256 64 176c0-61.9 50.1-112 112-112 43.2 0 81.4 25.4 99.6 61.6C302.6 89.4 340.8 64 384 64c61.9 0 112 50.1 112 112 0 80-56 136-156.7 239.4L256 448z" />
+    </svg>
+  ) : (
+    // Outlined heart with green stroke (not in wishlist)
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 512 512"
+      fill="none"
+      stroke="green"
+      strokeWidth="32"
+      className="w-5 h-5 cursor-pointer transition-all duration-300 opacity-100 group-hover:opacity-100"
+      onClick={(e) => {
+        e.stopPropagation();
+        dispatch(AddtoWishlist({
+          ...product,
+          type: slug,
+        }));
+      }}
+    >
+      <path d="M256 448l-35.3-32.6C120 312 64 256 64 176c0-61.9 50.1-112 112-112 43.2 0 81.4 25.4 99.6 61.6C302.6 89.4 340.8 64 384 64c61.9 0 112 50.1 112 112 0 80-56 136-156.7 239.4L256 448z" />
+    </svg>
+  )}
+</button>
+
           </div>
           
           <button 

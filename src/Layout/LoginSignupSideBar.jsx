@@ -45,6 +45,7 @@ function LoginSignupSideBar({ loginbarOpen, setloginbarOpen }) {
       console.error("Error during login:", err);
     }
   };
+  const [isSignup, setIsSignup] = useState(false);
 const handleSignUp = async (e) => {
   e.preventDefault();
 
@@ -53,8 +54,7 @@ const handleSignUp = async (e) => {
     const resultAction = await dispatch(signupUser(register));
 
     if (signupUser.fulfilled.match(resultAction)) {
-      console.log("Signup success:", resultAction.payload);
-      setIsSignup(false); // move inside success condition
+      setIsSignup(!isSignup); 
     } else {
       console.error("Signup failed:", resultAction.payload);
     }
@@ -65,7 +65,6 @@ const handleSignUp = async (e) => {
 
 }
 
-  const [isSignup, setIsSignup] = useState(false);
 
   return (
     <>

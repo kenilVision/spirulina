@@ -6,18 +6,27 @@ import "swiper/css/free-mode";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { FreeMode } from "swiper/modules";
-
+import { EffectCards, Navigation } from 'swiper/modules';
+import 'swiper/css/effect-cards';
+import 'swiper/css/navigation';
+import "./SpiruswasthaTrends.css"
+import { Getvideos } from "../../Api/Video";
 const SpiruswasthaTrends = () => {
-  const videos = [
-    "https://cdn.shopify.com/s/files/1/0611/1038/6771/files/whatmore_tn_13d16737-6683-4bde-a6c9-d04d6c94f0b2.mp4?v=1739158911",
-    "https://cdn.shopify.com/s/files/1/0611/1038/6771/files/whatmore_tn_41cc0459-29c4-4255-9836-e2c4719ee73c.mp4?v=1739159450",
-    "https://cdn.shopify.com/s/files/1/0611/1038/6771/files/whatmore_tn_c3e12651-28e1-424a-bd86-daf9b2175354.mp4?v=1739159663",
-    "https://cdn.shopify.com/s/files/1/0611/1038/6771/files/whatmore_tn_d2c06994-608a-4d9e-a211-9f8143aed366.mp4?v=1739525196",
-    "https://cdn.shopify.com/s/files/1/0611/1038/6771/files/whatmore_tn_b77f7a45-53c4-495a-8f81-8d3205115476.mp4?v=1739764888",
-    "https://cdn.shopify.com/s/files/1/0611/1038/6771/files/whatmore_tn_c64097d6-fd0d-4d20-ad94-99b98138b64a.mp4?v=1739861245",
-    "https://cdn.shopify.com/s/files/1/0611/1038/6771/files/whatmore_tn_8d3a3ef8-0cda-4c6b-8ce6-feb96ad02f3a.mp4?v=1740456060",
-  ];
+  const [videos, setVideos] = useState([]);
 
+  useEffect(() => {
+    const fetchVideos = async () => {
+      try {
+        const data = await Getvideos();
+        console.log(data)
+        setVideos(data);
+      } catch (error) {
+        console.error("Error fetching videos:", error);
+      }
+      };
+    
+    fetchVideos();
+  }, []);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 769);
   const [selectedVideo, setSelectedVideo] = useState(null);
@@ -49,7 +58,7 @@ const SpiruswasthaTrends = () => {
 
       {isLargeScreen ? (
         <div
-          className="overflow-hidden px-4"
+          className="overflow my-4  px-4"
           data-aos="fade-up"
           data-aos-duration="1000"
           data-aos-once="true"
@@ -79,21 +88,22 @@ const SpiruswasthaTrends = () => {
                   <video
                     onClick={() => openModal(videoSrc)}
                     autoPlay
+                    src={`http://localhost:5050/image/productVideos/${videoSrc}`}
                     loop
                     muted
                     playsInline
                     className="w-full h-auto rounded-lg shadow-lg object-cover cursor-pointer"
                     style={{ width: "280px", height: "500px" }}
                   >
-                    <source src={videoSrc} type="video/mp4" />
+                    
                   </video>
                 </div>
-              </SwiperSlide>
+              </SwiperSlide>  
             ))}
           </Swiper>
         </div>
       ) : (
-        <div className="overflow-hidden px-2">
+        <div className="overflow-hidden  px-2">
           <Swiper
             slidesPerView={1.2}
             spaceBetween={10}
@@ -119,6 +129,7 @@ const SpiruswasthaTrends = () => {
               >
                 <video
                   onClick={() => openModal(video)}
+                  src={`http://localhost:5050/image/productVideos/${videoSrc}`}
                   autoPlay
                   loop
                   muted={idx !== activeIndex}
@@ -126,7 +137,7 @@ const SpiruswasthaTrends = () => {
                   className="w-full rounded-lg object-cover shadow-md cursor-pointer"
                   style={{ height: "500px" }}
                 >
-                  <source src={video} type="video/mp4" />
+
                 </video>
               </SwiperSlide>
             ))}
@@ -135,30 +146,82 @@ const SpiruswasthaTrends = () => {
       )}
 
       {/* Modal */}
-      {selectedVideo && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[#00000080]"
-          onClick={closeModal}
-        >
-          <div
-            className="relative max-w-4xl w-full px-4"
-            onClick={(e) => e.stopPropagation()}
+      {selectedVideo !== null && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#00000063] p-4">
+    <button
+      onClick={closeModal}
+      className="absolute top-4 right-4 text-white text-3xl font-bold z-50 hover:scale-110 transition-transform"
+    >
+      &times;
+    </button>
+
+    <div className="relative w-full max-w-6xl mx-auto flex items-center bg-transparent justify-center h-[80vh]">
+      {/* Navigation arrows */}
+      <button className="swiper-button-prev absolute left-0 z-10 text-white hover:text-blue-400 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+
+      {/* Main Swiper container */}
+      <Swiper
+        effect={'cards'}
+        grabCursor={true}
+        modules={[EffectCards, Navigation]}
+        className="w-full h-full "
+        initialSlide={videos.indexOf(selectedVideo)}
+        onSlideChange={(swiper) => setSelectedVideo(videos[swiper.activeIndex])}
+        navigation={{
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        }}
+        centeredSlides={true}
+        slideToClickedSlide={true}
+        style={{
+          background: 'none',
+        }}
+
+      >
+        {videos.map((video, idx) => (
+          <SwiperSlide 
+            key={idx} 
+            className="flex  items-center bg-transparent justify-center h-full"
+            style={{
+              background: 'none',
+            }}
           >
-            <video
-              src={selectedVideo}
-              
-              autoPlay
-              className="w-full h-[600px] rounded-lg shadow-lg"
-            />
-            <button
-              className="absolute top-2 right-2 text-white text-4xl font-bold"
-              onClick={closeModal}
-            >
-              &times;
-            </button>
-          </div>
-        </div>
-      )}
+            <div 
+            className="h-full flex bg-transparent items-center justify-center"
+            style={{
+              background: 'none',
+            }}
+            >s
+              <video
+                src={`http://localhost:5050/image/productVideos/${video}`}
+                autoPlay={idx === videos.indexOf(selectedVideo)}
+                playsInline
+                loop
+                muted={idx !== videos.indexOf(selectedVideo)}
+                controls={idx === videos.indexOf(selectedVideo)}
+                className="max-h-full max-w-full bg-transparent rounded-xl shadow-2xl transition-all duration-300 object-contain"
+                style={{
+                  background: 'none',
+                }}
+              />
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+
+      {/* Navigation arrows */}
+      <button className="swiper-button-next absolute right-0 z-10 text-white hover:text-blue-400 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+    </div>
+  </div>
+)}
     </div>
   );
 };

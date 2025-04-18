@@ -11,14 +11,14 @@ function CartSideBar({ cartbarOpen, setcartbarOpen }) {
       const [progress, setProgress] = useState(50);
 
 
-      useEffect(() => {
+//       useEffect(() => {
 
-        const totalPrice = carts.reduce((acc, item) => acc + item.price * item.qty, 0);
-        const targetPrice = 500; // Target price for free shipping
-        const newProgress = Math.min((totalPrice / targetPrice) * 100, 100); // Ensure progress doesn't exceed 100%
-        setProgress(newProgress);
-      }
-, [carts]);  
+//         const totalPrice = carts.reduce((acc, item) => acc + item.price * item.qty, 0);
+//         const targetPrice = 500; // Target price for free shipping
+//         const newProgress = Math.min((totalPrice / targetPrice) * 100, 100); // Ensure progress doesn't exceed 100%
+//         setProgress(newProgress);
+//       }
+// , [carts]);  
   return (
     <>
       <div
@@ -120,7 +120,7 @@ function CartSideBar({ cartbarOpen, setcartbarOpen }) {
             </svg>
           </div>
         </div>
-        {carts && carts.length > 0 ? (
+        {/* {carts && carts.length > 0 ? (
           <div className="overflow-y-auto max-h-[calc(100vh-50px)] px-4">
           {carts.map((x) => (
             <MiniCartItem product={x}  />
@@ -149,7 +149,7 @@ function CartSideBar({ cartbarOpen, setcartbarOpen }) {
           </button>
         </div>
           
-        )}
+        )} */}
       </div>
     </>
   );

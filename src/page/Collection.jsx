@@ -24,7 +24,7 @@ import { GetproductbyCategories } from "../Api/product";
   ];      // Sort options for the dropdown
 
   
- const [selected, setSelected] = useState(sortOptions[0]);  // Default selected option
+ const [selected, setSelected] = useState({label:"Featured"});  // Default selected option
  const [value, setValue] = useState([0.0, 3599.0]);    // State to control range slider values
  const [min , setmin] = useState(value[0])
  const [max , setmax] = useState(value[1])
@@ -60,15 +60,19 @@ import { GetproductbyCategories } from "../Api/product";
             categoryId = categoryResponse[0]._id;
           }
         }
-        
-        const params = {
-          sort: selected?.value || "featured",
-          minPrice: min || 0,
-          maxPrice: max || 10000,
-          page: page,
-          limit: 5,
-          ...(categoryId && { categoryId }),  
-        };
+
+
+         const  params = {
+            minPrice: min || 0,
+            maxPrice: max || 10000,
+            page: page,
+            limit: 5,
+            ...(categoryId && { categoryId }),
+            ...(selected?.value === "Featured" && { isFeatured: true }),
+            ...(selected?.value === "bestselling" && { isBestSeller: true }),
+            ...(!["Featured", "bestselling"].includes(selected?.value) && { sort: selected?.value }),
+          };
+
           console.log(params)
 
             const query = new URLSearchParams(params).toString();
@@ -88,6 +92,8 @@ import { GetproductbyCategories } from "../Api/product";
   }, [formattedName ,selected , min , max,page]);
 
 
+ 
+
   return (
     <div className="w-full max-w-[1470px] mx-auto p-[15px] pb-[50px] lg:pb-[60px] mb-0 md:mb-[50px]">
       {loading ? (
@@ -99,10 +105,26 @@ import { GetproductbyCategories } from "../Api/product";
             />
       </div>
       ) : data.length === 0 ? (
-        <div className="text-center py-20 text-gray-500 text-lg">
-          
-          No products found in this collection.
+          <>
+          <Query 
+          sortOptions={sortOptions}
+          selected={selected}
+          setSelected={setSelected}
+          isOpenfilter= {isOpenfilter}
+          setIsOpenfilter={setIsOpenfilter}
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          setIsOpen2={setIsOpen2}
+          isopen2={isOpen2}
+          value={value}
+          setValue={setValue}
+          minmaxcontrol={minmaxcontrol} 
+          />
+
+        <div className="w-full py-12 flex flex-col items-center justify-center text-center rounded-xl ">
+          <p className="text-gray-500 text-lg font-medium">No product found</p>
         </div>
+          </>
       ) : (
         <>
           <Query 
