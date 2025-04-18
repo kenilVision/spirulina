@@ -1,11 +1,47 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect , useState } from "react"; 
 import { NavLink } from "react-router-dom";
+import { useDispatch , useSelector } from "react-redux";
+import { fetchUserProfile  } from "../../Slice/user";
+import {Getaddress} from "../../Api/address"
 const Dashboard = () => {
   const { firstname, lastname, email, address } = useSelector((state) => state.User);
+   const dispatch = useDispatch();
+   const [loading, setLoading] = useState(true);
+   const [addressList, setAddressList] = useState([]);
 
-  const addressList = Array.isArray(address) ? address : [];
-  const defaultAddress = addressList.find((addr) => addr.default === true);
+   
+   useEffect(() => {
+    const loadUserData = async () => {
+      try {
+        setLoading(true);
+        await dispatch(fetchUserProfile()).unwrap(); 
+        const address = await Getaddress(1, 10000);
+        setAddressList(address.customerAddresss || []);
+      } catch (error) {
+        console.error("Failed to load user:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadUserData();
+  }, [dispatch]);
+
+
+  if (loading) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center bg-white">
+          <img 
+              src="https://spiruswastha.com/cdn/shop/t/25/assets/t4s_loader.svg?v=145003788389301961301736154755" 
+              alt="Loading..." 
+              className="w-16 h-16"
+            />
+      </div>
+    )
+  }
+
+
+  const defaultAddress = addressList.find((addr) => addr.isDefault === true);
  
 
   return (

@@ -1,7 +1,21 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
 import ProductCard from '../common/ProductCard'
+import { GetproductbyCategories } from '../../Api/product';
+function MayalsoLike() {
 
-function MayalsoLike({relatedProducts}) {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchBestsellers = async () => {
+      const params = { isBestSeller: true };
+      const queryString = new URLSearchParams(params).toString();
+      const data = await GetproductbyCategories(queryString);  
+      console.log(data.products);  
+      setProducts(data.products || []);
+    };
+
+    fetchBestsellers();
+  }, []);
 
       
   return (
@@ -28,7 +42,7 @@ function MayalsoLike({relatedProducts}) {
         data-aos-duration="1000"
         data-aos-once="true"
         >   
-         <ProductCard data = {relatedProducts}  />
+         <ProductCard data = {products}  />
         </div>
     </div>
     </div>

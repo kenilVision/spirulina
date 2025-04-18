@@ -1,20 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import "aos/dist/aos.css";
 import FooterSubscribe from "./FooterSubscribe";
 import FooterPrivacypolicy from "./FooterPrivacypolicy";
-
+import { GetproductbyCategories } from '../Api/product';
 const  Footer = () =>  {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpen2, setIsOpen2] = useState(false);
 
-  const productLinks = [
-    "Spirulina Tablet",
-    "Spirulina Capsule",
-    "Spiruvita Oil",
-    "Spirushine Shampoo",
-    "Moringa Tablet",
-  ];        // product links
+  const [bestseller, setbestseller] = useState([]);
+
+  useEffect(() => {
+    const fetchBestsellers = async () => {
+      const params = { isBestSeller: true };
+      const queryString = new URLSearchParams(params).toString();
+      const data = await GetproductbyCategories(queryString);  
+      console.log(data.products);  
+      setbestseller(data.products || []);
+    };
+
+    fetchBestsellers();
+  }, []);
 
   const navItems = [
     {
@@ -54,7 +60,7 @@ const  Footer = () =>  {
       to: "/Training",
     },
   ];      // nav items
-
+  const type = "product"
   const socialSvgs = [
     <svg
       fill="#ffffff"
@@ -120,7 +126,12 @@ const  Footer = () =>  {
     </svg>,
   ];        // social media icons
 
-  
+  const getSlug = (productName, type) =>
+    `${productName
+      .toLowerCase()
+      .replace(/[^a-z0-9\s]/g, '') // Remove special characters
+      .trim()
+      .replace(/\s+/g, '-')}${type === 'combo' ? '-combo' : ''}`;
 
   return (
     <>
@@ -199,10 +210,10 @@ const  Footer = () =>  {
             </div>
             <div className={`mt-2 ${isOpen2 ? "block" : "hidden"} md:block`}>
               <ul className="space-y-2 w-full text-[18px] font-medium leading-9">
-                {productLinks.map((product, index) => (
+                {bestseller.map((product, index) => (
                   <div key={index}>
                     <li>
-                      <NavLink to="/Products" className="hover:text-[#018d43]">{product}</NavLink>
+                      <NavLink to={`/product/${getSlug(product.name, type)}/${product._id}`}className="hover:text-[#018d43]">{product.name}</NavLink>
                     </li>
                   </div>
                 ))}

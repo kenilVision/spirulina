@@ -1,10 +1,17 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
-
+import { NavLink, useNavigate } from 'react-router-dom'
+import Cookies from 'js-cookie'
 function BottomNavbar({ setloginbarOpen }) {
+
+
+  const navigate = useNavigate();
+
+  
+
+
   const bottomNavData = [
     {
-      to: '/ShopAll',
+      to: '/collection/all',
       label: 'Shop',
       isfunction: false,
       icon: (
@@ -54,9 +61,16 @@ function BottomNavbar({ setloginbarOpen }) {
       ),
     },
     {
-      label: 'Account',
-      isfunction:true,
-      function: () => setloginbarOpen(true),
+        label: 'Account',
+        isfunction:true,
+ function: () => {
+         const token = Cookies.get('Token');
+        if (token) {
+          navigate('/account/Dashboard');
+        } else {
+          setloginbarOpen(true);
+        }
+      },
       icon: (
         <svg
           aria-label="Account"

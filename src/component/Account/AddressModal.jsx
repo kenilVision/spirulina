@@ -260,8 +260,8 @@ return (
             <input
               type="checkbox"
               id="default"
-              name="default"
-              checked={initialData.default}
+              name="isdefault"
+              checked={initialData.isdefault}
               onChange={handleChange}
               className="w-4 h-4 "
             />

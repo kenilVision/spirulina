@@ -47,7 +47,8 @@ export const fetchUserProfile = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const res = await axiosInstance.get("/auth/profile");
-      return res.data.data;
+      console.log(res)
+      return res.data;
     } catch (err) {
       return rejectWithValue(err.response?.data || err);
     }
@@ -159,6 +160,10 @@ const userSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+      .addCase(fetchUserProfile.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
       .addCase(fetchUserProfile.fulfilled, (state, action) => {
         const user = action.payload;
         state._id = user._id;
@@ -167,11 +172,12 @@ const userSlice = createSlice({
         state.fullname = user.fullname;
         state.email = user.email;
         state.phone = user.phone;
-        state.token = user.token;
-        state.isActive = user.isActive;
-        state.address = user.address || [];
         state.login = true;
-      });
+      })
+      .addCase(fetchUserProfile.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
   },
 });
 

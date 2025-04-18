@@ -12,18 +12,13 @@ import { add, remove,addwithQuantity } from '../../Slice/cart'
 import { useSelector, useDispatch } from 'react-redux'
 SwiperCore.use([Thumbs]);
 
-function Product({ product }) {
+function Product({ product , slug }) {
 
   const carts = useSelector((state) => state.cart)
   const dispatch = useDispatch()
   // Destructure product data
-  const {
-    name,
-    description,
-    variants,
-    ratings,
-   } = product;
-
+  const { name, description, variants= [], ratings,  images, price, discount, stock } = product;
+  const [swiperInstance, setSwiperInstance] = useState(null);
   // Format images
   // State management
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
@@ -37,8 +32,15 @@ function Product({ product }) {
     src: ''
   });
   
+  const [selectedVariant, setSelectedVariant] = useState(variants[0] || {});
+  const allVariantImages = product?.variants
+  ?.slice() // to avoid mutating original
+  ?.reverse()
+  ?.flatMap(variant => variant.images || []);
+  console.log(allVariantImages)
+  const isComboProduct = slug.endsWith('-combo');
 
-  const [selectedVariant, setSelectedVariant] = useState(variants[0]);
+
   useEffect(()=>{
 
     console.log(selectedVariant)
@@ -131,6 +133,13 @@ function Product({ product }) {
       src: 'https://spiruswastha.com/cdn/shopifycloud/shopify/assets/payment_icons/payzapp-9276d25b935c69d0eb05b150d5112c4c8301c3e17898e8d4834edb8dfdc01dd3.svg',
     },
   ];
+  
+
+  const handleGoToSlide = (slideIndex) => {
+    if (swiperInstance) {
+      swiperInstance.slideTo(slideIndex, 500, true); // Go to 3rd slide (index 2)
+    }
+  };
 
 
   return (
@@ -144,39 +153,74 @@ function Product({ product }) {
           
           {/* Main Image Viewer */}
           <div className="flex-1 rounded overflow-hidden h-full">
-            <Swiper
-              loop={true}
-              thumbs={{ swiper: thumbsSwiper }}
-              spaceBetween={10}
-              className="h-full overflow-visible"
-              onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
-            >
-              {selectedVariant.images.map((item, i) => (
-                <SwiperSlide key={i} className="overflow-visible">
-                  <div className="w-full h-full">
-                    {activeIndex === i ? (
-                      <ImageMagnifier 
-                        src={`http://localhost:5050/image/products/${item}`} 
-                        zoom={2} 
-                        onZoomDataChange={setZoomData} 
-                      />
-                    ) : (
-                      <img
-                        src={`http://localhost:5050/image/products/${item}`}
-                        alt={item.alt}
-                        loading="lazy"
-                        className="w-full h-full max-h-[600px] object-contain"
-                      />
-                    )}
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
-
+          <Swiper
+            loop={true}
+            thumbs={{ swiper: thumbsSwiper }}
+            spaceBetween={10}
+            className="h-full overflow-visible"
+            onSwiper={(swiper) => setSwiperInstance(swiper)}
+            onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
+          >
+            {isComboProduct ? (
+              <SwiperSlide className="overflow-visible">
+                <div className="w-full h-full">
+                  <ImageMagnifier 
+                    src={`http://localhost:5050/image/productCombo/${images}`} 
+                    zoom={2} 
+                    onZoomDataChange={setZoomData} 
+                  />
+                </div>
+              </SwiperSlide>
+            ) : (
+              <>
+                
+                {allVariantImages.map((item, i) => {
+                  const isVideo = item.endsWith('.mp4');
+                  return (
+                    <SwiperSlide key={i} className="overflow-visible">
+                      <div className="w-full h-full">
+                        {isVideo ? (
+                          <video
+                            controls
+                            autoplay
+                            className="w-full h-full max-h-[600px] object-contain rounded"
+                            src={`http://localhost:5050/image/products/${item}`}
+                          />
+                        ) : activeIndex === i ? (
+                          <ImageMagnifier
+                            src={`http://localhost:5050/image/products/${item}`}
+                            zoom={2}
+                            onZoomDataChange={setZoomData}
+                          />
+                        ) : (
+                          <img
+                            src={`http://localhost:5050/image/products/${item}`}
+                            alt={`Product Image ${i}`}
+                            loading="lazy"
+                            className="w-full h-full max-h-[600px] object-contain"
+                          />
+                        )}
+                      </div>
+                    </SwiperSlide>
+                  );
+                })}
+                                : (
+                  <SwiperSlide key="0">
+                    <img
+                      src={`http://localhost:5050/image/products/${images[0]}`}
+                      alt="Main Product"
+                      className="w-full h-full max-h-[600px] object-contain"
+                    />
+                  </SwiperSlide>
+                )
+              </>
+            )}
+          </Swiper>
+            </div>
           {/* Thumbnails */}
+          {!slug.endsWith('-combo')?
           <div className="w-full lg:w-[100px] h-[100px] lg:h-full overflow-hidden ">
-            <Swiper
+           <Swiper
               onSwiper={setThumbsSwiper}
               direction={thumbDirection}
               spaceBetween={5}
@@ -184,18 +228,58 @@ function Product({ product }) {
               slidesPerView={5}
               className="h-full"
             >
-              {selectedVariant.images.map((item, i) => (
-                <SwiperSlide key={i}>
-                  <div className="w-full h-[100px]">
-                    <img
-                      src={`http://localhost:5050/image/products/${item}`}
-                      className="cursor-pointer w-full h-full object-cover rounded"
-                    />
-                  </div>
-                </SwiperSlide>
-              ))}
+               {allVariantImages ? allVariantImages.map((item, i) => {
+  const isVideo = item.endsWith(".mp4") || item.endsWith(".webm") || item.endsWith(".ogg");
+
+  return (
+    <SwiperSlide key={i}>
+      <div className="w-full h-[100px] relative">
+        {isVideo ? (
+          <>
+            <video
+              src={`http://localhost:5050/image/products/${item}`}
+              className="w-full h-full object-cover rounded"
+              muted
+              playsInline
+              preload="metadata"
+              onMouseOver={e => e.target.play()}
+              onMouseOut={e => e.target.pause()}
+              style={{ pointerEvents: 'none' }} // so it doesn't interfere with clicks
+            />
+            <div className="absolute inset-0 bg-black/30 rounded flex items-center justify-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-8 h-8 text-white"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
+          </>
+        ) : (
+          <img
+            src={`http://localhost:5050/image/products/${item}`}
+            className="cursor-pointer w-full h-full object-cover rounded"
+            alt=""
+          />
+        )}
+      </div>
+    </SwiperSlide>
+  );
+}) : (
+  <SwiperSlide key="0">
+    <img
+      src={`http://localhost:5050/image/products/${images[0]}`}
+      className="cursor-pointer w-full h-full object-cover rounded"
+    />
+  </SwiperSlide>
+)}
             </Swiper>
+            
+
           </div>
+          : <></>}
         </div>
             
         {/* Product Info Section */}
@@ -208,22 +292,61 @@ function Product({ product }) {
           <h2 className="text-[32px] font-bold">{name}</h2>
           
           {/* Price Display */}
-          <div className="flex items-center text-[26px] gap-4 mt-2 mb-[14px]">
-            <span className="line-through text-[#696969]">₹{selectedVariant.price}</span>
-            <span className="text-[#018d43] font-semibold">₹{selectedVariant.originalPrice}</span>
-            <span className='text-white bg-[#018d43] text-[12px] rounded-lg leading-4 px-[8px] py-[4px] mx-[5px]'>
-              SAVE {Math.round(selectedVariant.discount)}%
-            </span>
-          </div>
+          {isComboProduct ? (
+            <div className="flex items-center text-[26px] gap-4 mt-2 mb-[14px]">
+           
+      
+                  <span className="text-[#018d43] font-semibold">₹{price}</span>
+                  {discount > 0 && (
+                    <span className="text-white bg-[#018d43] text-[12px] rounded-lg leading-4 px-[8px] py-[4px] mx-[5px]">
+                      SAVE {Math.round(discount)}%
+                    </span>
+                  )}
+                
+               
+            </div>
+          ) : (
+            <div className="flex items-center text-[26px] gap-4 mt-2 mb-[14px]">
+              {selectedVariant.price !== (selectedVariant.originalPrice || selectedVariant.price) ? (
+                <>
+                  <span className="line-through text-[#696969]">₹{selectedVariant.price}</span>
+                  <span className="text-[#018d43] font-semibold">₹{selectedVariant.originalPrice}</span>
+                  {selectedVariant.discount > 0 && (
+                    <span className="text-white bg-[#018d43] text-[12px] rounded-lg leading-4 px-[8px] py-[4px] mx-[5px]">
+                      SAVE {Math.round(selectedVariant.discount)}%
+                    </span>
+                  )}
+                </>
+              ) : (
+                <span className="text-[#018d43] font-semibold">₹{selectedVariant.price}</span>
+              )}
+            </div>
+          )}
+         
           
           <p className='text-[18px] text-[#696969] mb-[10px]'>
             <a className='text-[#696969] underline'>Shipping</a> calculated at checkout.
           </p>
 
           <p className="mt-1 text-[18px] mb-[5px] text-[#018d43]">
-            Availability: <span className="text-[#018d43]">In Stock</span>
+            Availability:{' '}
+            <span
+              className={
+                isComboProduct || selectedVariant?.stock > 0
+                  ? 'text-[#018d43]'
+                  : 'text-red-600'
+              }
+            >
+              {isComboProduct
+                ? stock > 0
+                  ? 'In Stock'
+                  : 'Out of Stock'
+                : selectedVariant?.stock > 0
+                ? 'In Stock'
+                : 'Out of Stock'}
+            </span>
           </p>
-          
+                    
           {/* Rating */}
           <p className="mt-1 flex gap text-[#696969] text-[18px] gap-x-2 items-center">
             {Array.from({ length: 5 }).map((_, i) => {
@@ -257,6 +380,12 @@ function Product({ product }) {
             })} 
             {ratings} Reviews
           </p>
+              {/* Combo Product Logic */}
+              {isComboProduct && (
+              <div className="text-[16px] text-[#696969] mt-4">
+                <span className="text-[#018d43]">Combo Offer:</span> Add a free product to your cart when you purchase this item!
+              </div>
+            )}
 
           {/* Variant Selection */}
           {variants.length > 1 && (
@@ -266,7 +395,15 @@ function Product({ product }) {
                 {variants.map((variant,index) => (
                   <button
                     key={variant.id}
-                    onClick={() => setSelectedVariant(variant)}
+                    onClick={() => {
+                      setSelectedVariant(variant)
+                      const firstImage = variant.images?.[0];
+                      const slideIndex = allVariantImages.findIndex(img => img === firstImage);
+                      if (slideIndex !== -1) {
+                        handleGoToSlide(slideIndex); // pass the index to slide to
+                      }
+                    }
+                    }
                     className={`px-4 py-2 border rounded-full ${ selectedVariant == variant ? 'border-[#018d43] bg-[#018d43]/10 text-[#018d43]': 'border-gray-300 hover:border-[#018d43]'}`}
                   >
                     {variant.label}
@@ -281,14 +418,14 @@ function Product({ product }) {
             <div className="flex items-center border w-[120px] h-[38px] text-[14px] text-bold justify-between rounded-full">
               <button 
                 className='hover:cursor-pointer ps-[15px]' 
-                onClick={() => setQuantity(q => Math.max(1, q - 1))}
+                onClick={() => setQuantity(quantity - 1 > 0 ? quantity - 1 : 1)}
               >
                 −
               </button>
               <span className="px-3">{quantity}</span>
               <button 
                 className='hover:cursor-pointer pe-[15px] ' 
-                onClick={() => setQuantity(q => (q < variants.stock ? q + 1 : q))}
+                onClick={() => setQuantity(quantity + 1)}
               >
                 +
               </button>
@@ -345,8 +482,29 @@ function Product({ product }) {
           </div>
 
           {/* Product Description */}
-          <div className="mt-6 text-[18px] leading-relaxed">
+          <div className="mt-6 text-[#696969] text-[18px] leading-relaxed">
             <p>{description}</p>
+
+            {isComboProduct ? 
+            <>
+            <div className="text-[18px] text-[#696969] leading-relaxed">
+              <strong className='text-black'>Includes:</strong>
+              <ul className=" list-inside mt-2">
+              {product?.details.map((item, index) => (
+                  <li key={index}>
+                    <span className=" text-lg leading-[1.2] mr-2">✔</span>{item}
+                  </li>
+                       ))}
+              </ul>
+            <p>
+              <span className='text-black'> Price:</span> Rs. {price}
+            </p>
+            <p className="">
+              <span className='text-black'> {product?.freeProduct}</span> – {product?.optionalDescription}
+            </p>
+            <p>Start your journey to a healthier you with this power-packed herbal combo! </p>
+            </div>
+            </>:<></>}
             {/* {benefits && benefits.length > 0 && (
               <ul className="mt-4 list-disc pl-5">
                 {benefits.map((benefit, index) => (
@@ -371,6 +529,7 @@ function Product({ product }) {
         </div>
       </div>
     </div>
+
   );
 }
 

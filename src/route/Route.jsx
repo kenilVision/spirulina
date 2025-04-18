@@ -1,6 +1,5 @@
 import Home from "../page/Home";
 import About from "../page/About";
-import ShopAll from "../page/ShopAll";
 import Products from "../page/Products";
 import Contact from "../page/Contact";
 import FAQ from "../page/FAQ";
@@ -31,11 +30,6 @@ export const roots = [
   {
     path: "/About",
     element: <About />,
-  },
-  ,
-  {
-    path: "/ShopAll",
-    element: <ShopAll />,
   },
   {
     path: "/product/:slug/:id",

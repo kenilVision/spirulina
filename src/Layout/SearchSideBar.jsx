@@ -1,33 +1,58 @@
-import React from "react";
+import React  from "react";
 import { NavLink } from "react-router-dom";
+import { GetCategories } from "../Api/Category";
+import { useState ,useEffect } from "react";
+import {GetproductbyCategories} from "../Api/product"
+import { useNavigate } from "react-router-dom";
 function SearchSideBar({ searchbarOpen, setsearchbarOpen }) {
-  const products = [
-    {
-      name: "Natural Spirulina Tablet",
-      image_url:
-        "https://spiruswastha.com/cdn/shop/files/Spirulina_3fe544fc-dd3c-432e-a21b-9e52cf11d5fb.jpg",
-    },
-    {
-      name: "Spiruvita Hair Oil",
-      image_url: "https://spiruswastha.com/cdn/shop/files/Spirulina_50.jpg",
-    },
-    {
-      name: "Natural Spirulina Powder",
-      image_url:
-        "https://spiruswastha.com/cdn/shop/files/Spirulina_5c11599d-41c1-480b-bc6b-772b9e067846.jpg",
-    },
-    {
-      name: "Spiru Shine Shampoo",
-      image_url:
-        "https://spiruswastha.com/cdn/shop/files/Spirulina_7aed5f1c-f06f-467c-855e-6a5f3e56c44e.jpg",
-    },
-    {
-      name: "Natural Amla Powder",
-      image_url:
-        "https://spiruswastha.com/cdn/shop/files/Spirulina_79824743-c18c-4aa3-9b4b-d5f61b709e7a.jpg",
-    },
-  ];
+  const navigate = useNavigate();
 
+  const [navigation, setNavigation] = useState([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const data = await GetCategories();
+      if (data) {
+        setNavigation(data);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+  const [params,setparams] = useState({
+    categoryId:"",
+    search:"",
+    page: 1,      // Page number (defaults to 1)
+    limit: 5,    // Number of items per page (defaults to 55)
+  })
+
+  const getSlug = (productName, type) =>
+    `${productName
+      .toLowerCase()
+      .replace(/[^a-z0-9\s]/g, '') // Remove special characters
+      .trim()
+      .replace(/\s+/g, '-')}${type === 'combo' ? '-combo' : ''}`;
+      const type = "product"
+  const [Product,setProduct]=useState([])
+  useEffect(() => {
+    const fetchCategories = async () => {
+
+      const query = new URLSearchParams(params).toString();
+      const data = await GetproductbyCategories(query);
+      console.log(data)
+      setProduct(data.products)
+    };
+
+    fetchCategories();
+  }, [params]);
+
+
+
+    const handleParamsChange = (e) => {
+      const { name, value } = e.target;
+      setparams((prev) => ({ ...prev, [name]: value }));
+      console.log(params)
+    };
   return (
     <>
       <div
@@ -65,9 +90,24 @@ function SearchSideBar({ searchbarOpen, setsearchbarOpen }) {
           <div className=" bg-white  ">
             <form>
               <div className="w-full mb-5 h-[40px] flex justify-center border  border-[#dddddd] relative">
-                <select className="w-full ps-[15px] pe-[30px] focus:outline-none text-[14px] focus:border-0 appearance-none bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNSIgaGVpZ2h0PSIyNSIgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNiYmIiPjxwYXRoIGQ9Ik02IDlsNiA2IDYtNiIvPjwvc3ZnPg==')] bg-no-repeat bg-[right_10px_top_50%] bg-[length:auto_18px]">
+                {/* <select className="w-full ps-[15px] pe-[30px] focus:outline-none text-[14px] focus:border-0 appearance-none bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNSIgaGVpZ2h0PSIyNSIgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNiYmIiPjxwYXRoIGQ9Ik02IDlsNiA2IDYtNiIvPjwvc3ZnPg==')] bg-no-repeat bg-[right_10px_top_50%] bg-[length:auto_18px]">
                   <option value="*">All Categories</option>
                   <option value="Powder">Powder</option>
+                </select> */}
+                <select
+                    name="categoryId"
+                    value={params.categoryId}
+                    onChange={handleParamsChange}
+                    className="w-full ps-[15px] pe-[30px] focus:outline-none text-[14px] focus:border-0 appearance-none bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNSIgaGVpZ2h0PSIyNSIgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNiYmIiPjxwYXRoIGQ9Ik02IDlsNiA2IDYtNiIvPjwvc3ZnPg==')] bg-no-repeat bg-[right_10px_top_50%] bg-[length:auto_18px]"
+                    required
+                >
+                     <option value="">Select a category</option>
+                    {navigation.map((cat) => (
+                    <option key={cat._id} value={cat._id}>
+                        {cat.name}
+                    </option>
+                    ))}
+                    
                 </select>
               </div>
 
@@ -77,6 +117,8 @@ function SearchSideBar({ searchbarOpen, setsearchbarOpen }) {
                   className="w-full border-0 ps-[20px] pe-50px focus:outline-none focus:border-0 h-[40px] text-[14px]"
                   type="text"
                   placeholder="Search"
+                  name="search"
+                  onChange={handleParamsChange}
                 />
                 {/* <input type="search"   readOnly /> */}
                 <button type="submit" className="w-[50px]">
@@ -102,10 +144,17 @@ function SearchSideBar({ searchbarOpen, setsearchbarOpen }) {
         </div>
 
         <div className="flex-grow overflow-auto p-5">
-          {products.map((product) => (
-            <div key={product.id} className="  flex pb-[10px] mb-[10px]  ">
+          {Product.map((product) => (
+            <div 
+            key={product._id} 
+            className="  flex pb-[10px] mb-[10px]"
+            onClick={() =>{
+              navigate(`/product/${getSlug(product.name, type)}/${product._id}`)
+              setsearchbarOpen(false)
+            }} 
+            >
               <img
-                src={product.image_url}
+                src={`http://localhost:5050/image/products/${product.variants[0].images[0]}`}
                 alt={product.name}
                 className=" h-20 w-20 ps-[15px] object-cover "
               />
@@ -116,7 +165,7 @@ function SearchSideBar({ searchbarOpen, setsearchbarOpen }) {
 
         <div className="sticky bottom-0 left-0 w-full border-t border-gray-300 shadow-md bg-white">
           <NavLink
-            to="/ShopAll"
+            to="/collection/all"
             className="w-full flex  items-center py-[12px] px-[20px]"
             onClick={() => setsearchbarOpen(false)}
           >

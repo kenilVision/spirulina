@@ -7,22 +7,18 @@ import LoginSignupSideBar from "./LoginSignupSideBar";
 import CartSideBar from "./CartSideBar";
 import SearchSideBar from "./SearchSideBar";
 import MenuSideBar from "./MenuSideBar";
-import CookieConcent from "./CookieConcent";
-import { useCookies } from "react-cookie";
 
 
 function Layout({ children }) {
 
 
   // State variables to manage the visibility of different components
-  const [cookies, setCookie] = useCookies(["cookieConsent"]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchbarOpen, setsearchbarOpen] = useState(false);
   const [loginbarOpen, setloginbarOpen] = useState(false);
   const [cartbarOpen, setcartbarOpen] = useState(false);
-  console.log(cookies.cookieConsent)
   return (
-    <>
+    <>  
       <Navbar
         loginbarOpen={loginbarOpen}
         setloginbarOpen={setloginbarOpen}

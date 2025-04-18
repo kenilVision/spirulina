@@ -1,6 +1,11 @@
 import React from 'react'
 
 function Benefit({benefits ,name }) {
+  console.log(benefits)
+
+  if (!benefits || benefits.length === 0) {
+    return null; // Don't render anything if no benefits
+  }
 
 
     // const benefits = [
@@ -36,7 +41,7 @@ function Benefit({benefits ,name }) {
     >
         <div>
           <h2 className="text-4xl font-bold relative inline-block ">
-                Benefits of {name}
+            {name}
             </h2>
             <div className="max-w-[9.375rem] h-0.5 bg-[#018d43] mx-auto mt-[12px] mb-[30px] "></div>
           <div className="flex flex-wrap justify-center gap-y-10  ">
@@ -47,16 +52,16 @@ function Benefit({benefits ,name }) {
             className=" w-full sm:w-1/2 md:w-1/2 lg:w-1/3  flex flex-col items-center text-center  "
           >
             <img
-              src={benefit.icon}
+              src={`http://localhost:5050/image/productContent/benefits/${benefit.benefitImage}`} 
               alt={benefit.title}
               className=' w-[100px] h-[100px] md:h-[140px] md:w-[140px] lg:h-auto lg:w-auto'
             />
             <h3 className="text-xl font-semibold pt-[25px] pb-[10px] text-[23px]">
-              {benefit.title}
+              {benefit.name}
             </h3>
             <p className="text-[18px] text-gray-700 lg:mx-[30px]">{benefit.description}</p>
           </div>
-        ))}
+        ))} 
           </div>
         </div>
       </div>

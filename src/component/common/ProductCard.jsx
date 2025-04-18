@@ -6,10 +6,20 @@
   import { add, remove } from '../../Slice/cart'
 
 
+
+
   function ProductCard({ data, type }) {
     const dispatch = useDispatch()
     const navigate = useNavigate();
 
+
+    const getSlug = (productName, type) =>
+      `${productName
+        .toLowerCase()
+        .replace(/[^a-z0-9\s]/g, '') // Remove special characters
+        .trim()
+        .replace(/\s+/g, '-')}${type === 'combo' ? '-combo' : ''}`;
+  
     async function handleSubmit(e, productId) {
       e.preventDefault();
       const stripe = await stripePromise;
@@ -90,11 +100,13 @@
           return (
             <div
               key={_id || index}
-              className="border border-[#dddddd] shadow-sm hover:shadow-md transition-shadow duration-300 hover:cursor-pointer"
+              className="border border-[#dddddd] flex flex-col shadow-sm hover:shadow-md transition-shadow duration-300 hover:cursor-pointer"
             >
               <div
                 className="relative w-full overflow-hidden group"
-                onClick={() => navigate(`/product/${product.name}/${product._id}`)}
+                onClick={() =>
+                  navigate(`/product/${getSlug(product.name, type)}/${product._id}`)
+                } 
               >
             <img
               src={`http://localhost:5050/image/${type === 'combo' ? `productCombo/${product.images}` : `products/${firstVariant.images[0]}`}`}
@@ -126,8 +138,10 @@
                 </div>
               </div>
               <div
-                className="p-4 text-start"
-                onClick={() => navigate(`/product/${product.name}/${product._id}`)}
+                className="p-4 text-start mt-auto"
+                onClick={() =>
+                  navigate(`/product/${getSlug(product.name, type)}/${product._id}`)
+                }
               >
                 <p className="font-bold truncate hover:text-[#018d43]">
                   {name}

@@ -1,19 +1,11 @@
 import React from 'react'
 
-function Ingredient({ name }) {
+function Ingredient({ Ingredient ,name }) {
 
-    const ingredients = [
-        {
-            name: "Spirulina Powder",
-            image: "//spiruswastha.com/cdn/shop/files/Spirulina_Powder.png?v=1734697234",
-            alt: "Spirulina Powder",
-          },
-          {
-            name: "Aloevera Powder",
-            image: "//spiruswastha.com/cdn/shop/files/Aloevera_Powder.png?v=1734697262",
-            alt: "Aloevera Powder",
-          },
-    ]
+  if (!Ingredient || Ingredient.length === 0) {
+    return null; // Don't render anything if no benefits
+  }
+
   return (
     <div className='w-full mb-[30px] md:mt-[80px] md:mb-[80px] lg:mt-[100px] lg:mb-[100px]'>
     <div className="w-full max-w-[1440px]  mx-auto text-center px-[15px]">
@@ -39,9 +31,9 @@ function Ingredient({ name }) {
           data-aos-once="true"
           >
             {
-                ingredients.map((ingredient, index) => (
+                Ingredient.map((ingredient, index) => (
                     <div key={index} className='flex justify-center items-center gap-5'  >
-                      <img src={ingredient.image} alt={ingredient.name} className=' rounded-full max-w-[110px] lg:max-w-[208px]' />
+                      <img src={`http://localhost:5050/image/productContent/ingredients/${ingredient.ingredientImage}`} alt={ingredient._id} className=' rounded-full max-w-[110px] lg:max-w-[208px]' />
                       <h3 className='text-[18px]' >{ingredient.name}</h3>
                     </div>
                 ))
@@ -54,3 +46,5 @@ function Ingredient({ name }) {
 }
 
 export default Ingredient
+
+

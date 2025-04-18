@@ -12,8 +12,8 @@ const Bestsellers = () => {
       const params = { isBestSeller: true };
       const queryString = new URLSearchParams(params).toString();
       const data = await GetproductbyCategories(queryString);  
-      console.log(data);  
-      setProducts(data);
+      console.log(data.products);  
+      setProducts(data.products || []);
     };
 
     fetchBestsellers();
@@ -29,7 +29,7 @@ const Bestsellers = () => {
           data-aos-duration="1000"
           data-aos-once="true"
         >
-          <ProductCard data={products.products} type="product" />
+          <ProductCard data={products} type="product" />
         </div>
       </div>
     </div>

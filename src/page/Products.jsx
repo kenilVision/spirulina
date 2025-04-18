@@ -12,28 +12,51 @@ import Product from '../component/Products/Product'
 import { Products } from '../Constant/Product.js'
 import { CustomerReview } from '../Constant/CustomerReview'
 import StickyAddToCart from '../component/Products/StickyAddToCart'
-import {fetchSingleProduct} from '../Slice/product.js'
+import {fetchSingleProduct,fetchSinglecombo} from '../Slice/product.js'
 import { useDispatch , useSelector } from 'react-redux'
-
+import {GetproductContent} from '../Api/productcontent.js'
 
 function Prooducts() {
   const { slug, id } = useParams();
   const product = useSelector((state) => state.product.product)
-  const loading= useSelector((state) => state.product.loading)
+  const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch()
+
+
+  const [details,setdetails] = useState([])
   useEffect(() => {
     const fetchProduct = async () => {
+      setIsLoading(true); 
+      console.log("useEffect triggered", slug, id); // NEW log
       try {
-        dispatch(fetchSingleProduct(id))
+        if (slug.endsWith('-combo')) {
+          dispatch(fetchSinglecombo(id));
+        } else {
+
+          const resultAction = await dispatch(fetchSingleProduct(id));
+          console.log(resultAction);  
+          
+          if (fetchSingleProduct.fulfilled.match(resultAction)) {
+            const related = await GetproductContent(id);
+            console.log("hello"); 
+            setdetails(related)
+            console.log( related);
+          }
+        }
       } catch (error) {
         console.error("Failed to fetch product:", error);
-      } 
+      }
+      finally {
+        setIsLoading(false); // Stop loader
+      }
     };
 
+    
+  
     fetchProduct();
-  }, [slug, id]);
+  }, [slug, id, dispatch]);
 
-  if (loading) {
+  if (isLoading ) {
     return (
       <div className="w-full h-screen flex items-center justify-center bg-white">
           <img 
@@ -45,7 +68,7 @@ function Prooducts() {
     )
   }
 
-  if (!product) {
+  if (!product ) {
     return <div className="container mx-auto py-12 text-center">Product not found</div>;
   }
 
@@ -54,22 +77,37 @@ function Prooducts() {
   //   .slice(0, 4)
 
   // const isCombo = product.category === 'Wellness Combo'
-
+    if(slug.endsWith('-combo')){
+      return (
+        <>
+              <Product product={product} slug={slug}  />
+              <Description description={product.description} name={product.name}  />
+              <CustomerReviw CustomerReview={CustomerReview} id={product.id} />
+              
+              <MayalsoLike/>
+              <WhySpiruSwastha />
+              <StickyAddToCart product={product} type="combo" />
+    
+        </>
+      )
+    }
+    else{
+      console.log(details)
   return (
     <>
-          <Product product={product}  />
+          <Product product={product} slug={slug}  />
           <Description description={product.description} name={product.name}  />
-          {/* <CustomerReviw CustomerReview={CustomerReview} id={product.id} /> */}
-          {/* <Benefit benefits={product.benefits} name={product.name} /> */}
-          {/* <MayalsoLike relatedProducts={relatedProducts} /> */}
-          {/* <Ingredient Ingredient={product.ingredients} name={product.name} /> */}
-          {/* <HowToUse slug={product.slug} /> */}
-          {/* <FAQs FAQs={product.faqs} /> */}
+          <CustomerReviw CustomerReview={CustomerReview} id={product.id} />
+          <Benefit benefits={details.benefits}  name={details.benefitsTitle} />
+          <MayalsoLike  />
+          <Ingredient Ingredient={details.ingredients} name={details.ingredientsTitle} />
+          <HowToUse title={details.stepTitle} detail={details.howToUse} />
+          <FAQs FAQs={details.faqs} />
           <WhySpiruSwastha />
-          {/* <StickyAddToCart product={product} /> */}
+          <StickyAddToCart product={product} type="product" />
 
     </>
-  )
+  )}
 }
 
 export default Prooducts
