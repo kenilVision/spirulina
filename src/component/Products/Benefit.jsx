@@ -22,17 +22,17 @@ function Benefit({benefits ,name }) {
             {name}
             </h2>
             <div className="max-w-[9.375rem] h-0.5 bg-[#018d43] mx-auto mt-[12px] mb-[30px] "></div>
-            <div className="flex flex-wrap md:flex-nowrap gap-4  justify-center">
+            <div className=" flex flex-wrap   justify-center">
 
           {benefits.map((benefit, index) => (
           <div
             key={index}
-            className="  md:w-full flex flex-col items-center text-center p-2"
+            className="  w-full  sm:w-1/2  md:w-1/3 flex flex-col items-center text-center px-4"
           >
             <img
               src={`http://localhost:5050/image/productContent/benefits/${benefit.benefitImage}`} 
               alt={benefit.title}
-              className=' w-[100px] h-[100px] md:h-[140px] md:w-[140px] lg:h-auto lg:w-auto'
+              className=' w-[100px] h-[100px] md:h-[140px] md:w-[140px] lg:h-[196px] lg:w-[189px]'
             />
             <h3 className="text-xl font-semibold pt-[25px] pb-[10px] text-[23px]">
               {benefit.name}

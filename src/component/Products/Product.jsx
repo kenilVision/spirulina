@@ -239,7 +239,7 @@ function Product({ product , slug }) {
         {isVideo ? (
           <>
             <video
-              src={`http://localhost:5050/image/products/${item}`}
+              src={`http://localhost:5050/image/productVideos/${item}`}
               className="w-full h-full object-cover rounded"
               muted
               playsInline
