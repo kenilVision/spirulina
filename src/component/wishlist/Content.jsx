@@ -18,6 +18,7 @@ const dispatch = useDispatch()
 
         {wishlist.length > 0 ? (
           <>
+          <div className="w-full max-w-[1440px]  mx-auto text-center px-[15px]">
           <div 
         className='grid grid-cols-2 my-[80px] gap-x-[30px] gap-y-[30px] md:grid-cols-3 lg:grid-cols-4  ' 
         data-aos="fade-up"
@@ -27,6 +28,7 @@ const dispatch = useDispatch()
         {wishlist.map((product, index) => ( 
           <ProductcardWishlist key={product._id || index} product={product} type={product.type} />
         ))}
+               </div>
                </div>
           </>
         ):(
@@ -48,6 +50,7 @@ const dispatch = useDispatch()
           page.
         </p>
         </div>
+        
         )}
       
     </section>

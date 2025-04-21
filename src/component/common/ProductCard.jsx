@@ -15,10 +15,20 @@
     const wishlist = useSelector(state => state.wishlist.items); // Access wishlist from the store
     
     function handleCart(product) {
+   
+
       const data = {
         ...product,
         qty: 1,
-        type: type
+        type: type,
+        ...(type === "product" && {
+          variants: {
+            label: product.variants[0].label,
+            price: product.variants[0].price,
+            image:product.variants[0].images[0]
+          }
+        })
+
       };
       
       dispatch(AddtoCart(data));
@@ -86,12 +96,12 @@
                 <div className="absolute top-0 right-0 p-5 flex items-center h-15 justify-between w-full">
                   {firstVariant.discount != 0 ? (
                     <span className="bg-[#018d43] text-white rounded-md h-[22px] text-[13px] px-[6px] min-w-[38px]">
-                      {Math.round(firstVariant.discount)}%
+                      {Math.round(firstVariant.discount)}% Off
                     </span>
                   ) : (
                     <p></p>
                   )}
-                  {/* Heart icon */}
+                  
 
                   
              {wishlist.some(item => item._id === _id) ? (
@@ -127,7 +137,7 @@
                         viewBox="0 0 24 24"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
-                        className="transition-all duration-300 transform group-hover:translate-x-[-20px] group-hover:opacity-100 opacity-0"
+                        className="transition-all duration-300 transform group-hover:translate-x-[0px] group-hover:opacity-100 opacity-0"
                         style={{
                           position: 'absolute',
                           top: '50%',
@@ -181,18 +191,33 @@
                   </>
                 ) : (
                   <>
-                    {firstVariant.price && firstVariant.originalPrice != 0 ? (
-                      <div className="flex text-[1.25rem] leading-10 items-center gap-2">
-                        <span className="text-[#696969] line-through">
+                   {product.variants.length > 1 ? (
+                    (() => {
+                      const prices = product.variants.map(
+                        v => v.originalPrice && v.originalPrice !== 0 ? v.originalPrice : v.price
+                      );
+                      const minPrice = Math.min(...prices);
+                      const maxPrice = Math.max(...prices);
+                      return (
+                        <p className="text-[1.25rem] text-[#018d43] leading-10">
+                          ₹{minPrice} - ₹{maxPrice}
+                        </p>
+                      );
+                    })()
+                  ) : (
+                    <>
+                      {firstVariant.price !== firstVariant.originalPrice && firstVariant.originalPrice !== 0 ? (
+                        <div className="flex text-[1.25rem] leading-10 items-center gap-2">
+                          <span className="text-[#696969] line-through">₹{firstVariant.price}</span>
+                          <span className="text-[#018d43]">₹{firstVariant.originalPrice}</span>
+                        </div>
+                      ) : (
+                        <p className="text-[1.25rem] text-[#018d43] leading-10">
                           ₹{firstVariant.price}
-                        </span>
-                        <span className="text-[#018d43]">₹{firstVariant.originalPrice}</span>
-                      </div>
-                    ) : (
-                      <p className="text-[1.25rem] text-[#018d43] leading-10">
-                        ₹{firstVariant.price}
-                      </p>
-                    )}
+                        </p>
+                      )}
+                    </>
+                  )}
                   </>
                 )}
                 

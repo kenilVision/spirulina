@@ -2,7 +2,6 @@ import React, { useEffect ,useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from "react-router-dom";
-import { isAction } from "@reduxjs/toolkit";
 import { GetCategories } from "../Api/Category";
 import Cookies from 'js-cookie';
 function Navbar({
@@ -17,7 +16,7 @@ function Navbar({
 }) {
 
   const wishlist = useSelector(state => state.wishlist.items);
-
+  const Cartcount = useSelector(state => state.cart.items )
   const [navigation, setNavigation] = useState([]);
   useEffect(() => {
     const fetchCategories = async () => {
@@ -382,7 +381,7 @@ function Navbar({
               </svg>
 
               <span className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-[#018d43] text-white text-xs font-bold px-1.5 py-0.5 rounded-full">
-              {/* {Cartcount} */}
+              {Cartcount.reduce((total, item) => total + item.qty, 0)}
               </span>
             </button>
           </div>

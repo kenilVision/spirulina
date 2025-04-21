@@ -8,10 +8,13 @@ import ImageMagnifier from '../common/ImageMagnifier';
 import "./Product.css";
 import MagnifierPreview from '../common/MagnifierPreview';
 import { loadStripe } from '@stripe/stripe-js';
-// import { add, remove,addwithQuantity } from '../../Slice/cart'
+import {AddtoCart} from '../../Slice/cart'
 import { useSelector, useDispatch } from 'react-redux'
 SwiperCore.use([Thumbs]);
 import { AddtoWishlist, RemovefromWishlist } from '../../Slice/wishlist';
+
+
+
 function Product({ product , slug }) {
 
   const carts = useSelector((state) => state.cart)
@@ -42,11 +45,7 @@ function Product({ product , slug }) {
 
    
 
-  useEffect(()=>{
 
-    console.log(selectedVariant)
-
-  },[selectedVariant])
  
   useEffect(() => {
     const handleResize = () => {
@@ -83,21 +82,22 @@ function Product({ product , slug }) {
     }
   }
 
-  const handlecart = () => {
-    const { name, images, variants } = product;
-    // Using the selected variant for cart
-    const cartItem = {
-      id: product.id,
-      name,
-      image: images[0],
-      price: selectedVariant.discounted_price,
-      originalPrice: selectedVariant.original_price,
-      qty: quantity,
-      options: selectedVariant, // Passing selected variant as options
-    };
-    console.log(cartItem);
-    dispatch(addwithQuantity(cartItem));
-  }
+    function handleCart(product) {
+      const cleanVariant = slug === "product" ? {
+        label: selectedVariant?.label,
+        price: selectedVariant?.price,
+        image:selectedVariant?.images[0]
+      } : null;
+    
+      const data = {
+        ...product,
+        qty: quantity,
+        type: slug,
+        ...(slug === "product" && { variants: cleanVariant })
+      };
+    
+      dispatch(AddtoCart(data));
+    }
 
   // Payment icons data
   const paymentIcons = [
@@ -434,13 +434,13 @@ function Product({ product , slug }) {
             </div>
             <button 
             className="bg-[#018d43] hidden lg:block text-white px-6 py-2 w-full lg:w-auto rounded-full hover:cursor-pointer"
-            onClick={handlecart}
+            onClick={() =>{ handleCart(product)}}
             >
               Add to Cart
             </button>
             <button
   type="button"
-  className={`w-[38px] h-[38px] flex items-center justify-center border rounded-full hover:bg-green-50 transition 
+  className={`w-[38px] h-[38px] flex items-center justify-center border rounded-full group hover:border-red-600 transition 
     ${wishlist.some(item => item._id === product._id) ? 'border-red-600' : 'border-green-600'}`}
 >
   {wishlist.some(item => item._id === product._id) ? (
@@ -465,9 +465,8 @@ function Product({ product , slug }) {
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 512 512"
       fill="none"
-      stroke="green"
       strokeWidth="32"
-      className="w-5 h-5 cursor-pointer transition-all duration-300 opacity-100 group-hover:opacity-100"
+      className="w-5 h-5 cursor-pointer stroke-green-500 group-hover:stroke-red-500  transition-all duration-300 opacity-100 group-hover:opacity-100"
       onClick={(e) => {
         e.stopPropagation();
         dispatch(AddtoWishlist({
@@ -485,7 +484,7 @@ function Product({ product , slug }) {
           
           <button 
           className="bg-[#018d43] lg:hidden text-white px-6 py-2 w-full mb-[15px] rounded-full hover:cursor-pointer"
-          onClick={handlecart}
+          onClick={() =>{ handleCart(product)}}
           >
             Add to Cart
           </button>

@@ -55,7 +55,7 @@ const SpiruswasthaTrends = () => {
       <div className="w-full text-center">
         <HomeSectionHeading title="Spiruswastha Trends" />
       </div>
-
+      <div className="overflow-hidden">
       {isLargeScreen ? (
         <div
           className="overflow my-4  px-4"
@@ -67,7 +67,8 @@ const SpiruswasthaTrends = () => {
             spaceBetween={20}
             freeMode={true}
             slidesPerView="auto"
-            modules={[FreeMode]}
+            navigation={true} 
+            modules={[FreeMode,Navigation]}
             className="mySwiper"
             breakpoints={{
               320: { slidesPerView: 1.2 },
@@ -129,7 +130,7 @@ const SpiruswasthaTrends = () => {
               >
                 <video
                   onClick={() => openModal(video)}
-                  src={`http://localhost:5050/image/productVideos/${videoSrc}`}
+                  src={`http://localhost:5050/image/productVideos/${video}`}
                   autoPlay
                   loop
                   muted={idx !== activeIndex}
@@ -144,7 +145,7 @@ const SpiruswasthaTrends = () => {
           </Swiper>
         </div>
       )}
-
+      </div>
       {/* Modal */}
       {selectedVideo !== null && (
   <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#00000063] p-4">
@@ -158,9 +159,9 @@ const SpiruswasthaTrends = () => {
     <div className="relative w-full max-w-6xl mx-auto flex items-center bg-transparent justify-center h-[80vh]">
       {/* Navigation arrows */}
       <button className="swiper-button-prev absolute left-0 z-10 text-white hover:text-blue-400 transition-colors">
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        {/* <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-        </svg>
+        </svg> */}
       </button>
 
       {/* Main Swiper container */}
@@ -215,9 +216,9 @@ const SpiruswasthaTrends = () => {
 
       {/* Navigation arrows */}
       <button className="swiper-button-next absolute right-0 z-10 text-white hover:text-blue-400 transition-colors">
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        {/* <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-        </svg>
+        </svg> */}
       </button>
     </div>
   </div>

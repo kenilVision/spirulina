@@ -1,79 +1,74 @@
 import React from 'react';
 // import { add, remove, addwithQuantity } from '../../Slice/cart';
-import { useSelector, useDispatch } from 'react-redux';
+import { RemovefromCart , AddtoCart , DecreaseQty ,IncreaseQty } from '../../Slice/cart'
+import { useDispatch } from 'react-redux';
 
 const MiniCartItem = ({ product }) => {
-  const carts = useSelector((state) => state.cart);
   const dispatch = useDispatch();
-  const { id, name, image, price, qty, options } = product;
+  const { _id, name,  variants ,  type } = product.data;
+  const qty = product.qty
 
-  const removeItem = () => {
-    dispatch(remove({ id, options })); // Pass both id and options (variant)
+  const removeItem = (_id, type, label = null) => {
+    dispatch(RemovefromCart({ _id, type, label }));
   };
-
-  const increaseQty = () => {
-    if (qty < 10) {
-      dispatch(addwithQuantity({ ...product, qty: qty + 1 }));
-    }
+  
+  const increaseQty = (_id, type, label = null) => {
+    dispatch(IncreaseQty({ _id, type, label }));
   };
-
-  const decreaseQty = () => {
+  
+  const decreaseQty = (_id, type, label = null) => {
     if (qty > 1) {
-      dispatch(addwithQuantity({ ...product, qty: qty - 1 }));
+      dispatch(DecreaseQty({ _id, type, label }));
     }
   };
 
+ 
   return (
-    <div className="flex p-4 gap-2 bg-white  my-3">
+    <div className="flex p-4 gap-2 border border-[#DDDDDD] bg-white  ">
       <div className="flex justify-center items-center">
-        <img
-          className="w-30 h-30 object-cover "
-          src={image}
-          alt={name}
-        />
+      <img
+              src={`http://localhost:5050/image/${type === 'combo' ? `productCombo/${product.data.images}` : `products/${variants.image}`}`}
+              alt={name}
+              className="w-30 h-30 object-cover "
+            />
       </div>
 
-      <div className="flex-1">
-        <p className="text-md font-semibold text-gray-800">{name}</p>
+      <div className="flex-1 overflow-hidden">
+        <p className="text-md font-semibold text-gray-800 truncate">{name}</p>
+        <div className="text-sm text-gray-600 mt-2">
+          {variants?.label}
+        </div>
         <div className="mt-1">
-          <span className="text-md font-bold text-green-600">₹{price}</span>
+          <span className="text-md font-bold text-green-600">₹{type=="combo" ?  product.data.price : variants.price }</span>
         </div>
 
         {/* Display variant details here */}
-        <div className="text-sm text-gray-600 mt-2">
-          {options?.weight && <p>Weight: {options.weight}</p>}
-          {options?.quantity && <p>Quantity: {options.quantity}</p>}
-        </div>
 
         {/* Quantity controls */}
-        <div className="mt-2 flex justify-between items-center gap-2 border border-gray-300 ">
+        <div className="mt-2 max-w-[120px] flex justify-between items-center gap-2 border  ">
           {/* Show bin button when qty is 1, else show minus button */}
           {qty === 1 ? (
             <button
-              onClick={removeItem}
+            onClick={()=>{
+              removeItem(_id, type, type === "combo" ? null : variants.label)
+            }}
               className="p-1  text-white rounded-md "
               type="button"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="none"
-                stroke="black"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <polyline points="3 6 5 6 21 6" />
-                <path d="M19 6l-1 14H6L5 6" />
-                <path d="M10 11v6" />
-                <path d="M14 11v6" />
-                <path d="M9 6V4h6v2" />
-              </svg>
+                 <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                 className='stroke-black hover:stroke-green-600'
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              <line x1="10" y1="11" x2="10" y2="17"></line>
+              <line x1="14" y1="11" x2="14" y2="17"></line>
+          </svg>
             </button>
           ) : (
             <button
-              onClick={decreaseQty}
+              onClick={()=>{
+                decreaseQty(_id, type, type === "combo" ? null : variants.label);
+              }}
               className="p-1 "
               type="button"
             >
@@ -97,13 +92,15 @@ const MiniCartItem = ({ product }) => {
             type="text"
             value={qty}
             min="1"
-            className="w-10 text-center border border-gray-300 rounded-md"
+            className="w-10 text-center  rounded-md"
             readOnly
           />
 
           {/* Plus Button */}
           <button
-            onClick={increaseQty}
+                 onClick={()=>{
+                  increaseQty(_id, type, type === "combo" ? null : variants.label)
+                }}
             className="p-2 "
             type="button"
           >
@@ -126,20 +123,21 @@ const MiniCartItem = ({ product }) => {
         {/* Remove button for qty = 1 */}
         
         <button
-          onClick={removeItem}
-          className="mt-3 text-red-600 hover:text-red-800 flex items-center gap-1"
+          onClick={()=>{
+            removeItem(_id, type, type === "combo" ? null : variants.label)
+          }}
+          className="mt-3  flex items-center gap-1"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M9 6h6M4 6l1 14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-14M10 11v6M14 11v6" />
+        <svg 
+        xmlns="http://www.w3.org/2000/svg" 
+        width="24" height="24" viewBox="0 0 24 24" fill="none"  
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+        className='stroke-black hover:stroke-green-600'
+        >
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              <line x1="10" y1="11" x2="10" y2="17"></line>
+              <line x1="14" y1="11" x2="14" y2="17"></line>
           </svg>
          
         </button>

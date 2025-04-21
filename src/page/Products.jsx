@@ -25,21 +25,17 @@ function Prooducts({ type = "product" }) {
   const dispatch = useDispatch();
 
   const [details, setdetails] = useState([]);
+
   useEffect(() => {
     const fetchProduct = async () => {
       setIsLoading(true);
-      console.log("useEffect triggered", slug); // NEW log
       try {
-        console.log(location.state)
         if (location.state == "combo") {
           const resultAction = await dispatch(fetchSinglecombo(slug));
-          console.log(resultAction);
         } else {
           const resultAction = await dispatch(fetchSingleProduct(slug));
-          console.log(resultAction)
           if (fetchSingleProduct.fulfilled.match(resultAction)) {
             const related = await GetproductContent(resultAction.payload._id);
-            
             setdetails(related);
           }
         }

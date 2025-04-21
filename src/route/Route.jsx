@@ -18,6 +18,7 @@ import Dashboard from "../component/Account/Dashboard";
 import Orders from "../component/Account/Orders";
 import Addresses from "../component/Account/Addresses";
 import Collection from "../page/Collection";
+import Cart from '../page/Cart'
 export const roots = [
   {
     path: "/",
@@ -38,6 +39,10 @@ export const roots = [
   {
     path: "/Contact",
     element: <Contact />,
+  },
+  {
+    path: "/Cart",
+    element: <Cart />,
   },
   {
     path: "/FAQ",

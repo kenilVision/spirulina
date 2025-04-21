@@ -5,29 +5,36 @@ export const AddtoCart = createAsyncThunk(
   "cart/add",
   async (data, { getState, rejectWithValue }) => {
     try {
-
       const { items } = getState().cart;
-      console.log(data)
-
       const newItems = [...items];
-      
-      const existingIndex = newItems.findIndex(
-        item => item.data._id === data._id 
-      );
+      let existingIndex;
+
+      if (data.type === "product") {
+        existingIndex = newItems.findIndex(
+          item =>
+            item.data._id === data._id &&
+            item.data.type === data.type &&
+            item.data.variants.label === data.variants.label 
+        );
+      } else {
+        existingIndex = newItems.findIndex(
+          item => item.data._id === data._id && item.data.type === data.type
+        );
+      }
+
       
       if (existingIndex !== -1) {
-        // Create a new object for the existing item
+        // Update quantity while preserving structure
         newItems[existingIndex] = {
           ...newItems[existingIndex],
           qty: newItems[existingIndex].qty + data.qty
         };
       } else {
-        // Add new item
-        newItems.push({data});
+        // Add new item with qty
+        newItems.push({ data, qty: data.qty });
       }
-      
+
       return newItems;
-      
     } catch (err) {
       return rejectWithValue(err.message || "Failed to add to cart");
     }
@@ -36,15 +43,86 @@ export const AddtoCart = createAsyncThunk(
 
 export const RemovefromCart = createAsyncThunk(
   "cart/remove",
-  async ({ productId, type }, { getState, rejectWithValue }) => {
+  async ({ _id, type, label }, { getState, rejectWithValue }) => {
     try {
       const { items } = getState().cart;
-      return items.filter(item => !(item.product._id === productId && item.type === type));
+
+      const filteredItems = items.filter(item => {
+        const itemId = item.data._id;
+        const itemType = item.data.type;
+        const itemLabel = item.data.variants?.label;
+
+        if (type === "product") {
+          return !(
+            itemId === _id &&
+            itemType === type &&
+            itemLabel?.trim() === label?.trim()
+          );
+        } else {
+          return !(itemId === _id && itemType === type);
+        }
+      });
+
+      return filteredItems;
     } catch (err) {
       return rejectWithValue(err.message || "Failed to remove from cart");
     }
   }
 );
+
+export const IncreaseQty = createAsyncThunk(
+  "cart/increaseQty",
+  async ({ _id, type, label }, { getState, rejectWithValue }) => {
+    try {
+      const { items } = getState().cart;
+
+      const updatedItems = items.map(item => {
+        const isProduct = item.data.type === "product";
+        const match =
+          item.data._id === _id &&
+          item.data.type === type &&
+          (!isProduct || item.data.variants?.label === label);
+
+        if (match) {
+          return { ...item, qty: item.qty + 1 };
+        }
+        return item;
+      });
+
+      return updatedItems;
+    } catch (err) {
+      return rejectWithValue(err.message || "Failed to increase quantity");
+    }
+  }
+);
+export const DecreaseQty = createAsyncThunk(
+  "cart/decreaseQty",
+  async ({ _id, type, label }, { getState, rejectWithValue }) => {
+    try {
+      const { items } = getState().cart;
+
+      const updatedItems = items
+        .map(item => {
+          const isProduct = item.data.type === "product";
+          const match =
+            item.data._id === _id &&
+            item.data.type === type &&
+            (!isProduct || item.data.variants?.label === label);
+
+          if (match) {
+            return item.qty > 1 ? { ...item, qty: item.qty - 1 } : null;
+          }
+          return item;
+        })
+        .filter(Boolean); // remove nulls
+
+      return updatedItems;
+    } catch (err) {
+      return rejectWithValue(err.message || "Failed to decrease quantity");
+    }
+  }
+);
+
 
 // Slice
 const cartSlice = createSlice({
@@ -92,7 +170,36 @@ const cartSlice = createSlice({
       .addCase(RemovefromCart.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      });
+      })
+
+      .addCase(IncreaseQty.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(IncreaseQty.fulfilled, (state, action) => {
+        state.items = action.payload;
+        state.loading = false;
+      })
+      .addCase(IncreaseQty.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      
+
+      .addCase(DecreaseQty.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(DecreaseQty.fulfilled, (state, action) => {
+        state.items = action.payload;
+        state.loading = false;
+      })
+      .addCase(DecreaseQty.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      ;
+  
   }
 });
 

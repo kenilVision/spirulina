@@ -33,7 +33,7 @@ function DataCard({ combinedData, pagination, onPageChange }) {
         >
           <button
             onClick={() => onPageChange(page - 1)}
-            className="px-3 py-2 text-[#8c8c8c] hover:text-[#018d43] disabled:text-gray-300"
+            className="px-3 py-2 text-[#8c8c8c] hover:text-[#018d43] hover:cursor-pointer disabled:text-gray-300"
             disabled={page === 1}
           >
             Prev
@@ -50,7 +50,7 @@ function DataCard({ combinedData, pagination, onPageChange }) {
                   className={`px-3 py-2 rounded ${
                     page === pageNum
                       ? "text-[#018d43] font-medium"
-                      : "text-[#8c8c8c] hover:text-[#018d43]"
+                      : "text-[#8c8c8c] hover:cursor-pointer hover:text-[#018d43]"
                   }`}
                 >
                   {pageNum}
@@ -61,7 +61,7 @@ function DataCard({ combinedData, pagination, onPageChange }) {
 
           <button
             onClick={() => onPageChange(page + 1)}
-            className="px-3 py-2 text-[#8c8c8c] hover:text-[#018d43] disabled:text-gray-300"
+            className="px-3 py-2 text-[#8c8c8c] hover:text-[#018d43] hover:cursor-pointer disabled:text-gray-300"
             disabled={page === totalPages}
           >
             Next

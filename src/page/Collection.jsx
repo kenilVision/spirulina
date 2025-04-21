@@ -29,21 +29,29 @@ import { GetproductbyCategories } from "../Api/product";
  const [min , setmin] = useState(value[0])
  const [max , setmax] = useState(value[1])
  const [page, setPage] = useState(1);
-
+ 
  const minmaxcontrol = () => {
    setmin(value[0])
    setmax(value[1])
-
- }
-
+   
+  }
+  
   const [isOpenfilter, setIsOpenfilter] = useState(false);   // State to control filter sidebar visibility
   const [isOpen, setIsOpen] = useState(false);        // State to control dropdown visibility
   const [isOpen2, setIsOpen2] = useState(false);      // State to control sort slider visibility
-
-
-// ------------------------- calls -----------------------------------------------
+  
+  
+  // ------------------------- calls -----------------------------------------------
   const { collectionName } = useParams();
   const formattedName = collectionName.replace(/-/g, ' ');
+  useEffect(()=>{
+    
+    setSelected({label:"Featured"})
+      setValue([0.0, 3599.0])
+      setmin(value[0])
+      setmax(value[1])
+      setPage(1)
+  },[collectionName])
 
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -66,7 +74,7 @@ import { GetproductbyCategories } from "../Api/product";
             minPrice: min || 0,
             maxPrice: max || 10000,
             page: page,
-            limit: 5,
+            limit: 12,
             ...(categoryId && { categoryId }),
             ...(selected?.value === "Featured" && { isFeatured: true }),
             ...(selected?.value === "bestselling" && { isBestSeller: true }),

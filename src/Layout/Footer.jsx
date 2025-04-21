@@ -12,7 +12,7 @@ const  Footer = () =>  {
 
   useEffect(() => {
     const fetchBestsellers = async () => {
-      const params = { isBestSeller: true };
+      const params = { isBestSeller: true ,limit:5 };
       const queryString = new URLSearchParams(params).toString();
       const data = await GetproductbyCategories(queryString);  
       console.log(data.products);  

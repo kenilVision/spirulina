@@ -2,23 +2,61 @@ import React,{useEffect, useState} from "react";
 import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
 import { useSelector, useDispatch } from 'react-redux'
-
+import { NavLink } from "react-router-dom";
 import MiniCartItem from "../component/common/MiniCartItem";
 function CartSideBar({ cartbarOpen, setcartbarOpen }) {
-   const carts = useSelector((state) => state.cart)
+   const carts = useSelector(state => state.cart.items )
     const dispatch = useDispatch()
   
-      const [progress, setProgress] = useState(50);
+      const [progress, setProgress] = useState(0);
+         const [total,settotal] = useState()
 
+      useEffect(() => {
+       
+        const totalPrice = carts.reduce((acc, item) => {
+          const isCombo = item.data.type === "combo";
+          const itemPrice = isCombo ? item.data.price : item.data.variants.price;
+          return acc + itemPrice * item.qty;
+        }, 0);
+        settotal(totalPrice)
+        const targetPrice = 500; 
+        const newProgress = Math.min((totalPrice / targetPrice) * 100, 100); 
+        setProgress(newProgress);
+      }
+, [carts]);  
 
-//       useEffect(() => {
+const paymentIcons = [
+  {
+    alt: 'Visa',
+    src: 'https://spiruswastha.com/cdn/shopifycloud/shopify/assets/payment_icons/visa-319d545c6fd255c9aad5eeaad21fd6f7f7b4fdbdb1a35ce83b89cca12a187f00.svg',
+  },
+  {
+    alt: 'MasterCard',
+    src: 'https://spiruswastha.com/cdn/shopifycloud/shopify/assets/payment_icons/master-173035bc8124581983d4efa50cf8626e8553c2b311353fbf67485f9c1a2b88d1.svg',
+  },
+  {
+    alt: 'Maestro',
+    src: 'https://spiruswastha.com/cdn/shopifycloud/shopify/assets/payment_icons/maestro-d2055c6b416c46cf134f393e1df6e0ba31722b623870f954afd392092207889c.svg',
+  },
+  {
+    alt: 'Google Pay',
+    src: 'https://spiruswastha.com/cdn/shopifycloud/shopify/assets/payment_icons/google_pay-c66a29c63facf2053bf69352982c958e9675cabea4f2f7ccec08d169d1856b31.svg',
+  },
+  {
+    alt: 'PayZapp',
+    src: 'https://spiruswastha.com/cdn/shopifycloud/shopify/assets/payment_icons/payzapp-9276d25b935c69d0eb05b150d5112c4c8301c3e17898e8d4834edb8dfdc01dd3.svg',
+  },
+];
 
-//         const totalPrice = carts.reduce((acc, item) => acc + item.price * item.qty, 0);
-//         const targetPrice = 500; // Target price for free shipping
-//         const newProgress = Math.min((totalPrice / targetPrice) * 100, 100); // Ensure progress doesn't exceed 100%
-//         setProgress(newProgress);
-//       }
-// , [carts]);  
+const calculateItemPrice = (item) => {
+  if (item.type === 'combo') {
+    return item.data.price * item.qty; // Calculate price for combo
+  } else if (item.type === 'product') {
+    return item.data.variants.price * item.qty; // Calculate price for product based on variants
+  }
+  return 0; // If item is neither combo nor product, return 0
+};
+
   return (
     <>
       <div
@@ -120,8 +158,8 @@ function CartSideBar({ cartbarOpen, setcartbarOpen }) {
             </svg>
           </div>
         </div>
-        {/* {carts && carts.length > 0 ? (
-          <div className="overflow-y-auto max-h-[calc(100vh-50px)] px-4">
+        {carts && carts.length > 0 ? (
+          <div className="overflow-y-auto h-[calc(100vh-230px-69px-61px)]">
           {carts.map((x) => (
             <MiniCartItem product={x}  />
           ))}
@@ -149,7 +187,55 @@ function CartSideBar({ cartbarOpen, setcartbarOpen }) {
           </button>
         </div>
           
-        )} */}
+        )}
+
+        {carts && carts.length > 0 ? (
+          <div  className={`fixed bottom-0 right-0 w-[calc(100vw-65px)] sm:w-[340px] z-110 h-auto p-5 bg-white shadow-lg transform ${
+            cartbarOpen ? "translate-x-0" : "translate-x-full"
+          } transition-transform z-50`}>
+                 <div className="flex align-items-center mb-[8px] justify-between">
+                <div >
+                  <strong>Subtotal:</strong>
+                </div>
+                <div >
+                  <div >
+                    <span>    ₹{total}
+                </span>
+                  </div>
+                </div>
+              </div>
+              <p className="text-[13px] font-[#696969] mb-[5px]">
+              Taxes and shipping calculated at checkout
+            </p>
+
+            <NavLink 
+            to="/Cart"
+            onClick={() => setcartbarOpen(false)}
+            className="w-full flex items-center justify-center hover:bg-[#018d43]  bg-[#000000] text-white p-2 my-[10px]  text-[11px] "
+          >
+            VIEW CART
+          </NavLink>
+
+          <button 
+            className="w-full bg-[#018d43] text-white p-2 my-[10px] text-[11px] "
+          >
+            CHECK OUT
+          </button>
+          <div className="flex flex-wrap mt-5 items-center justify-between gap-2">
+            {paymentIcons.map(({ alt, src }) => (
+              <img
+                key={alt}
+                src={src}
+                alt={alt}
+                width={48}
+                height={30}
+                className="h-[30px] w-[48px] object-contain transition-opacity duration-300 hover:opacity-75"
+              />
+            ))}
+          </div>
+
+        </div>
+        ):(null)}
       </div>
     </>
   );
