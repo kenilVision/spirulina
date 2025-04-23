@@ -10,6 +10,7 @@ import "aos/dist/aos.css";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import { CookiesProvider } from "react-cookie";
+import Checkout from "./page/Checkout";
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK); 
 
 import { Provider } from 'react-redux'
@@ -39,11 +40,16 @@ function App() {
                 element={<Layout>{route.element}</Layout>}
               />
             ))}
+            <Route 
+                path='/checkout'
+                element={<Checkout />}
+              />
           </Routes>
         </CookiesProvider>
       </BrowserRouter>
     </Elements>
     </Provider>
+    
   );
 }
 

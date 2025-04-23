@@ -4,6 +4,7 @@ import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
 import { RemovefromCart  , DecreaseQty ,IncreaseQty } from '../../Slice/cart'
 import {  useNavigate } from "react-router-dom";
+import { Tooltip } from 'react-tooltip';
 function TextContent() {
  
     const navigate = useNavigate()
@@ -13,7 +14,8 @@ function TextContent() {
 
     const [progress, setProgress] = useState(0);
       
-    const [total,settotal] = useState()
+    const [total,settotal] = useState(0)
+
           useEffect(() => {
            
             const totalPrice = carts.reduce((acc, item) => {
@@ -50,179 +52,250 @@ function TextContent() {
   return (
     <>  
     <div className="w-full h-full bg-[#f8f8f8]">
-     <div className="flex max-w-[1440px] mx-auto py-[60px] lg:py-[80px]  px-[15px] ">
-     <div className="container w-3/4 p-5 mx-4 bg-white my-8">
-      <h2 className="text-2xl font-bold mb-6">Shopping Cart</h2>
+     <div className="lg:flex gap-4 max-w-[1440px] mx-auto py-[60px] lg:py-[80px]  px-[15px] ">
+     <div className=" w-full lg:w-3/4  p-5  bg-white my-8 rounded-xl">
+      <h2 className="text-[29px] font-semibold mb-6 ">Shopping Cart</h2>
 
-      <div className="grid grid-cols-6 gap-4 font-semibold  border border-[#dddddd] rounded-t-lg ">
-        <div className="col-span-2 p-2 ">Product</div>
-        <div className="text-center p-2">Price</div>
-        <div className="text-center p-2">Quantity</div>
-        <div className="text-center p-2">Total</div>
-        <div className="text-center p-2">action</div>
-      </div>
-
-      {carts.map((item , index) => (
-        <div
-          key={item._id}
-          className={`grid grid-cols-6 gap-4 items-center border-[#dddddd] text-[#696969] p-4 border border-t-0 ${` index === carts.length - 1 ? "rounded-b-lg" : ""` }`}
-        >
-          {/* Product */}
-          <div className="col-span-2 flex items-center hover:text-green-600 gap-4">
-            
-          <img
+      <div class="relative  border hidden lg:block  border-[#dddddd] sm:rounded-lg">
+      <table className="w-full  border border-[#dddddd] overflow-hidden     ">
+  <thead className="font-semibold  border border-[#dddddd]   text-[#333]">
+    <tr>
+      <th className="text-left  p-4 ">Product</th>
+      <th className="text-center p-4 ">Price</th>
+      <th className="text-center p-4 ">Quantity</th>
+      <th className="text-center p-4 ">Total</th>
+      <th className="text-center p-4 ">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {carts.map((item) => (
+      <tr key={item._id} className="border-t border-[#dddddd] text-[#696969] ">
+        {/* Product */}
+        <td className="p-4">
+          <div className="flex items-center gap-4">
+            <img
               src={`http://localhost:5050/image/${item.data.type === 'combo' ? `productCombo/${item.data.images}` : `products/${item.data.variants.image}`}`}
               alt={item.data.name}
-              className="w-30 h-30 object-cover  "
+              className="w-[120px] h-[120px] object-cover rounded"
             />
             <div>
               <p
-              onClick={()=>navigate(`/product/${item.data.slug}`,{state:item.data.type})}
+                onClick={() => navigate(`/product/${item.data.slug}`, { state: item.data.type })}
+                className="cursor-pointer hover:text-green-600 text-[1rem] font-medium"
               >
                 {item.data.name}
-                </p>
-              <div className="text-sm text-gray-500">{item.data?.variants?.label}</div>
+              </p>
+              <div className="text-sm text-green-600">{item.data?.variants?.label}</div>
             </div>
           </div>
+        </td>
 
-          {/* Price */}
-          <div className="text-center">
-            <div className="text-lg font-bold text-green-600">
-            ₹{item.data.type=="combo" ?  item.data.price : item.data.variants.price }
-            </div>
-          </div>
-
-          {/* Quantity */}
-          <div className="flex items-center justify-center bg-[#F8F8F8] rounded-full gap-2">
-                      {item.qty === 1 ? (
-            <button
-            onClick={()=>{
-              removeItem(item.data._id, item.data.type, item.type === "combo" ? null : item.data.variants.label)
-            }}
-              className="p-1  text-white rounded-md "
-              type="button"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="none"
-                stroke="black"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <polyline points="3 6 5 6 21 6" />
-                <path d="M19 6l-1 14H6L5 6" />
-                <path d="M10 11v6" />
-                <path d="M14 11v6" />
-                <path d="M9 6V4h6v2" />
-              </svg>
-            </button>
+        {/* Price */}
+        <td className="text-center text-[1.1rem] p-4">
+          {item.data.type === 'combo' ? (
+            <p className="text-[#018d43]">₹{item.data.price.toFixed(2)}</p>
           ) : (
-            <button
-              onClick={()=>{
-                decreaseQty(item.qty,item.data._id, item.data.type, item.data.type === "combo" ? null : item.data.variants.label);
-              }}
-              className="p-1 "
-              type="button"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+            <>
+              {item.data.variants.orignalprice && item.data.variants.orignalprice !== 0 ? (
+                <div>
+                  <span className="line-through text-[#696969] block">₹{item.data.variants.price.toFixed(2)}</span>
+                  <span className="text-[#018d43]">₹{item.data.variants.orignalprice.toFixed(2)}</span>
+                </div>
+              ) : (
+                <p className="text-[#018d43] ">₹{item.data.variants.price.toFixed(2)}</p>
+              )}
+            </>
+          )}
+        </td>
+
+        {/* Quantity */}
+        <td className="text-center  p-4">
+          <div className="flex items-center justify-center bg-[#F8F8F8] mx-auto w-fit rounded-full gap-2 px-3 h-full py-1">
+            {item.qty === 1 ? (
+              <button
+                onClick={() => removeItem(item.data._id, item.data.type, item.type === "combo" ? null : item.data.variants.label)}
               >
+               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              <line x1="10" y1="11" x2="10" y2="17"></line>
+              <line x1="14" y1="11" x2="14" y2="17"></line>
+          </svg>
+              </button>
+            ) : (
+              <button
+                onClick={() => decreaseQty(item.qty, item.data._id, item.data.type, item.data.type === "combo" ? null : item.data.variants.label)}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+              </button>
+            )}
+            <input
+              type="text"
+              value={item.qty}
+              readOnly
+              className="w-8 text-center bg-transparent"
+            />
+            <button
+              onClick={() => increaseQty(item.data._id, item.data.type, item.data.type === "combo" ? null : item.data.variants.label)}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19" />
                 <line x1="5" y1="12" x2="19" y2="12" />
               </svg>
             </button>
-          )}
+          </div>
+        </td>
 
-          {/* Display Quantity */}
-          <input
-            type="text"
-            value={item.qty}
-            min="1"
-            className="w-10 text-center  rounded-md"
-            readOnly
-          />
+        {/* Total */}
+        <td className="text-center p-4  text-[#018d43]">
+        ₹{(
+          item.data.type === "combo"
+            ? item.data.price * item.qty
+            : (item.data.variants.originalPrice === 0
+                ? item.data.variants.price * item.qty
+                : item.data.variants.orignalprice * item.qty)
+        ).toFixed(2)}
+        </td>
 
-          {/* Plus Button */}
+        {/* Action */}
+        <td className="text-center p-4">
           <button
-                 onClick={()=>{
-                  increaseQty(item.data._id, item.data.type, item.data.type === "combo" ? null : item.data.variants.label)
-                }}
-            className="p-2 "
-            type="button"
+            onClick={() => removeItem(item.data._id, item.data.type, item.data.type === "combo" ? null : item.data.variants.label)}
+            className="hover:text-red-600"
+             data-tooltip-id="my-tooltip" data-tooltip-content="Remove this item"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <line x1="12" y1="5" x2="12" y2="19" />
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              <line x1="10" y1="11" x2="10" y2="17"></line>
+              <line x1="14" y1="11" x2="14" y2="17"></line>
+          </svg>
+          </button>
+          <Tooltip 
+                      id="my-tooltip" 
+                      place="top-start"
+                      style={{ padding: '5px' , fontSize:'13px' }}
+          
+                      />
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+</div>
+
+
+  <div className="block lg:hidden">
+
+ 
+{carts.map((item) => (
+  <div key={item.id} className=" relative flex my-5 gap-5 p-5 border border-[#dddddd] rounded-lg">
+    <img
+      src={`http://localhost:5050/image/${item.data.type === 'combo' ? `productCombo/${item.data.images}` : `products/${item.data.variants.image}`}`}
+      alt={item.data.name}
+      className="w-[120px] h-[120px] my-5 object-cover "
+    />
+    <div className="w-full gap-2 flex flex-col justify-center ">
+      <div className="">
+        <p
+          onClick={() => navigate(`/product/${item.data.slug}`, { state: item.data.type })}
+          className="cursor-pointer hover:text-green-600 text-[16px] font-medium"
+        >
+          {item.data.name}
+        </p>
+        <div className="text-sm text-green-600">{item.data?.variants?.label}</div>
+      </div>
+      
+      {item.data.type === 'combo' ? (
+        <p className="text-[#018d43] text-[18px]">₹{item.data.price.toFixed(2)}</p>
+      ) : (
+        <>
+          {item.data.variants.orignalprice && item.data.variants.orignalprice !== 0 ? (
+            <div>
+              <span className="line-through text-[#696969] text-[18px] block">₹{item.data.variants.price.toFixed(2)}</span>
+              <span className="text-[#018d43] text-[18px]">₹{item.data.variants.orignalprice.toFixed(2)}</span>
+            </div>
+          ) : (
+            <p className="text-[#018d43] text-[18px] ">₹{item.data.variants.price.toFixed(2)}</p>
+          )}
+        </>
+      )}
+
+      <div className="flex items-center justify-center bg-[#F8F8F8] w-fit rounded-full gap-2 px-3 border border-[#dddddd] py-2">
+        {item.qty === 1 ? (
+          <button
+            onClick={() => removeItem(item.data._id, item.data.type, item.type === "combo" ? null : item.data.variants.label)}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              <line x1="10" y1="11" x2="10" y2="17"></line>
+              <line x1="14" y1="11" x2="14" y2="17"></line>
+            </svg>
+          </button>
+        ) : (
+          <button
+            onClick={() => decreaseQty(item.qty, item.data._id, item.data.type, item.data.type === "combo" ? null : item.data.variants.label)}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <line x1="5" y1="12" x2="19" y2="12" />
             </svg>
           </button>
-          </div>
+        )}
+        
+        <input
+          type="text"
+          value={item.qty}
+          readOnly
+          className="w-8 text-center bg-transparent"
+        />
+        
+        <button
+          onClick={() => increaseQty(item.data._id, item.data.type, item.data.type === "combo" ? null : item.data.variants.label)}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19" />
+            <line x1="5" y1="12" x2="19" y2="12" />
+          </svg>
+        </button>
+      </div>
 
-          {/* Total */}
-          <div className="text-center font-bold text-green-600">
-            ₹{item.data.type=="combo" ?  item.data.price : item.data.variants.price  * item.qty}
-          </div>
-          <div className="text-center font-bold text-gray-800">
-          <button
-            onClick={()=>{
-              removeItem(item.data._id, item.data.type, item.data.type === "combo" ? null : item.data.variants.label)
-            }}
-              className="p-1  text-white rounded-md "
-              type="button"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="none"
-                stroke="black"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <polyline points="3 6 5 6 21 6" />
-                <path d="M19 6l-1 14H6L5 6" />
-                <path d="M10 11v6" />
-                <path d="M14 11v6" />
-                <path d="M9 6V4h6v2" />
-              </svg>
-            </button>
-          </div>
-        </div>
-      ))}
+   
     </div>
-    <div className="  w-1/4 h-fit p-5 mx-4 bg-white my-8">
-        <h2 className="text-2xl font-bold mb-6">Cart total</h2>
-        <div>
-          <p><span className="text-green-600 ">Congratulations! </span> You've got free shipping!</p>
-          <div className="flex align-items-center my-5 justify-between">
-                <div >
-                  <strong>Subtotal:</strong>
-                </div>
-                <div >
-                  <div >
-                    <span>   ₹{total}
-                </span>
-                  </div>
-                </div>
-              </div>
+    <div className="absolute top-5 right-5">
+    <button
+            onClick={() => removeItem(item.data._id, item.data.type, item.data.type === "combo" ? null : item.data.variants.label)}
+            className="hover:text-red-600"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              <line x1="10" y1="11" x2="10" y2="17"></line>
+              <line x1="14" y1="11" x2="14" y2="17"></line>
+          </svg>
+          </button>
+          </div>
+          <div className="absolute bottom-10 text-[18px] text-[#018d43] right-5">
+          ₹{(
+          item.data.type === "combo"
+            ? item.data.price * item.qty
+            : (item.data.variants.originalPrice === 0
+                ? item.data.variants.price * item.qty
+                : item.data.variants.orignalprice * item.qty)
+        ).toFixed(2)}
+          </div>
+  </div>
+))}
+ </div>
+
+
+    </div>
+    <div className="  ms-auto max-w-[350px] lg:w-1/4 h-fit p-5  bg-white my-8 rounded-xl">
+        <h2 className="text-[29px] font-bold mb-6">Cart total</h2>
+        <div className="p-5 rounded-lg bg-[#F8F8F8] border border-[#dddddd]">
+          <p className=""><span className="text-green-600 ">Congratulations! </span> You've got free shipping!</p>
               <div className="relative w-full bg-gray-200 h-2 rounded-full mt-2 overflow-visible">
            
            <RangeSlider
@@ -248,7 +321,7 @@ function TextContent() {
                }}
              />
            </div>
-           <style>{`
+           <style>{`  
        @keyframes movePattern {
          0% {
            background-position-x: 0px;
@@ -270,7 +343,7 @@ function TextContent() {
              style={{ left: `calc(${progress}% - 11px)` }}
            >
              <path
-               className="fill-current text-red-600"
+                className={`fill-current ${progress === 100 ? 'text-[#018d43]' : 'text-red-600'}`}
                d="M64 48C64 21.49 85.49 0 112 0H368C394.5 0 416 21.49 416 48V96H466.7C483.7 96 499.1 102.7 512 114.7L589.3 192C601.3 204 608 220.3 608 237.3V352C625.7 352 640 366.3 640 384C640 401.7 625.7 416 608 416H574.9C567.1 361.7 520.4 320 464 320C407.6 320 360.9 361.7 353.1 416H286.9C279.1 361.7 232.4 320 176 320C127.9 320 86.84 350.4 70.99 392.1C66.56 385.7 64 377.1 64 368V256H208C216.8 256 224 248.8 224 240C224 231.2 216.8 224 208 224H64V192H240C248.8 192 256 184.8 256 176C256 167.2 248.8 160 240 160H64V128H272C280.8 128 288 120.8 288 112C288 103.2 280.8 96 272 96H64L64 48zM544 256V237.3L466.7 160H416V256H544z"
              ></path>
              <path
@@ -279,8 +352,21 @@ function TextContent() {
              ></path>
            </svg>
          </div>
+          <div className="flex align-items-center text-[20px] my-[20px] justify-between">
+                <div >
+                  <strong>Subtotal:</strong>
+                </div>
+                <div >
+                  <div >
+                    <strong>   ₹{total.toFixed(2)}</strong>
+                  </div>
+                </div>
+              </div>
          <div>
-            <button className="w-full mt-3 p-2 rounded-xl text-white bg-[#36662f] "> 
+            <button 
+            className="w-full p-2 rounded-xl text-[20px] text-white bg-[#36662f]"
+            onClick={()=>navigate(`/checkout`)}
+            > 
               checkout 
             </button>
          </div>

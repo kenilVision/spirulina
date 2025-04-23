@@ -5,15 +5,13 @@
   const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK);
   import { AddtoCart } from '../../Slice/cart'
   import { AddtoWishlist, RemovefromWishlist } from '../../Slice/wishlist';
-
-
-
+  import { toggleCartbar, openCartbar, closeCartbar } from "../../Slice/cart";
+  import { Tooltip } from 'react-tooltip';
   function ProductCard({ data, type = "product" }) {
     const dispatch = useDispatch()
     const navigate = useNavigate();
-    
+    const cartbarOpen = useSelector((state) => state.cart.cartbarOpen);
     const wishlist = useSelector(state => state.wishlist.items); // Access wishlist from the store
-    
     function handleCart(product) {
    
 
@@ -24,7 +22,10 @@
         ...(type === "product" && {
           variants: {
             label: product.variants[0].label,
+            variantid:product.variants[0]._id,
             price: product.variants[0].price,
+            orignalprice: product.variants[0].originalPrice,
+            discount : product.variants[0].discount,
             image:product.variants[0].images[0]
           }
         })
@@ -32,31 +33,30 @@
       };
       
       dispatch(AddtoCart(data));
+     
     }
   
-    async function handleSubmit(e, productId) {
-      e.preventDefault();
-      const stripe = await stripePromise;
+    async function handleSubmit(product) {
 
-      const result = await stripe.redirectToCheckout({
-        lineItems: [
-          {
-            price: "price_1RBxMVFS9PdJc9asxD3pIj9P", 
-            quantity: 1,
-          },
-        ],
-        mode: "payment",
-        successUrl: window.location.origin + "/success",
-        cancelUrl: window.location.origin + "/cancel",
-        shippingAddressCollection: {
-          allowedCountries: ["IN", "US", "CA"],
-        },
-        billingAddressCollection: "required",
-      });
-
-      if (result.error) {
-        console.error(result.error.message);
-      }
+      const data = {
+        ...product,
+        qty: 1,
+        type: type,
+        ...(type === "product" && {
+          variants: {
+            label: product.variants[0].label,
+            variantid:product.variants[0]._id,
+            price: product.variants[0].price,
+            orignalprice: product.variants[0].originalPrice,
+            discount : product.variants[0].discount,
+            image:product.variants[0].images[0]
+          }
+        })
+        
+      };
+      
+      dispatch(AddtoCart(data));
+      navigate(`/checkout`)
     }
 
 
@@ -117,6 +117,7 @@
                           right: '0',
                           transform: 'translate(-50%, -50%)',
                         }}
+                        data-tooltip-id="my-tooltip" data-tooltip-content="Remove wishlist"
                         onClick={(e) => {
                           e.stopPropagation();
                           dispatch(RemovefromWishlist(_id));
@@ -144,11 +145,12 @@
                           right: '0',
                           transform: 'translate(-50%, -50%)',
                         }}
+                        data-tooltip-id="my-tooltip" data-tooltip-content="Add to wishlist"
                         onClick={(e) => {
                           e.stopPropagation();
                           dispatch(AddtoWishlist({
                             ...product,
-                            type, // add type along with the rest of the product
+                            type, 
                           }));
                         }}
                       >
@@ -167,6 +169,12 @@
                   navigate(`/product/${product.slug}`,{state:type})
                 }
               >
+                <Tooltip 
+                            id="my-tooltip" 
+                            place="left"
+                            style={{ padding: '5px' ,fontSize:'13px'}}
+                
+                            />
                 <p className="font-bold truncate hover:text-[#018d43]">
                   {name}
                 </p>
@@ -226,7 +234,10 @@
               <div className="flex">
                 <div 
                   className="w-1/2 bg-[#222] flex items-center justify-center py-3 cursor-pointer hover:bg-[#444] transition duration-300"
-                  onClick={() =>{ handleCart(product)}}
+                  onClick={async () =>{ 
+                    await handleCart(product)
+                    dispatch(openCartbar())
+                  }}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -241,7 +252,7 @@
                 </div>
                 <div
                   className="w-1/2 flex items-center justify-center font-bold text-white text-lg bg-[#018d43] py-3 cursor-pointer hover:bg-[#016d32] transition duration-300"
-                  onClick={(e) => handleSubmit(e, product.id)}
+                  onClick={(e) => handleSubmit(product)}
                 >
                   Buy Now
                 </div>

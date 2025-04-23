@@ -16,14 +16,11 @@ function Layout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchbarOpen, setsearchbarOpen] = useState(false);
   const [loginbarOpen, setloginbarOpen] = useState(false);
-  const [cartbarOpen, setcartbarOpen] = useState(false);
   return (
     <>  
       <Navbar
         loginbarOpen={loginbarOpen}
         setloginbarOpen={setloginbarOpen}
-        cartbarOpen={cartbarOpen}
-        setcartbarOpen={setcartbarOpen}
         searchbarOpen={searchbarOpen}
         setsearchbarOpen={setsearchbarOpen}
         sidebarOpen={sidebarOpen}
@@ -37,7 +34,7 @@ function Layout({ children }) {
         loginbarOpen={loginbarOpen}
         setloginbarOpen={setloginbarOpen}
       />
-      <CartSideBar cartbarOpen={cartbarOpen} setcartbarOpen={setcartbarOpen} />
+      <CartSideBar/>
       <SearchSideBar
         searchbarOpen={searchbarOpen}
         setsearchbarOpen={setsearchbarOpen}

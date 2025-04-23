@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
-
+import { toggleCartbar, openCartbar, closeCartbar } from "../../Slice/cart";
+import { useSelector, useDispatch } from 'react-redux'
+import {AddtoCart} from '../../Slice/cart'
 const StickyAddToCart = ({ product, type }) => {
+
+  const dispatch = useDispatch()
   const [isVisible, setIsVisible] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [selectedVariant, setSelectedVariant] = useState(
@@ -39,7 +43,9 @@ const StickyAddToCart = ({ product, type }) => {
     if (type === "combo") {
       return null; // Combos don't have original price in your data
     }
-    return selectedVariant ? selectedVariant.originalPrice : product.variants[0].originalPrice;
+    return selectedVariant
+      ? selectedVariant.originalPrice
+      : product.variants[0].originalPrice;
   };
 
   const getProductImage = () => {
@@ -48,6 +54,30 @@ const StickyAddToCart = ({ product, type }) => {
     }
     return selectedVariant?.images?.[0] || product.images?.[0] || "";
   };
+
+  // -----------------------------------cart ---------------------------------
+
+  function handleCart(product) {
+    const cleanVariant =
+      type === "product"
+        ? {
+            label: selectedVariant?.label,
+            price: selectedVariant?.price,
+            orignalprice: selectedVariant?.originalPrice,
+            discount : selectedVariant?.discount,
+            image: selectedVariant?.images[0],
+          }
+        : null;
+
+    const data = {
+      ...product,
+      qty: quantity,
+      type: type,
+      ...(type === "product" && { variants: cleanVariant }),
+    };
+
+    dispatch(AddtoCart(data));
+  }
 
   return (
     <div
@@ -69,16 +99,19 @@ const StickyAddToCart = ({ product, type }) => {
             />
           </div>
           <div className="min-w-0">
-            <h3 className="font-medium text-gray-900 truncate">{product.name}</h3>
+            <h3 className="font-medium text-gray-900 truncate">
+              {product.name}
+            </h3>
             <div className="flex items-center gap-2">
               <span className="text-lg font-semibold text-[#018d43]">
                 ₹{calculatePrice()}
               </span>
-              {type !== "combo" && calculateOriginalPrice() > calculatePrice() && (
-                <span className="text-sm text-gray-500 line-through">
-                  ₹{calculateOriginalPrice()}
-                </span>
-              )}
+              {type !== "combo" &&
+                calculateOriginalPrice() > calculatePrice() && (
+                  <span className="text-sm text-gray-500 line-through">
+                    ₹{calculateOriginalPrice()}
+                  </span>
+                )}
             </div>
           </div>
         </div>
@@ -86,7 +119,6 @@ const StickyAddToCart = ({ product, type }) => {
         {/* Variant and Quantity Controls */}
         <div className="flex items-center gap-3 w-full md:w-auto">
           {/* Variant Selector - Mobile */}
-
 
           {/* Variant Selector - Desktop */}
           {type !== "combo" && (
@@ -135,62 +167,71 @@ const StickyAddToCart = ({ product, type }) => {
 
           {/* Quantity Selector */}
           <div className="flex items-center border border-gray-300 rounded-md h-10">
-          <button
-  onClick={() => handleQuantityChange(quantity - 1)}
-  disabled={quantity <= 1}
-  className={`w-10 h-full flex items-center justify-center ${
-    quantity <= 1 ? 'text-gray-400 cursor-not-allowed' : 'text-gray-600 hover:bg-gray-100'
-  } focus:outline-none`}
-  aria-label="Decrease quantity"
->
-  <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-    <path
-      fillRule="evenodd"
-      d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-      clipRule="evenodd"
-    />
-  </svg>
-</button>
-<input
-  type="number"
-  min="1"
-  max={type === "combo" ? product.stock : selectedVariant?.stock}
-  value={quantity}
-  onChange={(e) => {
-    const value = parseInt(e.target.value) || 1;
-    const maxStock = type === "combo" ? product.stock : selectedVariant?.stock;
-    handleQuantityChange(Math.min(value, maxStock));
-  }}
-  className="w-12 h-full text-center border-x border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#018d43]"
-  aria-label="Quantity"
-/>
-<button
-  onClick={() => handleQuantityChange(quantity + 1)}
-  disabled={
-    type === "combo" 
-      ? quantity >= product.stock 
-      : quantity >= (selectedVariant?.stock || 0)
-  }
-  className={`w-10 h-full flex items-center justify-center ${
-    (type === "combo" && quantity >= product.stock) || 
-    (type !== "combo" && quantity >= (selectedVariant?.stock || 0)) 
-      ? 'text-gray-400 cursor-not-allowed' 
-      : 'text-gray-600 hover:bg-gray-100'
-  } focus:outline-none`}
-  aria-label="Increase quantity"
->
-  <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-    <path
-      fillRule="evenodd"
-      d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-      clipRule="evenodd"
-    />
-  </svg>
-</button>
+            <button
+              onClick={() => handleQuantityChange(quantity - 1)}
+              disabled={quantity <= 1}
+              className={`w-10 h-full flex items-center justify-center ${
+                quantity <= 1
+                  ? "text-gray-400 cursor-not-allowed"
+                  : "text-gray-600 hover:bg-gray-100"
+              } focus:outline-none`}
+              aria-label="Decrease quantity"
+            >
+              <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                <path
+                  fillRule="evenodd"
+                  d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </button>
+            <input
+              type="number"
+              min="1"
+              max={type === "combo" ? product.stock : selectedVariant?.stock}
+              value={quantity}
+              onChange={(e) => {
+                const value = parseInt(e.target.value) || 1;
+                const maxStock =
+                  type === "combo" ? product.stock : selectedVariant?.stock;
+                handleQuantityChange(Math.min(value, maxStock));
+              }}
+              className="w-12 h-full text-center border-x border-gray-300 focus:outline-none focus:ring-1 focus:ring-[#018d43]"
+              aria-label="Quantity"
+            />
+            <button
+              onClick={() => handleQuantityChange(quantity + 1)}
+              disabled={
+                type === "combo"
+                  ? quantity >= product.stock
+                  : quantity >= (selectedVariant?.stock || 0)
+              }
+              className={`w-10 h-full flex items-center justify-center ${
+                (type === "combo" && quantity >= product.stock) ||
+                (type !== "combo" && quantity >= (selectedVariant?.stock || 0))
+                  ? "text-gray-400 cursor-not-allowed"
+                  : "text-gray-600 hover:bg-gray-100"
+              } focus:outline-none`}
+              aria-label="Increase quantity"
+            >
+              <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                <path
+                  fillRule="evenodd"
+                  d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </button>
           </div>
 
           {/* Add to Cart Button */}
-          <button className="h-10 px-6 bg-[#018d43] text-white rounded-md hover:bg-[#016d32] transition-colors focus:outline-none focus:ring-2 focus:ring-[#018d43] focus:ring-offset-2 flex-shrink-0 w-full md:w-auto">
+          <button 
+          className="h-10 px-6 bg-[#018d43] text-white rounded-md hover:bg-[#016d32] transition-colors focus:outline-none focus:ring-2 focus:ring-[#018d43] focus:ring-offset-2 flex-shrink-0 w-full md:w-auto"
+           onClick={() =>{ 
+                      handleCart(product)
+                      dispatch(openCartbar())
+                    }}
+          >
             Add to Cart
           </button>
         </div>

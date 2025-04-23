@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch , useSelector } from "react-redux";
 import { loginUser , signupUser  } from "../Slice/user";
-
-
+import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 function LoginSignupSideBar({ loginbarOpen, setloginbarOpen }) {
 
   const dispatch = useDispatch();
@@ -20,12 +20,12 @@ function LoginSignupSideBar({ loginbarOpen, setloginbarOpen }) {
   const handleChangelogin = (e) => {
     const { name, value } = e.target;
     setLogin((prev) => ({ ...prev, [name]: value }));
-    console.log(login);
+    
   };
   const handleChangeregister = (e) => {
     const { name, value } = e.target;
     setRegister((prev) => ({ ...prev, [name]: value }));
-    console.log(register);
+    
   };
 
   const handlelogin = async (e) => {
@@ -36,12 +36,33 @@ function LoginSignupSideBar({ loginbarOpen, setloginbarOpen }) {
       const resultAction = await dispatch(loginUser(login));
   
       if (loginUser.fulfilled.match(resultAction)) {
+        toast.success('successfully login', {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          });
         setloginbarOpen(false)   
       } else {
+        toast.error(resultAction.payload?.message || "Something went wrong", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          });
         console.error("Login failed:", resultAction.payload);
       }
   
     } catch (err) {
+     
       console.error("Error during login:", err);
     }
   };
@@ -54,8 +75,29 @@ const handleSignUp = async (e) => {
     const resultAction = await dispatch(signupUser(register));
 
     if (signupUser.fulfilled.match(resultAction)) {
+      toast.success('successfully Signup', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
       setIsSignup(!isSignup); 
     } else {
+      toast.error(resultAction.payload?.message || "Something went wrong", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+      
       console.error("Signup failed:", resultAction.payload);
     }
 
@@ -108,7 +150,7 @@ const handleSignUp = async (e) => {
         <div className="p-5">
           <div id="login_login-sidebar" className="bg-white">
             <form
-              method="post"
+              onSubmit={isSignup ? handleSignUp : handlelogin}
             >
               {isSignup && (
                 <>
@@ -189,7 +231,7 @@ const handleSignUp = async (e) => {
               <button
                 type="submit"
                 className="w-full bg-[#018d43] hover:cursor-pointer text-[14px] font-semibold text-white py-2 px-4 h-[40px] mb-5 hover:bg-[#16569d]"
-                onClick={isSignup ? handleSignUp : handlelogin}
+                
               >
                 {isSignup ? "Create Account" : "Sign In"}
                 
@@ -207,6 +249,7 @@ const handleSignUp = async (e) => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </>
   );
 }

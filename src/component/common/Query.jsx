@@ -11,11 +11,15 @@ function Query({
   setIsOpenfilter,
   isOpen,
   setIsOpen,
+  pagination,
   isOpen2,
   setIsOpen2,
   value,
   setValue,
-  minmaxcontrol
+  minmaxcontrol,
+  stock,
+  instock,
+  setinstock,
 }) {
 
 
@@ -32,7 +36,7 @@ function Query({
       document.body.style.overflow = "auto";
     };
   }, [isOpen2 , isOpen, isOpenfilter]);     // Effect to manage body overflow based on modal visibility
-
+  console.log(isOpen2)
   
   return (
     <>
@@ -141,6 +145,10 @@ function Query({
         value={value}
         setValue={setValue}
         minmaxcontrol={minmaxcontrol}
+        pagination={pagination}
+        stock={stock}
+        instock={instock}
+        setinstock={setinstock}
       />
       <SortBottomslider
         isOpen2={isOpen2}

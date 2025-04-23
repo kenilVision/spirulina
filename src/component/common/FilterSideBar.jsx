@@ -1,10 +1,20 @@
-import React from 'react'
+import React from "react";
 import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
-function FilterSideBar({isOpenfilter , setIsOpenfilter , value ,  setValue , minmaxcontrol}) {
+function FilterSideBar({
+  instock,
+  setinstock,
+  isOpenfilter,
+  pagination,
+  stock,
+  setIsOpenfilter,
+  value,
+  setValue,
+  minmaxcontrol,
+}) {
   return (
-   <>
-         <div
+    <>
+      <div
         className={`fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity ${
           isOpenfilter ? "opacity-50" : "opacity-0 pointer-events-none"
         }`}
@@ -46,9 +56,12 @@ function FilterSideBar({isOpenfilter , setIsOpenfilter , value ,  setValue , min
                   <label className="flex items-center gap-2 text-sm cursor-pointer text-[18px]">
                     <input
                       type="checkbox"
+                      checked={instock}
+                      onChange={(e) => setinstock(e.target.checked)}
+                      onClick={() => setIsOpenfilter(false)}
                       className="w-[16px] h-[16px] border-b border-[#dddddd]  me-[10px]"
                     />
-                    <span className="text-black">In Stock (16)</span>
+                    <span className="text-black">In Stock ({stock})</span>
                   </label>
                 </li>
                 <li className="mb-[10px]">
@@ -59,7 +72,9 @@ function FilterSideBar({isOpenfilter , setIsOpenfilter , value ,  setValue , min
                       disabled
                       className="w-[16px] h-[16px] border-b border-[#dddddd] rounded-0   me-[10px]"
                     />
-                    <span className="text-gray-400">Out Of Stock (0)</span>
+                    <span className="text-gray-400">
+                      Out Of Stock ({pagination.total - stock})
+                    </span>
                   </label>
                 </li>
               </ul>
@@ -82,12 +97,12 @@ function FilterSideBar({isOpenfilter , setIsOpenfilter , value ,  setValue , min
                   ₹{value[0]} - ₹{value[1]}
                 </span>
               </div>
-              <button 
-              className="py-[10px] px-[14px] hover:cursor-pointer mb-[10px] bg-[#018d43] text-white text-[12px] min-w-[100px]   leading-4 tracking-[.3px] font-semibold"
-              onClick={() => {
-                setIsOpenfilter(false);
-                minmaxcontrol();
-              }}
+              <button
+                className="py-[10px] px-[14px] hover:cursor-pointer mb-[10px] bg-[#018d43] text-white text-[12px] min-w-[100px]   leading-4 tracking-[.3px] font-semibold"
+                onClick={() => {
+                  setIsOpenfilter(false);
+                  minmaxcontrol();
+                }}
               >
                 Filter
               </button>
@@ -95,8 +110,8 @@ function FilterSideBar({isOpenfilter , setIsOpenfilter , value ,  setValue , min
           </div>
         </div>
       </div>
-   </>
-  )
+    </>
+  );
 }
 
-export default FilterSideBar
+export default FilterSideBar;

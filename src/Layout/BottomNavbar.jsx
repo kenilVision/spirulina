@@ -1,11 +1,12 @@
 import React from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
+import { useSelector } from 'react-redux'
 function BottomNavbar({ setloginbarOpen }) {
 
 
   const navigate = useNavigate();
-
+  const wishlist = useSelector(state => state.wishlist.items);
   
 
 
@@ -55,7 +56,7 @@ function BottomNavbar({ setloginbarOpen }) {
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
           </svg>
           <span className="absolute top-0 right-0 bg-green-600 text-white text-xs rounded-full px-1">
-            0
+          {wishlist.length}
           </span>
         </span>
       ),

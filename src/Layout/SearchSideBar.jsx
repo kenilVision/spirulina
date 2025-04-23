@@ -19,12 +19,22 @@ function SearchSideBar({ searchbarOpen, setsearchbarOpen }) {
 
     fetchCategories();
   }, []);
+
+  
   const [params,setparams] = useState({
     categoryId:"",
     search:"",
     page: 1,      // Page number (defaults to 1)
     limit: 5,    // Number of items per page (defaults to 55)
   })
+  useEffect(()=>{
+    setparams({
+      categoryId:"",
+      search:"",
+      page: 1,      // Page number (defaults to 1)
+      limit: 5,    // Number of items per page (defaults to 55)
+    })
+  },[searchbarOpen])
 
   const getSlug = (productName, type) =>
     `${productName
@@ -39,7 +49,6 @@ function SearchSideBar({ searchbarOpen, setsearchbarOpen }) {
 
       const query = new URLSearchParams(params).toString();
       const data = await GetproductbyCategories(query);
-      console.log(data)
       setProduct(data.products)
     };
 
@@ -51,7 +60,6 @@ function SearchSideBar({ searchbarOpen, setsearchbarOpen }) {
     const handleParamsChange = (e) => {
       const { name, value } = e.target;
       setparams((prev) => ({ ...prev, [name]: value }));
-      console.log(params)
     };
   return (
     <>
@@ -118,6 +126,7 @@ function SearchSideBar({ searchbarOpen, setsearchbarOpen }) {
                   type="text"
                   placeholder="Search"
                   name="search"
+                  value= {params.search}
                   onChange={handleParamsChange}
                 />
                 {/* <input type="search"   readOnly /> */}
@@ -144,23 +153,29 @@ function SearchSideBar({ searchbarOpen, setsearchbarOpen }) {
         </div>
 
         <div className="flex-grow overflow-auto p-5">
-          {Product.map((product) => (
-            <div 
-            key={product._id} 
-            className="  flex pb-[10px] mb-[10px]"
-            onClick={() =>{
-              navigate(`/product/${getSlug(product.name, type)}/${product._id}`)
-              setsearchbarOpen(false)
-            }} 
-            >
-              <img
-                src={`http://localhost:5050/image/products/${product.variants[0].images[0]}`}
-                alt={product.name}
-                className=" h-20 w-20 ps-[15px] object-cover "
-              />
-              <h2 className="flex items-center px-[15px]">{product.name}</h2>
-            </div>
-          ))}
+        { Product ? (
+            Product.map((product) => (
+              <div 
+                key={product._id} 
+                className="flex pb-[10px] mb-[10px]"
+                onClick={() => {
+                  navigate(`/product/${product.slug}`);
+                  setsearchbarOpen(false);
+                }}
+              >
+                <img
+                  src={`http://localhost:5050/image/products/${product.variants[0].images[0]}`}
+                  alt={product.name}
+                  className="h-20 w-20 ps-[15px] object-cover hover:cursor-pointer"
+                />
+                <h2 className="flex items-center px-[15px] hover:cursor-pointer hover:text-[#018d43]">
+                  {product.name}
+                </h2>
+              </div>
+            ))
+          ) : (
+            <div className="px-[15px] py-4 text-gray-500 flex justify-center" >No product found</div>
+          )}
         </div>
 
         <div className="sticky bottom-0 left-0 w-full border-t border-gray-300 shadow-md bg-white">

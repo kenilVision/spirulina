@@ -37,7 +37,7 @@ function HowToUse({title ,detail }) {
           </div>
 
           <div
-            className="w-full max-h-[300px] md:overflow-scroll"
+            className="w-full max-h-[300px] md:overflow-auto"
             data-aos="fade-up"
             data-aos-duration="1000"
             data-aos-once="true"

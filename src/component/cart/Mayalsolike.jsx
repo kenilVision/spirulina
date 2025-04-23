@@ -19,7 +19,7 @@ const Mayalsolike = () => {
   }, []);
 
   return (
-    <div className=" bg-[#f8f8f8] ">
+    <div className=" bg-[#f8f8f8] pb-10 ">
       <div className="w-full max-w-[1440px] mx-auto bg-[#f8f8f8] text-center px-[15px]">
         <HomeSectionHeading title="Recomemded for you" />
         <div

@@ -69,13 +69,13 @@ const  ShopByCategories = () => {
               data-aos="fade-up"
               data-aos-duration="1000"
               data-aos-once="true"
-              className="rounded-lg mt-[1.875rem] px-[0.9375rem] w-1/3 md:w-1/4 lg:w-1/6 hover:opacity-60 hover:cursor-pointer transition duration-300"
+              className="rounded-lg mt-[1.875rem] px-[0.9375rem] w-1/3 md:w-1/4 lg:w-1/6 group hover:cursor-pointer transition duration-300"
             >
               <img
                 src={`http://localhost:5050/image/categories/images/${category.image}`}
-                className="w-full  object-cover"
+                className="w-full  object-cover group-hover:opacity-60"
               />
-              <div className="pt-[1.25rem] bg-white text-center font-semibold">
+              <div className="pt-[1.25rem] bg-white group-hover:text-[#018d43] text-center font-semibold">
                 {category.name}
               </div>
             </NavLink>

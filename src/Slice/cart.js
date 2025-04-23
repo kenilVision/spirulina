@@ -130,7 +130,8 @@ const cartSlice = createSlice({
   initialState: {
     items: [],
     loading: false,
-    error: null
+    error: null,
+    cartbarOpen: false, 
   },
   reducers: {
     // Optional: Add direct reducer for quick quantity updates
@@ -140,6 +141,16 @@ const cartSlice = createSlice({
         item => item.product._id === productId && item.type === type
       );
       if (item) item.qty = newQty;
+    }
+    ,
+    toggleCartbar: (state) => {
+      state.cartbarOpen = !state.cartbarOpen;
+    },
+    openCartbar: (state) => {
+      state.cartbarOpen = true;
+    },
+    closeCartbar: (state) => {
+      state.cartbarOpen = false;
     }
   },
   extraReducers: (builder) => {
@@ -203,5 +214,5 @@ const cartSlice = createSlice({
   }
 });
 
-export const { updateQuantity } = cartSlice.actions;
+export const { updateQuantity , toggleCartbar, openCartbar, closeCartbar  } = cartSlice.actions;
 export default cartSlice.reducer;

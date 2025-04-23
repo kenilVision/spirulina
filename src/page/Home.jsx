@@ -6,7 +6,8 @@ import Balance from '../component/home/Balance'
 import WhyChooseSpiruSwastha from '../component/home/WhyChooseSpiruSwastha'
 import Bestsellers from '../component/home/Bestsellers'
 import SpiruswasthaTrends from '../component/home/SpiruswasthaTrends'
-
+import {toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function Home() {
   const [loading, setLoading] = useState(true)
 
@@ -32,6 +33,16 @@ function Home() {
 
   return (
     <>
+    <button onClick={() => toast.success("Successfully placed order", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light"})
+          }>Test Toast</button>
       <Carousel />
       <ShopByCategories />
       <SummerWellnessCombos />

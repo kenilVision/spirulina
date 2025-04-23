@@ -2,14 +2,16 @@ import React,{useEffect, useState} from "react";
 import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
 import { useSelector, useDispatch } from 'react-redux'
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import MiniCartItem from "../component/common/MiniCartItem";
-function CartSideBar({ cartbarOpen, setcartbarOpen }) {
+import { toggleCartbar, openCartbar, closeCartbar } from "../Slice/cart";
+function CartSideBar() {
    const carts = useSelector(state => state.cart.items )
     const dispatch = useDispatch()
-  
+    const cartbarOpen = useSelector((state) => state.cart.cartbarOpen);
       const [progress, setProgress] = useState(0);
          const [total,settotal] = useState()
+        const navigate = useNavigate()
 
       useEffect(() => {
        
@@ -63,7 +65,7 @@ const calculateItemPrice = (item) => {
         className={`fixed inset-0  bg-black bg-opacity-50 z-40 transition-opacity ${
           cartbarOpen ? "opacity-50" : "opacity-0 pointer-events-none"
         }`}
-        onClick={() => setcartbarOpen(false)}
+        onClick={() => dispatch(closeCartbar())}
       ></div>
 
       <div
@@ -76,11 +78,10 @@ const calculateItemPrice = (item) => {
             SHOPPING CART
           </h2>
           <button
-            onClick={() => setcartbarOpen(false)}
+            onClick={() => dispatch(closeCartbar())}
             className="p-2 h-[50px] w-[50px] flex justify-center transition transform duration-700 hover:rotate-180"
           >
             <svg
-              class="t4s-iconsvg-close"
               role="presentation"
               viewBox="0 0 16 14"
               width="16"
@@ -89,7 +90,7 @@ const calculateItemPrice = (item) => {
                 d="M15 0L1 14m14 0L1 0"
                 stroke="currentColor"
                 fill="none"
-                fill-rule="evenodd"
+                fillRule="evenodd"
               ></path>
             </svg>
           </button>
@@ -98,7 +99,9 @@ const calculateItemPrice = (item) => {
         <div className="p-4  text-center rounded-md border-b border-gray-300 shadow-md">
           <div className="text-sm text-start text-[#696969]">
             Free Shipping for all orders over{" "}
-            <span className="text-red-600 font-bold">₹500.00</span>
+            <span className={`font-bold ${progress === 100 ? 'text-[#018d43]' : 'text-red-600'}`}>
+  ₹500.00
+</span>
           </div>
 
           <div className="relative w-full bg-gray-200 h-2 rounded-full mt-2 overflow-visible">
@@ -148,7 +151,7 @@ const calculateItemPrice = (item) => {
               style={{ left: `calc(${progress}% - 11px)` }}
             >
               <path
-                className="fill-current text-red-600"
+                className={`fill-current ${progress === 100 ? 'text-[#018d43]' : 'text-red-600'}`}
                 d="M64 48C64 21.49 85.49 0 112 0H368C394.5 0 416 21.49 416 48V96H466.7C483.7 96 499.1 102.7 512 114.7L589.3 192C601.3 204 608 220.3 608 237.3V352C625.7 352 640 366.3 640 384C640 401.7 625.7 416 608 416H574.9C567.1 361.7 520.4 320 464 320C407.6 320 360.9 361.7 353.1 416H286.9C279.1 361.7 232.4 320 176 320C127.9 320 86.84 350.4 70.99 392.1C66.56 385.7 64 377.1 64 368V256H208C216.8 256 224 248.8 224 240C224 231.2 216.8 224 208 224H64V192H240C248.8 192 256 184.8 256 176C256 167.2 248.8 160 240 160H64V128H272C280.8 128 288 120.8 288 112C288 103.2 280.8 96 272 96H64L64 48zM544 256V237.3L466.7 160H416V256H544z"
               ></path>
               <path
@@ -181,8 +184,8 @@ const calculateItemPrice = (item) => {
           </p>
           <button 
           className="w-6/10 px-5 bg-[#018d43] hover:cursor-pointer text-white py-2   mb-[0.9375rem] hover:bg-[#16569d]"
-          onClick={() => setcartbarOpen(false)}
-          >
+          onClick={() => dispatch(closeCartbar())}
+          > 
             Return To Shop
           </button>
         </div>
@@ -190,9 +193,15 @@ const calculateItemPrice = (item) => {
         )}
 
         {carts && carts.length > 0 ? (
-          <div  className={`fixed bottom-0 right-0 w-[calc(100vw-65px)] sm:w-[340px] z-110 h-auto p-5 bg-white shadow-lg transform ${
-            cartbarOpen ? "translate-x-0" : "translate-x-full"
-          } transition-transform z-50`}>
+         <div
+         className={`fixed bottom-0 right-0 w-[calc(100vw-65px)] sm:w-[340px] h-auto p-5  bg-white transform ${
+           cartbarOpen ? "translate-x-0" : "translate-x-full"
+         } transition-transform z-50`} // Keep only one z-index
+         style={{
+           borderTop: "1px solid rgba(var(--border-color-rgb), 0.7)",
+           boxShadow: "0 0 10px #69696980"
+         }}
+       >
                  <div className="flex align-items-center mb-[8px] justify-between">
                 <div >
                   <strong>Subtotal:</strong>
@@ -210,7 +219,7 @@ const calculateItemPrice = (item) => {
 
             <NavLink 
             to="/Cart"
-            onClick={() => setcartbarOpen(false)}
+            onClick={() => dispatch(closeCartbar())}
             className="w-full flex items-center justify-center hover:bg-[#018d43]  bg-[#000000] text-white p-2 my-[10px]  text-[11px] "
           >
             VIEW CART
@@ -218,6 +227,9 @@ const calculateItemPrice = (item) => {
 
           <button 
             className="w-full bg-[#018d43] text-white p-2 my-[10px] text-[11px] "
+            onClick={()=>{
+              navigate(`/checkout`)
+            }}
           >
             CHECK OUT
           </button>

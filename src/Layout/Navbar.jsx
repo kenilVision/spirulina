@@ -3,12 +3,11 @@ import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from "react-router-dom";
 import { GetCategories } from "../Api/Category";
+import { openCartbar} from "../Slice/cart"; 
 import Cookies from 'js-cookie';
 function Navbar({
   loginbarOpen,
   setloginbarOpen,
-  cartbarOpen,
-  setcartbarOpen,
   searchbarOpen,
   setsearchbarOpen,
   sidebarOpen,
@@ -17,6 +16,8 @@ function Navbar({
 
   const wishlist = useSelector(state => state.wishlist.items);
   const Cartcount = useSelector(state => state.cart.items )
+  const cartbarOpen = useSelector((state) => state.cart.cartbarOpen);
+  const dispatch = useDispatch()
   const [navigation, setNavigation] = useState([]);
   useEffect(() => {
     const fetchCategories = async () => {
@@ -59,62 +60,61 @@ function Navbar({
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  const menuItems = [
-    {
-      label: "Dashboard",
-      to: "/account/dashboard",
-      view: "dashboard",
-      icon: (
-        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="3" y="3" width="7" height="7" />
-          <rect x="14" y="3" width="7" height="7" />
-          <rect x="14" y="14" width="7" height="7" />
-          <rect x="3" y="14" width="7" height="7" />
-        </svg>
-      ),
-    },
-    {
-      label: "Order History",
-      to: "/account/orders",
-      view: "orders",
-      icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="stroke-current">
-          <path d="M22 6V8.42C22 10 21 11 19.42 11H16V4.01C16 2.9 16.91 2 18.02 2C19.11 2.01 20.11 2.45 20.83 3.17C21.55 3.9 22 4.9 22 6Z"  strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M2 7V21C2 21.83 2.94 22.3 3.6 21.8L5.31 20.52C5.71 20.22 6.27 20.26 6.63 20.62L8.29 22.29C8.68 22.68 9.32 22.68 9.71 22.29L11.39 20.61C11.74 20.26 12.3 20.22 12.69 20.52L14.4 21.8C15.06 22.29 16 21.82 16 21V4C16 2.9 16.9 2 18 2H6C3 2 2 3.79 2 6V7Z"  strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M6 9H12" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M6.75 13H11.25"  strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      ),
-    },
-    {
-      label: "Addresses",
-      to: "/account/addresses",
-      view: "addresses",
-      icon: (
-        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-          <circle cx="12" cy="10" r="3" />
-        </svg>
-      ),
-    },
-    {
-      label: "Logout",
-      to: "/",
-      view: "logout",
-      function: () => {
-        Cookies.remove("Token");
-       
-        window.location.href = "/"; 
+  const handleLogout = () => {
+      Cookies.remove("Token");
+      navigate("/");
+    };
+  
+  
+    const menuItems = [
+      {
+        label: 'Dashboard',
+        to: '/account/dashboard',
+        icon: (
+          <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+        ),
       },
-      icon: (
-        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-          <polyline points="16 17 21 12 16 7" />
-          <line x1="21" y1="12" x2="9" y2="12" />
-        </svg>
-      ),
-    },
-  ];
+      {
+        label: 'Order History',
+        to: '/account/orders',
+        icon: (
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"  stroke="currentColor" strokeWidth="1.5"  strokeLinecap="round" strokeLinejoin="round">
+            <path d="M22 6V8.42C22 10 21 11 19.42 11H16V4.01C16 2.9 16.91 2 18.02 2C19.11 2.01 20.11 2.45 20.83 3.17C21.55 3.9 22 4.9 22 6Z"></path>
+            <path d="M2 7V21C2 21.83 2.94 22.3 3.6 21.8L5.31 20.52C5.71 20.22 6.27 20.26 6.63 20.62L8.29 22.29C8.68 22.68 9.32 22.68 9.71 22.29L11.39 20.61C11.74 20.26 12.3 20.22 12.69 20.52L14.4 21.8C15.06 22.29 16 21.82 16 21V4C16 2.9 16.9 2 18 2H6C3 2 2 3.79 2 6V7Z" ></path>
+            <path d="M6 9H12" ></path>
+            <path d="M6.75 13H11.25" ></path>
+          </svg>
+        ),
+      },
+      {
+        label: 'Addresses',
+        to: '/account/addresses',
+        icon: (
+          <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+            <circle cx="12" cy="10" r="3"></circle>
+          </svg>
+        ),
+      },
+      {
+        label: 'Logout',
+        to: '/logout', 
+        onClick: handleLogout,
+        icon: (
+          <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+        ),
+      },
+    ];
+  
 
   return (
     <>
@@ -194,15 +194,15 @@ function Navbar({
               >
                 <path
                   d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z"
-                  stroke-width="1"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="1"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
                 <path
                   d="M21 21L16.65 16.65"
-                  stroke-width="1"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="1"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </svg>
             </button>
@@ -274,28 +274,28 @@ function Navbar({
                 viewBox="0 0 24 24"
                 width="24"
                 height="24"
-                stroke-width="1"
-                class=""
+                strokeWidth="1"
+                className=""
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="M15.75 7.5a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
                 />
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="M4.5 20.25a8.25 8.25 0 0115 0"
                 />
               </svg>
             </button>
             {dropdownOpen && (
               <div className="absolute right-0 top-[15px]  mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-md z-500">
-                  {menuItems.map(({ label, to, icon, function: customFunction }) =>
-                    customFunction ? (
+                  {menuItems.map(({ label, to, icon, onClick  }) =>
+                    onClick ? (
                       <div
                         key={label}
-                        onClick={customFunction}
+                        onClick={onClick}
                         className="flex items-center gap-3 w-full px-3 py-2 hover:bg-gray-100 rounded-md transition text-gray-700 cursor-pointer"
                       >
                         {icon}
@@ -330,12 +330,12 @@ function Navbar({
                 viewBox="0 0 24 24"
                 width="24"
                 height="24"
-                stroke-width="1"
+                strokeWidth="1"
 
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="M21.752 6.784a5.443 5.443 0 00-9.193-2.143l-.559.626-.56-.626a5.443 5.443 0 00-9.192 2.143 5.634 5.634 0 001.272 6.295l8.48 8.482 8.48-8.482a5.634 5.634 0 001.272-6.295z"
                 />
               </svg>
@@ -348,19 +348,19 @@ function Navbar({
           <div className="px-[5px]">
             <button
               className="relative flex items-center justify-center hover:cursor-pointer stroke-current  hover:stroke-[#018d43]  rounded-lg "
-              onClick={() => setcartbarOpen(true)}
+              onClick={() => dispatch(openCartbar())}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
-                stroke-width="1"
+                strokeWidth="1"
                 width="24"
                 fill="none"
                 height="24"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="M2.25 3h1.5l1.5 9h12.75a1.5 1.5 0 001.47-1.21l.75-3.75a1.5 1.5 0 00-1.47-1.79H6.21"
                 />
                 <circle
@@ -368,7 +368,7 @@ function Navbar({
                   cy="20"
                   r="1.4"
                   fill="none"
-                  stroke-width="1.5"
+                  strokeWidth="1.5"
                   
                 />
                 <circle
@@ -376,7 +376,7 @@ function Navbar({
                   cy="20"
                   r="1.4"
                   fill="none"
-                  stroke-width="1.5"
+                  strokeWidth="1.5"
                 />
               </svg>
 

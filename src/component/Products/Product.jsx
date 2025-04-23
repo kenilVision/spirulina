@@ -12,12 +12,12 @@ import {AddtoCart} from '../../Slice/cart'
 import { useSelector, useDispatch } from 'react-redux'
 SwiperCore.use([Thumbs]);
 import { AddtoWishlist, RemovefromWishlist } from '../../Slice/wishlist';
-
-
+import { toggleCartbar, openCartbar, closeCartbar } from "../../Slice/cart";
+import { NavLink } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 
 function Product({ product , slug }) {
-
-  const carts = useSelector((state) => state.cart)
+  const navigate = useNavigate() 
   const dispatch = useDispatch()
   // Destructure product data
   const { name, description, variants= [], ratings,  images, price, discount, stock } = product;
@@ -56,36 +56,36 @@ function Product({ product , slug }) {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Stripe checkout
-  const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK);
+
   
-  async function handleSubmit(e) {
-    e.preventDefault();
-    const stripe = await stripePromise;
+  async function handleSubmit(product) {
+    const cleanVariant = slug === "product" ? {
+      label: selectedVariant?.label,
+      variantid: selectedVariant?._id,
+      price: selectedVariant?.price,
+      orignalprice: selectedVariant?.originalPrice,
+      discount : selectedVariant?.discount,
+      image:selectedVariant?.images[0]
+    } : null;
   
-    const result = await stripe.redirectToCheckout({
-      lineItems: [{
-        price: 'price_1RBxMVFS9PdJc9asxD3pIj9P',
-        quantity: quantity,
-      }],
-      mode: 'payment',
-      successUrl: window.location.origin + '/success',
-      cancelUrl: window.location.origin + '/cancel',
-      shippingAddressCollection: {
-        allowedCountries: ['IN', 'US', 'CA'],
-      },
-      billingAddressCollection: 'required',
-    });
+    const data = {
+      ...product,
+      qty: quantity,
+      type: slug,
+      ...(slug === "product" && { variants: cleanVariant })
+    };
   
-    if (result.error) {
-      console.error(result.error.message);
-    }
+    dispatch(AddtoCart(data));
+    navigate(`/checkout`)
   }
 
     function handleCart(product) {
       const cleanVariant = slug === "product" ? {
         label: selectedVariant?.label,
         price: selectedVariant?.price,
+        variantid: selectedVariant?._id,
+        orignalprice: selectedVariant?.originalPrice,
+        discount : selectedVariant?.discount,
         image:selectedVariant?.images[0]
       } : null;
     
@@ -327,7 +327,7 @@ function Product({ product , slug }) {
          
           
           <p className='text-[18px] text-[#696969] mb-[10px]'>
-            <a className='text-[#696969] underline'>Shipping</a> calculated at checkout.
+            <NavLink to="/Shipping" className='text-[#696969] underline'>Shipping</NavLink> calculated at checkout.
           </p>
 
           <p className="mt-1 text-[18px] mb-[5px] text-[#018d43]">
@@ -434,7 +434,10 @@ function Product({ product , slug }) {
             </div>
             <button 
             className="bg-[#018d43] hidden lg:block text-white px-6 py-2 w-full lg:w-auto rounded-full hover:cursor-pointer"
-            onClick={() =>{ handleCart(product)}}
+            onClick={() =>{ 
+              handleCart(product)
+              dispatch(openCartbar())
+            }}
             >
               Add to Cart
             </button>
@@ -484,14 +487,17 @@ function Product({ product , slug }) {
           
           <button 
           className="bg-[#018d43] lg:hidden text-white px-6 py-2 w-full mb-[15px] rounded-full hover:cursor-pointer"
-          onClick={() =>{ handleCart(product)}}
+          onClick={() =>{ 
+            handleCart(product)
+            dispatch(openCartbar())
+          }}
           >
             Add to Cart
           </button>
           
           <button 
             className="bg-black text-white px-6 py-2 rounded-full hover:cursor-pointer w-full lg:w-[340px]"
-            onClick={handleSubmit}
+            onClick={()=>{handleSubmit(product)}}
           >
             Buy It Now
           </button>

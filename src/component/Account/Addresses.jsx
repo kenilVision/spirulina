@@ -24,7 +24,6 @@ function Addresses() {
       const addressRes = await Getaddress(page , limit);
       const addressList = addressRes?.customerAddresss || [];
       setTotalPages(addressRes?.pagination?.totalPages || 1);
-      console.log(addressRes)
       setAddresses(addressList);
     } catch (error) {   
       console.error("Failed to load addresses:", error);

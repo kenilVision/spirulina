@@ -29,6 +29,7 @@ import { GetproductbyCategories } from "../Api/product";
  const [min , setmin] = useState(value[0])
  const [max , setmax] = useState(value[1])
  const [page, setPage] = useState(1);
+ const [instock, setinstock] = useState(false);
  
  const minmaxcontrol = () => {
    setmin(value[0])
@@ -54,6 +55,8 @@ import { GetproductbyCategories } from "../Api/product";
   },[collectionName])
 
   const [data, setData] = useState([]);
+  const [pagination, setpagination] = useState({});
+  const [stock,setstock] = useState(0)
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -74,19 +77,40 @@ import { GetproductbyCategories } from "../Api/product";
             minPrice: min || 0,
             maxPrice: max || 10000,
             page: page,
-            limit: 12,
+            limit: 16,
             ...(categoryId && { categoryId }),
             ...(selected?.value === "Featured" && { isFeatured: true }),
             ...(selected?.value === "bestselling" && { isBestSeller: true }),
             ...(!["Featured", "bestselling"].includes(selected?.value) && { sort: selected?.value }),
           };
 
-          console.log(params)
 
             const query = new URLSearchParams(params).toString();
             const productResponse = await GetproductbyCategories(query);
-            console.log(productResponse)
-            setData(productResponse)
+
+            if (productResponse && Array.isArray(productResponse.products)) {
+              const allProducts = productResponse.products;
+              setpagination(productResponse.pagination)
+              // Count how many products are in stock (for display or analytics)
+              const inStockCount = allProducts.filter(product =>
+                product.variants?.some(variant => variant.stock > 0)
+              ).length;
+              setstock(inStockCount);
+            
+              // Filter if instock is true
+              const filteredProducts = instock
+                ? allProducts.filter(product =>
+                    product.variants?.some(variant => variant.stock > 0)
+                  )
+                : allProducts;
+
+              setData(filteredProducts);
+
+
+            } else {
+              console.log("No products found or invalid response");
+              setData([]);
+            }
             
             } catch (error) {
         console.error('Error fetching data:', error);
@@ -97,10 +121,12 @@ import { GetproductbyCategories } from "../Api/product";
     };
 
     fetchData();
-  }, [formattedName ,selected , min , max,page]);
+  }, [formattedName ,selected , min , max,page,instock]);
 
 
- 
+
+
+  
 
   return (
     <div className="w-full max-w-[1470px] mx-auto p-[15px] pb-[50px] lg:pb-[60px] mb-0 md:mb-[50px]">
@@ -126,7 +152,11 @@ import { GetproductbyCategories } from "../Api/product";
           isopen2={isOpen2}
           value={value}
           setValue={setValue}
-          minmaxcontrol={minmaxcontrol} 
+          minmaxcontrol={minmaxcontrol}
+          pagination={pagination} 
+          stock={stock} 
+          instock={instock}
+          setinstock={setinstock}
           />
 
         <div className="w-full py-12 flex flex-col items-center justify-center text-center rounded-xl ">
@@ -144,14 +174,18 @@ import { GetproductbyCategories } from "../Api/product";
           isOpen={isOpen}
           setIsOpen={setIsOpen}
           setIsOpen2={setIsOpen2}
-          isopen2={isOpen2}
+          isOpen2={isOpen2}
           value={value}
           setValue={setValue}
+          pagination={pagination} 
           minmaxcontrol={minmaxcontrol}
+          stock={stock}
+          instock={instock}
+          setinstock={setinstock}
           />
           <DataCard 
-           combinedData={data.products} 
-           pagination={data.pagination} 
+           combinedData={data} 
+           pagination={pagination} 
            onPageChange={setPage}
           />
         </>

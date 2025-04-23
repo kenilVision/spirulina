@@ -1,9 +1,19 @@
 import React from 'react';
 import { Routes, Route, NavLink } from 'react-router-dom';
 import Cookies from 'js-cookie';
-
+import { useNavigate } from 'react-router-dom';
 
 function Account({children}) {
+
+  const navigate = useNavigate();
+
+
+  const handleLogout = () => {
+    Cookies.remove("Token");
+    navigate("/");
+  };
+
+
   const accountNavLinks = [
     {
       label: 'Dashboard',
@@ -41,11 +51,8 @@ function Account({children}) {
     },
     {
       label: 'Logout',
-      to: '/logout', // or handle logout differently
-      function :()=>{
-         Cookies.remove("Token");
-         window.location.href = "/"; 
-      },
+      to: '/logout', 
+      onClick: handleLogout,
       icon: (
         <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
           <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
@@ -62,33 +69,33 @@ function Account({children}) {
         {/* Sidebar Navigation */}
         <nav className="w-full md:w-1/4 ">
           <ul className='bg-white rounded-lg overflow-hidden'>
-          {accountNavLinks.map(({ label, to, icon, function: customFunction }, index) => (
-              <li key={index}>
-                {customFunction ? (
-                  <div
-                    onClick={customFunction}
-                    className="flex items-center gap-2 text-[18px] p-[17px] text-gray-700  hover:bg-[#00800026] hover:text-[#018d43] hover:border-l-5 cursor-pointer transition-all duration-300"
-                  >
-                    {icon}
-                    {label}
-                  </div>
-                ) : (
-                  <NavLink
-                    to={to}
-                    className={({ isActive }) =>
-                      `flex items-center gap-2 text-[18px] p-[17px] transition-all duration-300 hover:bg-[#00800026] hover:text-[#018d43] hover:border-l-5 ${
-                        isActive
-                          ? 'bg-[#00800026] text-[#018d43] border-l-5'
-                          : 'text-gray-700 '
-                      }`
-                    }
-                  >
-                    {icon}
-                    {label}
-                  </NavLink>
-                )}
-              </li>
-            ))}
+          {accountNavLinks.map(({ label, to, icon, onClick }, index) => (
+            <li key={index}>
+              {onClick ? (
+                <div
+                  onClick={onClick}
+                  className="flex items-center gap-2 text-[18px] p-[17px] text-gray-700 hover:bg-[#00800026] hover:text-[#018d43] hover:border-l-5 cursor-pointer transition-all duration-300"
+                >
+                  {icon}
+                  {label}
+                </div>
+              ) : (
+                <NavLink
+                  to={to}
+                  className={({ isActive }) =>
+                    `flex items-center gap-2 text-[18px] p-[17px] transition-all duration-300 hover:bg-[#00800026] hover:text-[#018d43] hover:border-l-5 ${
+                      isActive
+                        ? 'bg-[#00800026] text-[#018d43] border-l-5'
+                        : 'text-gray-700 '
+                    }`
+                  }
+                >
+                  {icon}
+                  {label}
+                </NavLink>
+              )}
+            </li>
+          ))}
           </ul>
         </nav>
 
