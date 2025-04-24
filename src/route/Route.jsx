@@ -18,7 +18,10 @@ import Dashboard from "../component/Account/Dashboard";
 import Orders from "../component/Account/Orders";
 import Addresses from "../component/Account/Addresses";
 import Collection from "../page/Collection";
-import Cart from '../page/Cart'
+import Cart from '../page/Cart';
+import BlogNews from "../page/BlogNews";
+import BlogDetails from "../page/BlogDetails";
+
 export const roots = [
   {
     path: "/",
@@ -59,6 +62,14 @@ export const roots = [
   {
     path: "/Wishlist",
     element: <Wishlist />,
+  },
+  {
+    path: "/blogs/news",
+    element: <BlogNews />,
+  },
+  {
+    path: "/blog-details/:slug",
+    element: <BlogDetails />,
   },
   {
     path: "/PrivacyPolicy",
@@ -112,5 +123,5 @@ export const roots = [
       </Account>
     ),
   },
-  
+
 ];

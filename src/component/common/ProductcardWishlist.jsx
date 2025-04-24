@@ -3,9 +3,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import { RemovefromWishlist } from '../../Slice/wishlist';
 import { useNavigate } from "react-router-dom";
 import { AddtoCart } from '../../Slice/cart'
-// import { Tooltip as ReactTooltip } from "react-tooltip";
+import Cookies from 'js-cookie';
 import { Tooltip } from 'react-tooltip';
 import { toggleCartbar, openCartbar, closeCartbar } from "../../Slice/cart";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function ProductcardWishlist(product , type) {
 const dispatch = useDispatch()
@@ -36,6 +38,21 @@ const dispatch = useDispatch()
     }
 
        async function handleSubmit(product , type) {
+
+        const token = Cookies.get("Token");
+
+        if (!token) {
+          toast.error("Please login to continue", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+          return;
+        }
+
           const data = {
             ...product,
             qty: 1,

@@ -14,7 +14,6 @@ const  SummerWellnessCombos = () => {
       try {
         const comboData = await Getallcombo();
         setdata(comboData);
-        console.log(comboData)
       } catch (error) {
         console.error("Failed to fetch combo data:", error);
         setdata([]); // fallback to empty array on error

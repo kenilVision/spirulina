@@ -18,7 +18,6 @@ const SpiruswasthaTrends = () => {
     const fetchVideos = async () => {
       try {
         const data = await Getvideos();
-        console.log(data)
         setVideos(data);
       } catch (error) {
         console.error("Error fetching videos:", error);

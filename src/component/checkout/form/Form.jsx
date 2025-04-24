@@ -6,6 +6,7 @@ import ShippingMethod from "./ShippingMethod";
 import PaymentMethods from "./PaymentMethods";
 import BillingAddress from "./BillingAddress";
 import Policy from "./Policy";
+import OrderSummary from "./OrderSummary";
 function Form({
   user,
   selectedAddressId,
@@ -16,7 +17,11 @@ function Form({
   selectedType, 
   setSelectedType,
   formData, 
-  setFormData
+  setFormData,
+  cart,
+  total,
+  errors,
+  setErrors
 }) {
   const [data, setData] = useState({
     addressId: "",
@@ -60,7 +65,9 @@ function Form({
          selectedType={selectedType} 
          setSelectedType={setSelectedType}
          formData={formData} 
-            setFormData={setFormData}
+         setFormData={setFormData}
+         errors={errors}
+            setErrors={ setErrors}
       />
       <div>
         <button
@@ -73,6 +80,7 @@ function Form({
           Pay now
         </button>
       </div>
+        <OrderSummary cart={cart} total={total} />
       <Policy />
     </div>
   );

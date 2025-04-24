@@ -1,15 +1,13 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Products } from '../../Constant/Product';
+import OrdersPage from './components/OrdersPage';
 
 function Orders() {
-
-  
   const orderedProducts = []
 
- 
   return (
-    <div className="w-full p-4  bg-white">
+    <div className="w-full md:p-4 bg-white">
       {orderedProducts.length > 0 ? (
         <div className="space-y-4">
           {orderedProducts.map((product, index) => (
@@ -36,34 +34,35 @@ function Orders() {
           ))}
         </div>
       ) : (
-        <div className="flex flex-wrap items-center gap-2 mb-4" tabIndex={-1}>
-          <NavLink
-            to="/ShopAll"
-            className="text-[#018d43] underline flex items-center"
-          >
-            <svg
-              aria-hidden="true"
-              focusable="false"
-              role="presentation"
-              viewBox="0 0 13 13"
-              width="16"
-              className="fill-[#018d43] mr-1"
-            >
-              <path
-                d="M6.5 12.35C9.73087 12.35 12.35 9.73086 12.35 6.5C12.35 3.26913 9.73087 0.65 6.5 0.65C3.26913 0.65 0.65 3.26913 0.65 6.5C0.65 9.73086 3.26913 12.35 6.5 12.35Z"
-                fill="currentColor"
-                stroke="white"
-                strokeWidth="0.7"
-              />
-              <path d="M5.53271 8.66357L9.25213 4.68197" stroke="white" />
-              <path d="M4.10645 6.7688L6.13766 8.62553" stroke="white" />
-            </svg>
-            Make your first order
-          </NavLink>
-          <span className="text-gray-700">
-            You haven't placed any orders yet.
-          </span>
-        </div>
+        // <div className="flex flex-wrap items-center gap-2 mb-4" tabIndex={-1}>
+        //   <NavLink
+        //     to="/ShopAll"
+        //     className="text-[#018d43] underline flex items-center"
+        //   >
+        //     <svg
+        //       aria-hidden="true"
+        //       focusable="false"
+        //       role="presentation"
+        //       viewBox="0 0 13 13"
+        //       width="16"
+        //       className="fill-[#018d43] mr-1"
+        //     >
+        //       <path
+        //         d="M6.5 12.35C9.73087 12.35 12.35 9.73086 12.35 6.5C12.35 3.26913 9.73087 0.65 6.5 0.65C3.26913 0.65 0.65 3.26913 0.65 6.5C0.65 9.73086 3.26913 12.35 6.5 12.35Z"
+        //         fill="currentColor"
+        //         stroke="white"
+        //         strokeWidth="0.7"
+        //       />
+        //       <path d="M5.53271 8.66357L9.25213 4.68197" stroke="white" />
+        //       <path d="M4.10645 6.7688L6.13766 8.62553" stroke="white" />
+        //     </svg>
+        //     Make your first order
+        //   </NavLink>
+        //   <span className="text-gray-700">
+        //     You haven't placed any orders yet.
+        //   </span>
+        // </div>
+        <OrdersPage />
       )}
     </div>
   );

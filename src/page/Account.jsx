@@ -2,17 +2,18 @@ import React from 'react';
 import { Routes, Route, NavLink } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 function Account({children}) {
 
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
 
   const handleLogout = () => {
     Cookies.remove("Token");
     navigate("/");
+    dispatch(setOrders([]));
   };
-
 
   const accountNavLinks = [
     {

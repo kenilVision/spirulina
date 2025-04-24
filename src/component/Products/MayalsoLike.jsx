@@ -10,7 +10,6 @@ function MayalsoLike() {
       const params = { isBestSeller: true };
       const queryString = new URLSearchParams(params).toString();
       const data = await GetproductbyCategories(queryString);  
-      console.log(data.products);  
       setProducts(data.products || []);
     };
 

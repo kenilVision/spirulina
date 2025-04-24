@@ -18,7 +18,7 @@ import { GetproductContent } from "../Api/productcontent.js";
 function Prooducts({ type = "product" }) {
   const { slug } = useParams();
   const location = useLocation();
-  console.log(location);
+
   const product = useSelector((state) => state.product.product);
   const [isLoading, setIsLoading] = useState(true);
   const [isproduct, setproduct] = useState(true);
@@ -82,7 +82,6 @@ function Prooducts({ type = "product" }) {
       </>
     );
   } else {
-    console.log(details);
     return (
       <>
         <Product product={product} slug={location.state} />

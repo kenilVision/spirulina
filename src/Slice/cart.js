@@ -151,6 +151,9 @@ const cartSlice = createSlice({
     },
     closeCartbar: (state) => {
       state.cartbarOpen = false;
+    },
+    clearCart: (state) => {
+      state.items = [];
     }
   },
   extraReducers: (builder) => {
@@ -214,5 +217,5 @@ const cartSlice = createSlice({
   }
 });
 
-export const { updateQuantity , toggleCartbar, openCartbar, closeCartbar  } = cartSlice.actions;
+export const { updateQuantity , toggleCartbar, openCartbar, closeCartbar , clearCart  } = cartSlice.actions;
 export default cartSlice.reducer;

@@ -1,7 +1,6 @@
 import React from 'react'
 
 function Benefit({benefits ,name }) {
-  console.log(benefits)
 
   if (!benefits || benefits.length === 0) {
     return null; 

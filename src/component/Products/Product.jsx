@@ -15,6 +15,9 @@ import { AddtoWishlist, RemovefromWishlist } from '../../Slice/wishlist';
 import { toggleCartbar, openCartbar, closeCartbar } from "../../Slice/cart";
 import { NavLink } from 'react-router-dom';
 import { useNavigate} from 'react-router-dom';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Cookies from 'js-cookie';
 
 function Product({ product , slug }) {
   const navigate = useNavigate() 
@@ -36,10 +39,12 @@ function Product({ product , slug }) {
   });
   
   const [selectedVariant, setSelectedVariant] = useState(variants[0] || {});
+
   const allVariantImages = [
     ...(product?.variants?.slice()?.reverse()?.flatMap(variant => variant.images || []) || []),
     ...(product?.productVideos || [])
   ];
+
   const isComboProduct = (slug == 'combo');
    const wishlist = useSelector(state => state.wishlist.items);
 
@@ -59,6 +64,20 @@ function Product({ product , slug }) {
 
   
   async function handleSubmit(product) {
+
+     const token = Cookies.get("Token");
+                  
+                          if (!token) {
+                            toast.error("Please login to continue", {
+                              position: "top-right",
+                              autoClose: 5000,
+                              hideProgressBar: false,
+                              closeOnClick: true,
+                              pauseOnHover: true,
+                              draggable: true,
+                            });
+                            return;
+                          }
     const cleanVariant = slug === "product" ? {
       label: selectedVariant?.label,
       variantid: selectedVariant?._id,
@@ -180,6 +199,7 @@ function Product({ product , slug }) {
                   const isVideo = item.endsWith('.mp4');
                   return (
                     <SwiperSlide key={i} className="overflow-visible">
+                     
                       <div className="w-full h-full">
                         {isVideo ? (
                           <video
@@ -206,7 +226,7 @@ function Product({ product , slug }) {
                     </SwiperSlide>
                   );
                 })}
-                                : (
+                                {/* : (
                   <SwiperSlide key="0">
                     <img
                       src={`http://localhost:5050/image/products/${images[0]}`}
@@ -214,7 +234,7 @@ function Product({ product , slug }) {
                       className="w-full h-full max-h-[600px] object-contain"
                     />
                   </SwiperSlide>
-                )
+                ) */}
               </>
             )}
           </Swiper>

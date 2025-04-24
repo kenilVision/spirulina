@@ -70,7 +70,7 @@ function Bill({ cart, total }) {
             className="flex-1 px-4 py-2 border border-gray-300 bg-white rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <button
-            type="submit"
+          type="button"
             className=" text-[#696969] border border-[#dddddd] shadow-sm  px-4 py-2 rounded bg-transparent transition"
           >
             Apply

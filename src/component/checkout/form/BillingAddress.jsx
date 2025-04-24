@@ -9,18 +9,29 @@ function BillingAddress({
   setSelectedType,
   formData,
   setFormData,
-})
- {
+  errors,
+  setErrors
+}) {
   const [addresses, setAddresses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedAddressId, setSelectedAddressId] = useState(null);
   const [showNewAddressForm, setShowNewAddressForm] = useState(true);
-  console.log(formData)
   const limit = 5;
   const page = 1;
 
+
   const handleFormChange = (e) => {
     const { name, value } = e.target;
+    
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors(prev => {
+        const newErrors = {...prev};
+        delete newErrors[name];
+        return newErrors;
+      });
+    }
+    
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -31,18 +42,19 @@ function BillingAddress({
     const value = e.target.value;
     if (value === "new") {
       setShowNewAddressForm(true);
-      setSelectedAddressId("");
+      setSelectedAddressId(value);
       setFormData({
         country: "India",
-        fullName: "",
+        fullname: "",
         phone: "",
         zip: "",
         isDefault: false,
-        address1: "",
+        address: "",
         address2: "",
         state: "",
         city: "",
       });
+      setErrors({});
     } else {
       setShowNewAddressForm(true);
       setSelectedAddressId(value);
@@ -52,17 +64,33 @@ function BillingAddress({
         setFormData({
           country: "India",
           addressId: selected._id,
-          fullName: selected.fullname || "",
+          fullname: selected.fullname || "",
           phone: selected.phone || "",
           zip: selected.zip || "",
           isDefault: false,
-          address1: selected.address || "",
+          address: selected.address || "",
           address2: selected.address2 || "",
           state: selected.state || "",
           city: selected.city || "",
         });
+        setErrors({});
       }
     }
+  };
+
+  const resetForm = () => {
+    setFormData({
+      country: "India",
+      fullname: "",
+      phone: "",
+      zip: "",
+      isDefault: false,
+      address: "",
+      address2: "",
+      state: "",
+      city: "",
+    });
+    setErrors({});
   };
 
   useEffect(() => {
@@ -78,20 +106,24 @@ function BillingAddress({
   
         if (defaultAddress) {
           setSelectedAddressId(defaultAddress._id);
-          loadAddressIntoForm(defaultAddress._id);
         } else {
           resetForm();
         }
       } catch (error) {
         console.error("Failed to load addresses:", error);
-        toast.error("Failed to load addresses");
       } finally {
         setLoading(false);
       }
     };
   
     loadUserData();
-  }, []); // Added dependencies
+  }, []);
+
+  useEffect(() => {
+    if (selectedAddressId) {
+      handleSelectChange({ target: { value: selectedAddressId } });
+    }
+  }, [selectedAddressId]);
 
   const selectedAddress = addresses.find(
     (addr) => addr._id === selectedAddressId
@@ -136,7 +168,9 @@ function BillingAddress({
         className={`border rounded-b-lg cursor-pointer ${
           selectedType === "different" ? "border-[#018d43]" : "border-gray-300"
         }`}
-        onClick={() => setSelectedType("different")}
+        onClick={() => {
+          setSelectedType("different");
+        }}
       >
         <div
           className={`flex p-4 items-center gap-3 ${
@@ -173,7 +207,6 @@ function BillingAddress({
                 <label className="block font-medium mb-1">Select Address</label>
                 <select
                   className="w-full border bg-white border-gray-300 rounded px-3 py-2"
-                  // value={showNewAddressForm ? "new" : selectedAddressId || ""}
                   value={selectedAddressId}
                   onChange={handleSelectChange}
                 >
@@ -192,7 +225,7 @@ function BillingAddress({
               </div>
 
               {showNewAddressForm && (
-                <form className="space-y-4">
+                <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
                   {/* Form fields for address input */}
                   <div>
                     <label className="block font-medium mb-1">
@@ -212,16 +245,21 @@ function BillingAddress({
                   <div className="relative">
                     <input
                       type="text"
-                      name="fullName"
+                      name="fullname"
                       required
                       placeholder="Full Name"
-                      value={formData.fullName}
+                      value={formData.fullname}
                       onChange={handleFormChange}
-                      className="peer w-full border text-sm border-[#dddddd] bg-white px-3 py-3 pt-5 focus:outline-none focus:ring-2 focus:ring-[#018d43] placeholder-transparent"
+                      className={`peer w-full border text-sm border-[#dddddd] bg-white px-3 py-3 pt-5 focus:outline-none focus:ring-2 focus:ring-[#018d43] placeholder-transparent ${
+                        errors.fullname ? 'border-red-500' : ''
+                      }`}
                     />
                     <span className="absolute left-3 text-sm text-[#696969] transition-all duration-200 top-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-1 peer-focus:translate-y-0 peer-focus:text-sm peer-focus:text-gray-600">
                       Full Name <span className="text-red-500">*</span>
                     </span>
+                    {errors.fullname && (
+                      <p className="text-red-500 text-xs mt-1">{errors.fullname}</p>
+                    )}
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -234,11 +272,16 @@ function BillingAddress({
                         placeholder="Phone"
                         value={formData.phone}
                         onChange={handleFormChange}
-                        className="peer w-full border text-sm border-[#dddddd] px-3 bg-white py-3 pt-5 focus:outline-none focus:ring-2 focus:ring-[#018d43] placeholder-transparent"
+                        className={`peer w-full border text-sm border-[#dddddd] px-3 bg-white py-3 pt-5 focus:outline-none focus:ring-2 focus:ring-[#018d43] placeholder-transparent ${
+                          errors.phone ? 'border-red-500' : ''
+                        }`}
                       />
                       <span className="absolute left-3 text-sm text-[#696969] transition-all duration-200 top-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-1 peer-focus:translate-y-0 peer-focus:text-sm peer-focus:text-gray-600">
                         Phone <span className="text-red-500">*</span>
                       </span>
+                      {errors.phone && (
+                        <p className="text-red-500 text-xs mt-1">{errors.phone}</p>
+                      )}
                     </div>
 
                     <div className="relative">
@@ -251,27 +294,37 @@ function BillingAddress({
                         value={formData.zip}
                         onChange={handleFormChange}
                         required
-                        className="peer w-full border text-sm border-[#dddddd] px-3 py-3 bg-white pt-5 focus:outline-none focus:ring-2 focus:ring-[#018d43] placeholder-transparent"
+                        className={`peer w-full border text-sm border-[#dddddd] px-3 py-3 bg-white pt-5 focus:outline-none focus:ring-2 focus:ring-[#018d43] placeholder-transparent ${
+                          errors.zip ? 'border-red-500' : ''
+                        }`}
                       />
                       <span className="absolute left-3 text-sm text-[#696969] transition-all duration-200 top-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-1 peer-focus:translate-y-0 peer-focus:text-sm peer-focus:text-gray-600">
                         Zip Code <span className="text-red-500">*</span>
                       </span>
+                      {errors.zip && (
+                        <p className="text-red-500 text-xs mt-1">{errors.zip}</p>
+                      )}
                     </div>
                   </div>
 
                   <div className="relative">
                     <input
                       type="text"
-                      name="address1"
+                      name="address"
                       placeholder="Address Line 1"
-                      value={formData.address1}
+                      value={formData.address}
                       onChange={handleFormChange}
                       required
-                      className="peer w-full border text-sm border-[#dddddd] px-3 py-3 pt-5 bg-white focus:outline-none focus:ring-2 focus:ring-[#018d43] placeholder-transparent"
+                      className={`peer w-full border text-sm border-[#dddddd] px-3 py-3 pt-5 bg-white focus:outline-none focus:ring-2 focus:ring-[#018d43] placeholder-transparent ${
+                        errors.address ? 'border-red-500' : ''
+                      }`}
                     />
                     <span className="absolute left-3 text-sm text-[#696969] transition-all duration-200 top-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-1 peer-focus:translate-y-0 peer-focus:text-sm peer-focus:text-gray-600">
                       Address Line 1 <span className="text-red-500">*</span>
                     </span>
+                    {errors.address && (
+                      <p className="text-red-500 text-xs mt-1">{errors.address}</p>
+                    )}
                   </div>
 
                   <div className="relative">
@@ -281,11 +334,16 @@ function BillingAddress({
                       placeholder="Apartment, suite, etc."
                       value={formData.address2}
                       onChange={handleFormChange}
-                      className="peer w-full border text-sm border-[#dddddd] px-3 py-3 pt-5 bg-white focus:outline-none focus:ring-2 focus:ring-[#018d43] placeholder-transparent"
+                      className={`peer w-full border text-sm border-[#dddddd] px-3 py-3 pt-5 bg-white focus:outline-none focus:ring-2 focus:ring-[#018d43] placeholder-transparent
+                        ${errors.address ? 'border-red-500' : '' }
+                        `}
                     />
                     <span className="absolute left-3 text-sm text-[#696969] transition-all duration-200 top-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-1 peer-focus:translate-y-0 peer-focus:text-sm peer-focus:text-gray-600">
                       Apartment, suite, etc.
                     </span>
+                    {errors.address2 && (
+                      <p className="text-red-500 text-xs mt-1">{errors.address2}</p>
+                    )}
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -295,7 +353,9 @@ function BillingAddress({
                         value={formData.state}
                         required
                         onChange={handleFormChange}
-                        className="w-full border border-gray-300 bg-white rounded px-3 py-2"
+                        className={`w-full border border-gray-300 bg-white rounded px-3 py-2 ${
+                          errors.state ? 'border-red-500' : ''
+                        }`}
                       >
                         <option value="">Select State</option>
                         {states.map((state) => (
@@ -304,6 +364,9 @@ function BillingAddress({
                           </option>
                         ))}
                       </select>
+                      {errors.state && (
+                        <p className="text-red-500 text-xs mt-1">{errors.state}</p>
+                      )}
                     </div>
 
                     <div>
@@ -312,7 +375,9 @@ function BillingAddress({
                         value={formData.city}
                         onChange={handleFormChange}
                         required
-                        className="w-full border border-gray-300 bg-white rounded px-3 py-2"
+                        className={`w-full border border-gray-300 bg-white rounded px-3 py-2 ${
+                          errors.city ? 'border-red-500' : ''
+                        }`}
                       >
                         <option value="">Select City</option>
                         {cities.map((city) => (
@@ -321,6 +386,9 @@ function BillingAddress({
                           </option>
                         ))}
                       </select>
+                      {errors.city && (
+                        <p className="text-red-500 text-xs mt-1">{errors.city}</p>
+                      )}
                     </div>
                   </div>
                 </form>

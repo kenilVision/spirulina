@@ -249,7 +249,6 @@ const handleSignUp = async (e) => {
           </div>
         </div>
       </div>
-      <ToastContainer />
     </>
   );
 }

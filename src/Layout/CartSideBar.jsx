@@ -5,6 +5,10 @@ import { useSelector, useDispatch } from 'react-redux'
 import { NavLink, useNavigate } from "react-router-dom";
 import MiniCartItem from "../component/common/MiniCartItem";
 import { toggleCartbar, openCartbar, closeCartbar } from "../Slice/cart";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Cookies from 'js-cookie';
+
 function CartSideBar() {
    const carts = useSelector(state => state.cart.items )
     const dispatch = useDispatch()
@@ -228,6 +232,22 @@ const calculateItemPrice = (item) => {
           <button 
             className="w-full bg-[#018d43] text-white p-2 my-[10px] text-[11px] "
             onClick={()=>{
+
+              const token = Cookies.get("Token");
+              
+                      if (!token) {
+                        toast.error("Please login to continue", {
+                          position: "top-right",
+                          autoClose: 5000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                        });
+                        return;
+                      }
+
+
               navigate(`/checkout`)
             }}
           >

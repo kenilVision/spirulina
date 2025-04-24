@@ -49,7 +49,7 @@ const Dashboard = () => {
       <h2 className="text-2xl font-semibold mb-4">Account Details</h2>
 
       <div className="flex items-center mb-4 text-[#696969] text-sm">
-      <NavLink to='/ShopAll'  className="flex underline mr-2 text-[#018d43]">
+      <NavLink to='/collection/all'  className="flex underline mr-2 text-[#018d43]">
         <svg
           aria-hidden="true"
           viewBox="0 0 13 13"

@@ -66,7 +66,6 @@ function ShipTo({ user, selectedAddressId, setSelectedAddressId}) {
     const handleformChange = (e) => {
       const { name, value, type, checked } = e.target;
       setEditData({ ...editData, [name]: type === 'checkbox' ? checked : value });
-      console.log(editData)
     };
 
       const handleSubmit = async (e) => {

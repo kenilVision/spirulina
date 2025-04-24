@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { GetCategories } from "../Api/Category";
 import { openCartbar} from "../Slice/cart"; 
 import Cookies from 'js-cookie';
+import { setOrders } from "../Slice/order";
 function Navbar({
   loginbarOpen,
   setloginbarOpen,
@@ -63,6 +64,7 @@ function Navbar({
   const handleLogout = () => {
       Cookies.remove("Token");
       navigate("/");
+      dispatch(setOrders([]));
     };
   
   

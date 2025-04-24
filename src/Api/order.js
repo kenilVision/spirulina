@@ -12,7 +12,7 @@ export const makeOrder = async (data ) =>{
               },
             }
           );
-          return res.data;
+          return res;
     }
     catch (error) {
         console.error('Error fetching profile:', error);

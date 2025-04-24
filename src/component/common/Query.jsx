@@ -36,7 +36,6 @@ function Query({
       document.body.style.overflow = "auto";
     };
   }, [isOpen2 , isOpen, isOpenfilter]);     // Effect to manage body overflow based on modal visibility
-  console.log(isOpen2)
   
   return (
     <>

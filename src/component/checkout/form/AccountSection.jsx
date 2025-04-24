@@ -14,8 +14,8 @@ function AccountSection({user}) {
             <span className="flex items-center">
               <span className= "text-[#707070]  hover:text-[#018d43]">Account</span>
             </span>
-            <div className="">
-              <button className={` rounded-full bg-[#F2F9F5] p-2 ${isExpanded ? "expanded" : ""}`}>
+            {/* <div className="">
+              <div className={` rounded-full bg-[#F2F9F5] p-2 ${isExpanded ? "expanded" : ""}`}>
 
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -31,8 +31,8 @@ function AccountSection({user}) {
                     d="M12 4.75 7.354 9.396a.5.5 0 0 1-.708 0L2 4.75"
                   ></path>
                 </svg>
-              </button>
-            </div>
+              </div>
+            </div> */}
           </div>
           <div className="pt-[5px]">
             <div className="text-start">
@@ -41,11 +41,11 @@ function AccountSection({user}) {
           </div>
         </button>
       </h2>
-      <div
+      {/* <div
         className={`pt-[5px] overflow-hidden ${isExpanded ? "h-auto" : "h-0"}`}
       >
         <p className="underline text-[#018d43]">Logout</p>
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -5,6 +5,9 @@ import "react-range-slider-input/dist/style.css";
 import { RemovefromCart  , DecreaseQty ,IncreaseQty } from '../../Slice/cart'
 import {  useNavigate } from "react-router-dom";
 import { Tooltip } from 'react-tooltip';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Cookies from 'js-cookie';
 function TextContent() {
  
     const navigate = useNavigate()
@@ -365,7 +368,21 @@ function TextContent() {
          <div>
             <button 
             className="w-full p-2 rounded-xl text-[20px] text-white bg-[#36662f]"
-            onClick={()=>navigate(`/checkout`)}
+            onClick={()=>{
+              const token = Cookies.get("Token");
+              
+                      if (!token) {
+                        toast.error("Please login to continue", {
+                          position: "top-right",
+                          autoClose: 5000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                        });
+                        return;
+                      }
+              navigate(`/checkout`)}}
             > 
               checkout 
             </button>

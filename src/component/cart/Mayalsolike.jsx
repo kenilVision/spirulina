@@ -4,7 +4,7 @@ import HomeSectionHeading from "../common/HomeSectionHeading";
 import "aos/dist/aos.css";
 import { GetproductbyCategories } from '../../Api/product';
 
-const Mayalsolike = () => {
+const Mayalsolike = ({ title = "Recomemded for you" }) => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const Mayalsolike = () => {
   return (
     <div className=" bg-[#f8f8f8] pb-10 ">
       <div className="w-full max-w-[1440px] mx-auto bg-[#f8f8f8] text-center px-[15px]">
-        <HomeSectionHeading title="Recomemded for you" />
+        <HomeSectionHeading title={title} />
         <div
           className="grid grid-cols-2 gap-x-[10px] gap-y-[10px] md:gap-x-[30px] md:gap-y-[30px] md:grid-cols-3 lg:grid-cols-4"
           data-aos="fade-up"
