@@ -132,7 +132,7 @@ const SpiruswasthaTrends = () => {
                   src={`http://localhost:5050/image/productVideos/${video}`}
                   autoPlay
                   loop
-                  muted={idx !== activeIndex}
+                  // muted={idx !== activeIndex}
                   playsInline
                   className="w-full rounded-lg object-cover shadow-md cursor-pointer"
                   style={{ height: "500px" }}

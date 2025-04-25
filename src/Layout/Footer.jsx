@@ -52,7 +52,7 @@ const  Footer = () =>  {
     },
     {
       label: "Track Your Order",
-      external: true,
+      external: "https://spirutest.shiprocket.co/tracking",
     },
     {
       label: "Training Center",
@@ -144,10 +144,12 @@ const  Footer = () =>  {
           data-aos-once="true"
         >
           <div className="whitespace-nowrap">
+          <NavLink to="/">
             <img
               src="https://spiruswastha.com/cdn/shop/t/25/assets/spiru_logo.svg?v=1687220542393843321737094841"
               className="mb-[25px] w-[210px]"
             />
+            </NavLink>
             <p className=" mb-[10px] md:mb-[80px] text-[1.25rem] text-[#222222] ">
               Swastha for Lifе with Spirulina <br /> & Supеrfood Goodnеss
             </p>
@@ -181,7 +183,7 @@ const  Footer = () =>  {
                   {navItems.map((item, index) => (
                     <li key={index} className="font-medium mb-[8px] ">
                       {item.external ? (
-                        <a className="">{item.label}</a>
+                        <a className="hover:text-[#018d43]" href={item.external}>{item.label}</a>
                       ) : (
                         <NavLink
                           to={item.to}

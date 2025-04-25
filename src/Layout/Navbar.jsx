@@ -211,7 +211,9 @@ function Navbar({
           </div>
 
           <div className="px-[5px] hidden lg:flex">
-            <button className="relative flex items-center justify-center  hover:cursor-pointer rounded-lg  ">
+            <a 
+             href="https://spirutest.shiprocket.co/tracking"
+            className="relative flex items-center justify-center  hover:cursor-pointer rounded-lg  ">
               <svg
                 width="35"
                 height="35"
@@ -249,7 +251,7 @@ function Navbar({
 
                 ></path>
               </svg>
-            </button>
+            </a>
           </div>
 
           <div 

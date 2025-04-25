@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch , useSelector } from "react-redux";
 import { loginUser , signupUser  } from "../Slice/user";
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 function LoginSignupSideBar({ loginbarOpen, setloginbarOpen }) {
 
@@ -34,9 +34,10 @@ function LoginSignupSideBar({ loginbarOpen, setloginbarOpen }) {
     try {
       console.log(login);
       const resultAction = await dispatch(loginUser(login));
+      console.log(resultAction)
   
       if (loginUser.fulfilled.match(resultAction)) {
-        toast.success('successfully login', {
+        toast.success(resultAction.payload?.message, {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,

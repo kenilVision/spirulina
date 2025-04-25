@@ -10,15 +10,50 @@
   import Cookies from 'js-cookie';
   import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import {checkStock} from '../../Api/product'
+import { showTimedNotification } from '../../Slice/notification';
 
   function ProductCard({ data, type = "product" }) {
     const dispatch = useDispatch()
+     const cart = useSelector((state) => state.cart);
     const navigate = useNavigate();
     const cartbarOpen = useSelector((state) => state.cart.cartbarOpen);
     const wishlist = useSelector(state => state.wishlist.items); // Access wishlist from the store
-    function handleCart(product) {
+    async function handleCart(product) {
    
+      let stockData;
+          
+      if (type === "product") {
+        stockData = {
+          productId: product._id,
+          variantId: product.variants[0]._id,
+          quantity: 1,
+          type: type,
+        };
+      } else {
+        stockData = {
+          comboId: product._id,
+          quantity: 1,
+          type: type,
+        };
+      }
+    
+      const stockCheck = await checkStock(stockData); 
+
+      if (!stockCheck?.success) {
+        dispatch(showTimedNotification({
+                    message: stockCheck.response.data.message
+                  }));
+        return;
+      }
+
+      if (cart.totalQuantity + 1 > 50) {
+        dispatch(showTimedNotification({
+                    message: "Cart limit exceeded! You can only have up to 50 items in the cart."
+                  }));
+        return;
+      }
+      
 
       const data = {
         ...product,
@@ -42,7 +77,7 @@ import "react-toastify/dist/ReactToastify.css";
     }
   
     async function handleSubmit(product) {
-
+      try {
       const token = Cookies.get("Token");
 
       if (!token) {
@@ -56,6 +91,39 @@ import "react-toastify/dist/ReactToastify.css";
         });
         return;
       }
+
+           let stockData;
+          
+              if (type === "product") {
+                stockData = {
+                  productId: product._id,
+                  variantId: product.variants[0]._id,
+                  quantity: 1,
+                  type: type,
+                };
+              } else {
+                stockData = {
+                  comboId: product._id,
+                  quantity: 1,
+                  type: type,
+                };
+              }
+            
+              const stockCheck = await checkStock(stockData); 
+      
+              if (!stockCheck?.success) {
+                console.warn("Product out of stock!");
+                return;
+              }
+      
+              if (cart.totalQuantity + 1 > 50) {
+                console.warn("Cart limit exceeded! You can only have up to 50 items in the cart.");
+                return;
+              }
+              
+
+
+
       const data = {
         ...product,
         qty: 1,
@@ -75,6 +143,10 @@ import "react-toastify/dist/ReactToastify.css";
       
       dispatch(AddtoCart(data));
       navigate(`/checkout`)
+    }
+    catch (err) {
+      console.error("Error in handleCart:", err);
+    }
     }
 
 
@@ -200,7 +272,7 @@ import "react-toastify/dist/ReactToastify.css";
                 <p className="font-bold truncate hover:text-[#018d43]">
                   {name}
                 </p>
-                <div className="flex items-center mb-1">
+                {/* <div className="flex items-center mb-1">
                   {[...Array(5)].map((_, i) => (
                     <svg
                       key={i}
@@ -212,7 +284,7 @@ import "react-toastify/dist/ReactToastify.css";
                     </svg>
                   ))}
                   <span className="text-xs text-gray-500 ml-1">({ratings})</span>
-                </div>
+                </div> */}
                 {type === 'combo' ? (
                   <>
                   <p className="text-[1.25rem] text-[#018d43] leading-10">
@@ -273,7 +345,7 @@ import "react-toastify/dist/ReactToastify.css";
                   </svg>
                 </div>
                 <div
-                  className="w-1/2 flex items-center justify-center font-bold text-white text-lg bg-[#018d43] py-3 cursor-pointer hover:bg-[#016d32] transition duration-300"
+                  className="w-1/2 flex items-center justify-center font-bold text-white text-lg bg-[#018d43] py-3 cursor-pointer hover:bg-[#16569D] transition duration-300"
                   onClick={(e) => handleSubmit(product)}
                 >
                   Buy Now

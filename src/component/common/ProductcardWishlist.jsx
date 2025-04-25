@@ -8,13 +8,51 @@ import { Tooltip } from 'react-tooltip';
 import { toggleCartbar, openCartbar, closeCartbar } from "../../Slice/cart";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import {checkStock} from '../../Api/product'
+import { showTimedNotification } from '../../Slice/notification';
 function ProductcardWishlist(product , type) {
 const dispatch = useDispatch()
     const navigate = useNavigate();
      const cartbarOpen = useSelector((state) => state.cart.cartbarOpen);
+     const cart = useSelector((state) => state.cart);
+    async function handleCart(product, type) {
 
-    function handleCart(product, type) {
+
+      let stockData;
+                
+            if (type === "product") {
+              stockData = {
+                productId: product._id,
+                variantId: product.variants[0]._id,
+                quantity: 1,
+                type: type,
+              };
+            } else {
+              stockData = {
+                comboId: product._id,
+                quantity: 1,
+                type: type,
+              };
+            }
+          
+            const stockCheck = await checkStock(stockData); 
+      
+            if (!stockCheck?.success) {
+               dispatch(showTimedNotification({
+                                  message: stockCheck.response.data.message
+                                }));
+              return;
+            }
+      
+            if (cart.totalQuantity + 1 > 50) {
+              console.warn("Cart limit exceeded! You can only have up to 50 items in the cart.");
+               dispatch(showTimedNotification({
+                                  message: "Cart limit exceeded! You can only have up to 50 items in the cart."
+                                }));
+              return;
+            }
+
+
       // Create the cart item data structure
       const data = {
         ...product,
@@ -53,6 +91,34 @@ const dispatch = useDispatch()
           return;
         }
 
+        let stockData;
+                  
+              if (type === "product") {
+                stockData = {
+                  productId: product._id,
+                  variantId: product.variants[0]._id,
+                  quantity: 1,
+                  type: type,
+                };
+              } else {
+                stockData = {
+                  comboId: product._id,
+                  quantity: 1,
+                  type: type,
+                };
+              }
+            
+              const stockCheck = await checkStock(stockData); 
+        
+              if (!stockCheck?.success) {
+                console.warn("Product out of stock!");
+                return;
+              }
+        
+              if (cart.totalQuantity + 1 > 50) {
+                console.warn("Cart limit exceeded! You can only have up to 50 items in the cart.");
+                return;
+              }
           const data = {
             ...product,
             qty: 1,

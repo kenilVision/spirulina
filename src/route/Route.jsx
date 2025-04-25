@@ -21,12 +21,14 @@ import Collection from "../page/Collection";
 import Cart from '../page/Cart';
 import BlogNews from "../page/BlogNews";
 import BlogDetails from "../page/BlogDetails";
+import Checkout from "../page/Checkout";
 
 export const roots = [
   {
     path: "/",
     element: <Home />,
   },
+  
   {
     path: "/collection/:collectionName",
     element: <Collection />,
@@ -125,3 +127,10 @@ export const roots = [
   },
 
 ];
+
+export const pages = [
+  {
+    path: "/checkout",
+    element: <Checkout />,
+  }
+]

@@ -20,7 +20,7 @@ function DataCard({ combinedData, pagination, onPageChange }) {
 
   return (
     <>
-      <div className="grid grid-cols-2 gap-x-[10px] gap-y-[10px] md:gap-x-[30px] md:gap-y-[30px] lg:grid-cols-4">
+      <div className="grid grid-cols-1  sm:grid-cols-2 gap-x-[10px] gap-y-[10px] md:gap-x-[30px] md:gap-y-[30px] md:grid-cols-3 lg:grid-cols-4">
         <ProductCard data={combinedData} />
       </div>
 

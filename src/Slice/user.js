@@ -35,7 +35,7 @@ export const loginUser = createAsyncThunk(
       // Store token in cookie
       Cookies.set("Token", userData.token, { expires: 1 }); 
 
-      return userData;
+      return res;
     } catch (err) {
       return rejectWithValue(err.response?.data || err);
     }
@@ -47,7 +47,6 @@ export const fetchUserProfile = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const res = await axiosInstance.get("/auth/profile");
-      console.log(res)
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response?.data || err);
@@ -143,7 +142,7 @@ const userSlice = createSlice({
         state.error = null;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        const user = action.payload;
+        const user = action.payload.data;
         state._id = user._id;
         state.firstname = user.firstname;
         state.lastname = user.lastname;

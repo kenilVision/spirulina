@@ -7,7 +7,6 @@ import { Swiper as SwiperCore } from 'swiper';
 import ImageMagnifier from '../common/ImageMagnifier';
 import "./Product.css";
 import MagnifierPreview from '../common/MagnifierPreview';
-import { loadStripe } from '@stripe/stripe-js';
 import {AddtoCart} from '../../Slice/cart'
 import { useSelector, useDispatch } from 'react-redux'
 SwiperCore.use([Thumbs]);
@@ -18,15 +17,19 @@ import { useNavigate} from 'react-router-dom';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from 'js-cookie';
+import {checkStock} from '../../Api/product'
+import { showTimedNotification } from '../../Slice/notification';
+import { Tooltip } from 'react-tooltip';
 
 function Product({ product , slug }) {
+  
   const navigate = useNavigate() 
   const dispatch = useDispatch()
-  // Destructure product data
+  const cart = useSelector((state) => state.cart);
+
   const { name, description, variants= [], ratings,  images, price, discount, stock } = product;
   const [swiperInstance, setSwiperInstance] = useState(null);
-  // Format images
-  // State management
+
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [thumbDirection, setThumbDirection] = useState('horizontal');
@@ -49,8 +52,7 @@ function Product({ product , slug }) {
    const wishlist = useSelector(state => state.wishlist.items);
 
    
-
-
+   
  
   useEffect(() => {
     const handleResize = () => {
@@ -78,6 +80,39 @@ function Product({ product , slug }) {
                             });
                             return;
                           }
+
+
+    let stockData;
+    
+    if (slug === "product") {
+      stockData = {
+        productId: product._id,
+        variantId: selectedVariant?._id,
+        quantity: quantity,
+        type: slug,
+      };
+    } else {
+      stockData = {
+        comboId: product._id,
+        quantity: quantity,
+        type: slug,
+      };
+    }
+  
+    const stockCheck = await checkStock(stockData); 
+
+    if (!stockCheck?.success) {
+      console.log(stockCheck)
+      console.warn(stockCheck.message);
+     
+      return;
+    }
+
+    if (cart.totalQuantity + quantity > 50) {
+      console.warn("Cart limit exceeded! You can only have up to 50 items in the cart.");
+      return;
+    }
+
     const cleanVariant = slug === "product" ? {
       label: selectedVariant?.label,
       variantid: selectedVariant?._id,
@@ -93,12 +128,55 @@ function Product({ product , slug }) {
       type: slug,
       ...(slug === "product" && { variants: cleanVariant })
     };
+
+
   
     dispatch(AddtoCart(data));
     navigate(`/checkout`)
   }
 
-    function handleCart(product) {
+  
+
+    const  handleCart = async (product) => {
+
+      try {
+        let stockData;
+    
+        if (slug === "product") {
+          stockData = {
+            productId: product._id,
+            variantId: selectedVariant?._id,
+            quantity: quantity,
+            type: slug,
+          };
+        } else {
+          stockData = {
+            comboId: product._id,
+            quantity: quantity,
+            type: slug,
+          };
+        }
+      
+        const stockCheck = await checkStock(stockData); 
+
+        if (!stockCheck?.success) {
+          console.log(stockCheck)
+          console.warn("Product out of stock!");
+          dispatch(showTimedNotification({
+            message: stockCheck.response.data.message
+          }));
+          return;
+        }
+
+        if (cart.totalQuantity + quantity > 50) {
+          console.warn("Cart limit exceeded! You can only have up to 50 items in the cart.");
+          dispatch(showTimedNotification({
+            message: "Cart limit exceeded! You can only have up to 50 items in the cart."
+          }));
+          return;
+        }
+        
+
       const cleanVariant = slug === "product" ? {
         label: selectedVariant?.label,
         price: selectedVariant?.price,
@@ -117,6 +195,10 @@ function Product({ product , slug }) {
     
       dispatch(AddtoCart(data));
     }
+    catch (err) {
+      console.error("Error in handleCart:", err);
+    }
+  }
 
   // Payment icons data
   const paymentIcons = [
@@ -453,7 +535,7 @@ function Product({ product , slug }) {
               </button>
             </div>
             <button 
-            className="bg-[#018d43] hidden lg:block text-white px-6 py-2 w-full lg:w-auto rounded-full hover:cursor-pointer"
+            className="bg-[#018d43] hidden lg:block text-white px-6 py-2 w-full hover:bg-[#16569D] lg:w-auto rounded-full hover:cursor-pointer"
             onClick={() =>{ 
               handleCart(product)
               dispatch(openCartbar())
@@ -475,6 +557,7 @@ function Product({ product , slug }) {
       stroke="red"
       strokeWidth="32"
       className="w-5 h-5 cursor-pointer"
+      data-tooltip-id="my-tooltip" data-tooltip-content="Remove wishlist"
       onClick={(e) => {
         e.stopPropagation();
         dispatch(RemovefromWishlist(product._id));
@@ -489,6 +572,7 @@ function Product({ product , slug }) {
       viewBox="0 0 512 512"
       fill="none"
       strokeWidth="32"
+      data-tooltip-id="my-tooltip" data-tooltip-content="Add to wishlist"
       className="w-5 h-5 cursor-pointer stroke-green-500 group-hover:stroke-red-500  transition-all duration-300 opacity-100 group-hover:opacity-100"
       onClick={(e) => {
         e.stopPropagation();
@@ -501,12 +585,18 @@ function Product({ product , slug }) {
       <path d="M256 448l-35.3-32.6C120 312 64 256 64 176c0-61.9 50.1-112 112-112 43.2 0 81.4 25.4 99.6 61.6C302.6 89.4 340.8 64 384 64c61.9 0 112 50.1 112 112 0 80-56 136-156.7 239.4L256 448z" />
     </svg>
   )}
+                     <Tooltip 
+                      id="my-tooltip" 
+                      place="top"
+                      style={{ padding: '5px' ,fontSize:'13px'}}
+          
+                      />
 </button>
 
           </div>
           
           <button 
-          className="bg-[#018d43] lg:hidden text-white px-6 py-2 w-full mb-[15px] rounded-full hover:cursor-pointer"
+          className="bg-[#018d43] lg:hidden text-white hover:bg[#16569D] px-6 py-2 w-full mb-[15px] rounded-full hover:cursor-pointer"
           onClick={() =>{ 
             handleCart(product)
             dispatch(openCartbar())
@@ -516,7 +606,7 @@ function Product({ product , slug }) {
           </button>
           
           <button 
-            className="bg-black text-white px-6 py-2 rounded-full hover:cursor-pointer w-full lg:w-[340px]"
+            className="bg-black text-white px-6 py-2 rounded-full hover:bg-[#018d43] hover:cursor-pointer w-full lg:w-[340px]"
             onClick={()=>{handleSubmit(product)}}
           >
             Buy It Now

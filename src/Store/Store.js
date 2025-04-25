@@ -4,14 +4,15 @@ import User from '../Slice/user';
 import product from '../Slice/product'
 import wishlist from "../Slice/wishlist"
 import orderSlice from "../Slice/order";
-
+import notification from '../Slice/notification'
 const store = configureStore({
     reducer:{
         User : User ,
         cart : cart ,
         product : product,
         wishlist: wishlist,
-        order: orderSlice
+        order: orderSlice,
+        notification : notification
     }
 });
 

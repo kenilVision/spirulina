@@ -1,6 +1,6 @@
 import React, { use, useEffect } from "react";
 import "./App.css";
-import { roots } from "./route/Route";
+import { roots , pages } from "./route/Route";
 import { Routes, Route } from "react-router-dom";
 import { BrowserRouter } from "react-router-dom";
 import Layout from "./Layout/Layout";
@@ -12,10 +12,9 @@ import { Elements } from "@stripe/react-stripe-js";
 import { CookiesProvider } from "react-cookie";
 import Checkout from "./page/Checkout";
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK); 
-
 import { Provider } from 'react-redux'
 import store from './Store/Store'
-
+import Bottomnotification from "./component/ui/Bottomnotification";
 function App() {
   useEffect(() => {
     AOS.init({
@@ -40,14 +39,19 @@ function App() {
                 element={<Layout>{route.element}</Layout>}
               />
             ))}
-            <Route 
-                path='/checkout'
-                element={<Checkout />}
+               {pages.map((route, i) => (
+              <Route
+                key={i}
+                path={route.path}
+                element={route.element}
               />
+            ))}
+            
           </Routes>
         </CookiesProvider>
       </BrowserRouter>
     </Elements>
+    <Bottomnotification />
     </Provider>
     
   );

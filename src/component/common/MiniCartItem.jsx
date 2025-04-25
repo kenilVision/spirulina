@@ -1,18 +1,58 @@
 import React from 'react';
 // import { add, remove, addwithQuantity } from '../../Slice/cart';
 import { RemovefromCart , AddtoCart , DecreaseQty ,IncreaseQty } from '../../Slice/cart'
-import { useDispatch } from 'react-redux';
+import { useDispatch , useSelector } from 'react-redux';
+import {checkStock} from '../../Api/product'
+import { showTimedNotification } from '../../Slice/notification';
+
 
 const MiniCartItem = ({ product }) => {
   const dispatch = useDispatch();
   const { _id, name,  variants ,  type } = product.data;
   const qty = product.qty
+  const cart = useSelector((state) => state.cart);
 
   const removeItem = (_id, type, label = null) => {
     dispatch(RemovefromCart({ _id, type, label }));
   };
   
-  const increaseQty = (_id, type, label = null) => {
+  const increaseQty = async (qty, _id, type, label = null , variantsId) => {
+
+                             let stockData;
+                            console.log(variantsId)
+                        if (type === "product") {
+                          stockData = {
+                            productId: _id,
+                            variantId: variantsId,
+                            quantity: qty + 1,
+                            type: type,
+                          };
+                        } else {
+                          stockData = {
+                            comboId: _id,
+                            quantity: 1,
+                            type: type,
+                          };
+                        }
+                      
+                        const stockCheck = await checkStock(stockData); 
+                  
+                        if (!stockCheck?.success) {
+                          dispatch(showTimedNotification({
+                                                          message: stockCheck.response.data.message
+                                                        }));
+                          return;
+                        }
+                  
+                        if (cart.totalQuantity + 1 > 50) {
+                          console.warn("Cart limit exceeded! You can only have up to 50 items in the cart.");
+                            dispatch(showTimedNotification({
+                                                            message: "Cart limit exceeded! You can only have up to 50 items in the cart."
+                                                          }));
+                          return;
+                        }
+
+
     dispatch(IncreaseQty({ _id, type, label }));
   };
   
@@ -99,7 +139,7 @@ const MiniCartItem = ({ product }) => {
           {/* Plus Button */}
           <button
                  onClick={()=>{
-                  increaseQty(_id, type, type === "combo" ? null : variants.label)
+                  increaseQty( qty ,_id, type, type === "combo" ? null : variants.label , type === "combo" ? null : variants.variantid)
                 }}
             className="p-2 "
             type="button"

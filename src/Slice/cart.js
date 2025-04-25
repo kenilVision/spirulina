@@ -132,6 +132,7 @@ const cartSlice = createSlice({
     loading: false,
     error: null,
     cartbarOpen: false, 
+    totalQuantity: 0,
   },
   reducers: {
     // Optional: Add direct reducer for quick quantity updates
@@ -154,6 +155,7 @@ const cartSlice = createSlice({
     },
     clearCart: (state) => {
       state.items = [];
+      state.totalQuantity = 0; 
     }
   },
   extraReducers: (builder) => {
@@ -165,6 +167,7 @@ const cartSlice = createSlice({
       })
       .addCase(AddtoCart.fulfilled, (state, action) => {
         state.items = action.payload;
+        state.totalQuantity = action.payload.reduce((total, item) => total + item.qty, 0);
         state.loading = false;
       })
       .addCase(AddtoCart.rejected, (state, action) => {
@@ -179,6 +182,7 @@ const cartSlice = createSlice({
       })
       .addCase(RemovefromCart.fulfilled, (state, action) => {
         state.items = action.payload;
+        state.totalQuantity = action.payload.reduce((total, item) => total + item.qty, 0);
         state.loading = false;
       })
       .addCase(RemovefromCart.rejected, (state, action) => {
@@ -192,6 +196,7 @@ const cartSlice = createSlice({
       })
       .addCase(IncreaseQty.fulfilled, (state, action) => {
         state.items = action.payload;
+        state.totalQuantity = action.payload.reduce((total, item) => total + item.qty, 0);
         state.loading = false;
       })
       .addCase(IncreaseQty.rejected, (state, action) => {
@@ -206,6 +211,7 @@ const cartSlice = createSlice({
       })
       .addCase(DecreaseQty.fulfilled, (state, action) => {
         state.items = action.payload;
+        state.totalQuantity = action.payload.reduce((total, item) => total + item.qty, 0);
         state.loading = false;
       })
       .addCase(DecreaseQty.rejected, (state, action) => {

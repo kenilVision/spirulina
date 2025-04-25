@@ -38,7 +38,7 @@ function Form() {
     try {
       const resultAction = await dispatch(loginUser(login));
       if (loginUser.fulfilled.match(resultAction)) {
-        toast.success('Successfully logged in', {
+        toast.success(resultAction.payload?.message, {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -71,7 +71,7 @@ function Form() {
     try {
       const resultAction = await dispatch(signupUser(register));
       if (signupUser.fulfilled.match(resultAction)) {
-        toast.success('Account created successfully', {
+        toast.success(resultAction.payload?.message , {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,

@@ -20,7 +20,7 @@ const dispatch = useDispatch()
           <>
           <div className="w-full max-w-[1440px]  mx-auto text-center px-[15px]">
           <div 
-        className='grid grid-cols-2 my-[80px] gap-x-[30px] gap-y-[30px] md:grid-cols-3 lg:grid-cols-4  ' 
+        className='grid grid-cols-1  sm:grid-cols-2 my-[80px] gap-x-[30px] gap-y-[30px] md:grid-cols-3 lg:grid-cols-4  ' 
         data-aos="fade-up"
         data-aos-duration="1000"
         data-aos-once="true"

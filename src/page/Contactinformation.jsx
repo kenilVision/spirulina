@@ -3,9 +3,9 @@ import React from 'react'
 function Contactinformation() {
   return (
     <section className="bg-white my-[50px] md:my-[60px]">
-    <div className="max-w-[1440px] mx-auto text-[#696969] text-[16px] px-[15px]">
+    <div className="max-w-[1440px] mx-auto text-[#696969] text-[18px] px-[15px]">
       <div className="mb-8 text-center">
-        <h1 className="text-[32px] text-black text-center font-bold">Contact Information</h1>
+        <h1 className="text-[37px] text-black text-center font-bold">Contact Information</h1>
       </div>
   
       <div className="space-y-4">

@@ -8,10 +8,13 @@ import { Tooltip } from 'react-tooltip';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from 'js-cookie';
+import {checkStock} from '../../Api/product'
+import { showTimedNotification } from '../../Slice/notification';
 function TextContent() {
  
     const navigate = useNavigate()
     const carts = useSelector(state => state.cart.items )
+    const cart = useSelector((state) => state.cart);
     const dispatch = useDispatch()
     
 
@@ -39,8 +42,43 @@ function TextContent() {
         dispatch(RemovefromCart({ _id, type, label }));
       };
       
-      const increaseQty = (_id, type, label = null) => {
-        console.log(_id, type, label)
+      const increaseQty = async (qty ,_id, type, label = null , variantsId) => {
+        
+          let stockData;
+                        console.log(variantsId)
+                    if (type === "product") {
+                      stockData = {
+                        productId: _id,
+                        variantId: variantsId,
+                        quantity: qty + 1,
+                        type: type,
+                      };
+                    } else {
+                      stockData = {
+                        comboId: _id,
+                        quantity: 1,
+                        type: type,
+                      };
+                    }
+                  
+                    const stockCheck = await checkStock(stockData); 
+              
+                    if (!stockCheck?.success) {
+                      dispatch(showTimedNotification({
+                                                        message: stockCheck.response.data.message
+                                                      }));
+                      return;
+                    }
+              
+                    if (cart.totalQuantity + 1 > 50) {
+                      console.warn("Cart limit exceeded! You can only have up to 50 items in the cart.");
+                      dispatch(showTimedNotification({
+                                                        message: "Cart limit exceeded! You can only have up to 50 items in the cart."
+                                                      }));
+                      return;
+                    }
+        
+         
         dispatch(IncreaseQty({ _id, type, label }));
       };
       
@@ -116,7 +154,7 @@ function TextContent() {
           <div className="flex items-center justify-center bg-[#F8F8F8] mx-auto w-fit rounded-full gap-2 px-3 h-full py-1">
             {item.qty === 1 ? (
               <button
-                onClick={() => removeItem(item.data._id, item.data.type, item.type === "combo" ? null : item.data.variants.label)}
+                onClick={() => removeItem(item.data._id, item.data.type, item.data.type === "combo" ? null : item.data.variants.label)}
               >
                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="3 6 5 6 21 6"></polyline>
@@ -127,7 +165,7 @@ function TextContent() {
               </button>
             ) : (
               <button
-                onClick={() => decreaseQty(item.qty, item.data._id, item.data.type, item.data.type === "combo" ? null : item.data.variants.label)}
+                onClick={() => decreaseQty(item.qty, item.data._id, item.data.type, item.data.type === "combo" ? null : item.data.variants.label , item.data.type === "combo" ? null : item.data.variants.variantid)}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="5" y1="12" x2="19" y2="12" />
@@ -141,7 +179,7 @@ function TextContent() {
               className="w-8 text-center bg-transparent"
             />
             <button
-              onClick={() => increaseQty(item.data._id, item.data.type, item.data.type === "combo" ? null : item.data.variants.label)}
+              onClick={() => increaseQty(item.qty,item.data._id, item.data.type, item.data.type === "combo" ? null : item.data.variants.label, item.data.type === "combo" ? null : item.data.variants.variantid)}
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="12" y1="5" x2="12" y2="19" />
