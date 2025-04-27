@@ -63,7 +63,12 @@ function Product({ product , slug }) {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-
+  const handleAfterTyping = (e) =>{
+    const value = parseInt(e.target.value);
+    if (value > (isComboProduct ? product.stock : selectedVariant.stock) ){
+      setQuantity(isComboProduct ? product.stock : selectedVariant.stock)
+    }
+  }
   
   async function handleSubmit(product) {
 
@@ -141,18 +146,34 @@ function Product({ product , slug }) {
 
       try {
         let stockData;
+        const existingCartItem = cart.items.find((item) => {
+          if (item.data.type === slug) {
+            return (
+              item.data._id === product._id &&
+              item.data.variants.label === selectedVariant.label
+            );
+          } else {
+            return (
+              item.data._id === product._id 
+            );
+          }
+        });
+        
+        const existingQuantity = existingCartItem ? existingCartItem.qty : 0;
+
+        const totalQuantity = quantity + existingQuantity;
     
         if (slug === "product") {
           stockData = {
             productId: product._id,
             variantId: selectedVariant?._id,
-            quantity: quantity,
+            quantity: totalQuantity,
             type: slug,
           };
         } else {
           stockData = {
             comboId: product._id,
-            quantity: quantity,
+            quantity: totalQuantity,
             type: slug,
           };
         }
@@ -526,10 +547,37 @@ function Product({ product , slug }) {
               >
                 −
               </button>
-              <span className="px-3">{quantity}</span>
+              <input
+              type="number"
+              className="w-[40px] text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none outline-none bg-transparent  no-spinner"
+              value={quantity}
+              // style={{
+              //   appearance: 'textfield',
+              //   MozAppearance: 'textfield',
+              //   WebkitAppearance: 'none'
+              // }}
+              onChange={(e) => {
+                const value = parseInt(e.target.value);
+                setQuantity(!isNaN(value) && value > 0 ? value : 1);
+              }}
+              onBlur={(e) => handleAfterTyping(e)}
+              min="1"
+            />
               <button 
                 className='hover:cursor-pointer pe-[15px] ' 
-                onClick={() => setQuantity(quantity + 1)}
+                onClick={() =>{ 
+                 
+                  if (quantity + 1  > (isComboProduct ? product.stock : selectedVariant.stock) ){
+                    setQuantity(isComboProduct ? product.stock : selectedVariant.stock)
+
+                    dispatch(showTimedNotification({
+                      message: `Not enough items available. Only ${quantity} left.`
+                    }));
+
+                  }
+                  else {
+                    setQuantity(quantity + 1)}}
+                  }
               >
                 +
               </button>
@@ -556,7 +604,11 @@ function Product({ product , slug }) {
       fill="red"
       stroke="red"
       strokeWidth="32"
-      className="w-5 h-5 cursor-pointer"
+      className="w-5 h-5 focus:ring-0 cursor-pointer"
+      style={{
+
+        outline: 'none'
+      }}
       data-tooltip-id="my-tooltip" data-tooltip-content="Remove wishlist"
       onClick={(e) => {
         e.stopPropagation();
@@ -572,8 +624,12 @@ function Product({ product , slug }) {
       viewBox="0 0 512 512"
       fill="none"
       strokeWidth="32"
+      style={{
+
+        outline: 'none'
+      }}
       data-tooltip-id="my-tooltip" data-tooltip-content="Add to wishlist"
-      className="w-5 h-5 cursor-pointer stroke-green-500 group-hover:stroke-red-500  transition-all duration-300 opacity-100 group-hover:opacity-100"
+      className="w-5 h-5 cursor-pointer focus:ring-0 stroke-green-500 group-hover:stroke-red-500  transition-all duration-300 opacity-100 group-hover:opacity-100"
       onClick={(e) => {
         e.stopPropagation();
         dispatch(AddtoWishlist({

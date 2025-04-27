@@ -208,7 +208,7 @@ import { showTimedNotification } from '../../Slice/notification';
                           transform: 'translate(-50%, -50%)',
                           outline: 'none'
                         }}
-                        className="focus:ring-0"
+                        className="focus:ring-none"
                         data-tooltip-id="my-tooltip" data-tooltip-content="Remove wishlist"
                         onClick={(e) => {
                           e.stopPropagation();
@@ -230,7 +230,7 @@ import { showTimedNotification } from '../../Slice/notification';
                         viewBox="0 0 24 24"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
-                        className="lg:relative focus:ring-0 lg:transform-none transform translate-x-0 lg:top-0 lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-300 group-hover:translate-x-0"
+                        className="lg:relative focus:ring-none lg:transform-none transform translate-x-0 lg:top-0 lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-300 group-hover:translate-x-0"
                         style={{
                           position: 'absolute',
                           top: '50%',
